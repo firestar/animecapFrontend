@@ -1,0 +1,12 @@
+<div *ngIf="episodeData!=null">
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/show/list">Show Listing</a></li>
+    <li><a href="/show/{{episodeData.show.id}}/{{episodeData.show.title | lowercase | uri }}">{{episodeData.show.title}}</a></li>
+    <li class="active">Episode {{episodeData.episode.episode}}</li>
+  </ol>
+
+  <video src="http://vid.animecap.com/{{episodeData.sd[0].original}}.mp4" controls="controls" autoplay="autoplay" width="640" height="480"></video>
+  <h4>{{episodeData.show.title}} Episode {{episodeData.episode.episode}}</h4>
+</div>
+<div *ngIf="episodeData==null">Loading data</div>

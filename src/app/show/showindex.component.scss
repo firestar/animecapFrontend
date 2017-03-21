@@ -1,0 +1,15 @@
+.show{
+  float:left;
+  margin:10px;
+}
+.show>a>img{
+  height:150px;
+}
+.show div{
+  display:none;
+  position:relative;
+}
+.show:hover div{
+  display:block;
+  width:100%;
+}

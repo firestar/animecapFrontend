@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+.loadingIcon{
+  width:100%;
+  height:100%;
+  position: absolute;
+  left:0px;
+  top:0px;
+  background: url("ring.svg") center center no-repeat;
+}
+a:hover{
+  text-decoration: none;
+}

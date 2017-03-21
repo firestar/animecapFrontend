@@ -1,0 +1,54 @@
+<div *ngIf="showData!=null">
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/show/list">Show Listing</a></li>
+    <li class="active">{{showData.title}}</li>
+  </ol>
+  <div class="row">
+    <div class="col-md-3 text-center">
+      <img class="img-thumbnail" src="{{showData.cover}}" />
+    </div>
+    <div class="col-md-9">
+      <div class="page-header">
+        <div class="row">
+          <div class="col-md-6">
+            <h2>{{showData.title}} <br/><small>{{showData.episodes.length}} Episodes</small></h2>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <div class="btn-group btn-group-justified">
+                  <a (click)="favorite()" class="btn btn-danger"><span style="color:#fff;" aria-hidden="true" class="glyphicon glyphicon-heart"></span> Favorite</a>
+                  <a (click)="tags()" class="btn btn-default"><span aria-hidden="true" class="glyphicon glyphicon-tags"></span> Tags</a>
+                  <a (click)="edit()" class="btn btn-default"><span aria-hidden="true" class="glyphicon glyphicon-cog"></span> Edit</a>
+                  <a (click)="resume()" *ngIf="resumeData" class="btn btn-success"><span aria-hidden="true" class="glyphicon glyphicon-play"></span> Resume</a>
+                </div>
+              </div>
+            </div>
+            <br/>
+            <div class="row">
+              <div class="col-md-12">
+                <strong>Tags:</strong>
+                <p>
+                  <a class="label label-default">Fantasy</a> <a class="label label-default">Comedy</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lead">
+        <p><strong>Summary:</strong> {{showData.description}}</p>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-2" *ngFor="let episode of showData.episodes">
+        <episode [episode]="episode" [showData]="showData"></episode>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showData==null">Loading data</div>

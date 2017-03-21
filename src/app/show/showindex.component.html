@@ -1,0 +1,23 @@
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">Show Listing</li>
+</ol>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="col-lg-1 show" *ngFor="let show of shows">
+      <a class="img-thumbnail" href="/show/{{show.id}}/{{show.title | lowercase | uri }}">
+        <img src="{{ show.cover }}"/>
+        <h6 class="text-center">{{show.title}}</h6>
+      </a>
+      <div class="btn-group-vertical">
+        <a *ngFor="let episode of show.episodes" class="btn btn-default btn-xs" href="/watch/{{episode.id}}/{{show.title | lowercase | uri }}/episode_{{episode.episode}}">
+          <span class="glyphicon glyphicon-film" aria-hidden="true"></span> Episode {{episode.episode}}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+background: linear-gradient(to right, rgba(241,237,255,1) {{episode.watching.progress}}%, rgba(255,255,255,0) {{episode.watching.progress}}%);
+background: linear-gradient(to right, rgba(243,255,237,1) {{episode.watching.progress}}%,rgba(255,255,255,0) {{episode.watching.progress}}%);
+-->

@@ -1,0 +1,27 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topnavigationbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+        {{title}}
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topnavigationbar">
+      <ul class="nav navbar-nav" *ngIf="accountService.saved!=null">
+        <li><a href="/show/list">Shows</a></li>
+        <li><a href="/episode/list">Latest Episodes</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li *ngIf="accountService.saved==null"><a href="/login">Member's Area</a></li>
+        <li *ngIf="accountService.saved==null"><a href="/register">Create New Account</a></li>
+        <li *ngIf="accountService.saved!=null"><a href="/logout">Logout <span *ngIf="accountService.saved.level==2">admin-</span>{{accountService.saved.user}}!</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
