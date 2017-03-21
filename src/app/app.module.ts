@@ -23,8 +23,6 @@ import { AccountService } from './database/account.service';
 import { ShowService } from './database/show.service';
 import { EpisodeService } from './database/episode.service';
 
-import { MetaConfig, MetaService, MetaModule } from 'ng2-meta';
-
 
 const routes :Routes = [
   { path: '', redirectTo:"/show/list", pathMatch:"full" },
@@ -60,10 +58,9 @@ const routes :Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    MetaModule.forRoot(),
     RouterModule.forRoot(routes)
   ],
-  providers: [UserService, LoginCheck, AccountService, ShowService, EpisodeService, MetaService],
+  providers: [UserService, LoginCheck, AccountService, ShowService, EpisodeService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
