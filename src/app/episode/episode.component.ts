@@ -6,6 +6,7 @@ import { AccountService } from '../database/account.service';
 import { ActivatedRoute, Params} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
 import { ShowService } from '../database/show.service'
+import { MetaService } from 'ng2-meta';
 
 @Component({
   selector: 'episode',

@@ -5,7 +5,8 @@ import { Component, Input } from '@angular/core';
 import { AccountService } from '../database/account.service';
 import { ActivatedRoute, Params} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
-import { ShowService } from '../database/show.service'
+import { ShowService } from '../database/show.service';
+import { MetaService } from 'ng2-meta';
 
 @Component({
   selector: 'showpage',
@@ -13,7 +14,7 @@ import { ShowService } from '../database/show.service'
   styleUrls: ['showpage.component.scss']
 })
 export class ShowPage {
-  constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService){}
+  constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService, private metaService: MetaService){}
   showData = null;
   resumeData = null;
   ngOnInit(){
@@ -28,6 +29,7 @@ export class ShowPage {
               return a.episode - b.episode;
             });
             self.showData = data;
+            self.metaService.setTitle(data.title+" @ AnimeCap.com");
           });
         }else{
           waitForAccount();

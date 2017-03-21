@@ -1,7 +1,7 @@
 <div *ngIf="showData!=null">
   <ol class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li><a href="/show/list">Show Listing</a></li>
+    <li><a [routerLink]="['/']">Home</a></li>
+    <li><a [routerLink]="['/show/list']">Show Listing</a></li>
     <li class="active">{{showData.title}}</li>
   </ol>
   <div class="row">

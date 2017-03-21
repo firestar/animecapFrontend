@@ -1,12 +1,24 @@
 <div *ngIf="episodeData!=null">
   <ol class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li><a href="/show/list">Show Listing</a></li>
-    <li><a href="/show/{{episodeData.show.id}}/{{episodeData.show.title | lowercase | uri }}">{{episodeData.show.title}}</a></li>
+    <li><a [routerLink]="['/']">Home</a></li>
+    <li><a [routerLink]="['/show/list']">Show Listing</a></li>
+    <li><a [routerLink]="['/show/'+episodeData.show.id+'/'+episodeData.show.title.toLowerCase().split(' ').join('_')]">{{episodeData.show.title}}</a></li>
     <li class="active">Episode {{episodeData.episode.episode}}</li>
   </ol>
 
-  <video src="http://vid.animecap.com/{{episodeData.sd[0].original}}.mp4" controls="controls" autoplay="autoplay" width="640" height="480"></video>
-  <h4>{{episodeData.show.title}} Episode {{episodeData.episode.episode}}</h4>
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <h4>{{episodeData.show.title}} Episode {{episodeData.episode.episode}}</h4>
+      <video src="http://vid.animecap.com/{{episodeData.sd[0].original}}.mp4" controls="controls" autoplay="autoplay" width="100%"></video>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-offset-1 col-md-10">
+      <ul class="pager">
+        <li class="previous disabled"><a href="#">&larr; Older</a></li>
+        <li class="next"><a href="#">Newer &rarr;</a></li>
+      </ul>
+    </div>
+  </div>
 </div>
 <div *ngIf="episodeData==null">Loading data</div>

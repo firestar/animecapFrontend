@@ -1,19 +1,19 @@
 <ol class="breadcrumb">
-  <li><a href="/">Home</a></li>
+  <li><a [routerLink]="['/']">Home</a></li>
   <li class="active">Show Listing</li>
 </ol>
 <div class="row">
   <div class="col-lg-12">
     <div class="col-lg-1 show" *ngFor="let show of shows">
-      <a class="img-thumbnail" href="/show/{{show.id}}/{{show.title | lowercase | uri }}">
+      <a class="img-thumbnail" [routerLink]="['/show/'+show.id+'/'+show.title.toLowerCase().split(' ').join('_')]">
         <img src="{{ show.cover }}"/>
         <h6 class="text-center">{{show.title}}</h6>
       </a>
-      <div class="btn-group-vertical">
-        <a *ngFor="let episode of show.episodes" class="btn btn-default btn-xs" href="/watch/{{episode.id}}/{{show.title | lowercase | uri }}/episode_{{episode.episode}}">
+      <!--<div class="btn-group-vertical">
+        <a *ngFor="let episode of show.episodes" class="btn btn-default btn-xs" [routerLink]="['/watch/'+episode.id+'/'+show.title.toLowerCase().split(' ').join('_')+'/episode_'+episode.episode]">
           <span class="glyphicon glyphicon-film" aria-hidden="true"></span> Episode {{episode.episode}}
         </a>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>
