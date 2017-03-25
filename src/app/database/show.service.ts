@@ -10,9 +10,16 @@ export class ShowService {
   constructor(private http: Http) {}
   private showFetch = "http://api.animecap.com/show/list";
   private showInfoFetch = "http://api.animecap.com/show/info";
+  private showCreateFetch = "http://api.animecap.com/show/create";
 
   list(session:string, func){
     this.fetchURLPost( this.showFetch, { session: session }, function(body){
+      func( body );
+    });
+  }
+  new(session:string, show,  func){
+    show.session = session;
+    this.fetchURLPost( this.showCreateFetch, show, function(body){
       func( body );
     });
   }

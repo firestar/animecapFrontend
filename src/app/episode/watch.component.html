@@ -9,7 +9,12 @@
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
       <h4>{{episodeData.show.title}} Episode {{episodeData.episode.episode}}</h4>
-      <video src="http://vid.animecap.com/{{episodeData.sd[0].original}}.mp4" controls="controls" autoplay="autoplay" width="100%"></video>
+      <video (loadeddata)="test" (seeked)="seeked()" preload="auto" poster="//vid.animecap.com/{{episodeData.episode.uuid}}.png" (timeupdate)="timeSend()" (play)="playing()" controls="controls" width="100%">
+        <source src="http://vid.animecap.com/{{episodeData.episode.uuid}}.mp4"/>
+        <source src="http://vid.animecap.com/{{episodeData.sd[0].original}}.webm"/>
+        <source src="http://vid.animecap.com/{{episodeData.hd[0].original}}.webm"/>
+        <track label="English" kind="subtitles" srclang="en" src="http://api.animecap.com/subtitle/{{episodeData.episode.uuid}}/sub.vtt" default/>
+      </video>
     </div>
   </div>
   <div class="row">

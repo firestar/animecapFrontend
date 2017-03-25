@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import {RouterModule, Routes}   from '@angular/router';
+import { MaterialModule } from '@angular/material';
 
 import { LoginForm } from './users/login/login.component';
 import { RegisterForm } from './users/register/register.component';
@@ -15,6 +16,7 @@ import { WatchPage } from './episode/watch.component';
 import { URIPipe } from './touri.pipe';
 import { ShowPage } from './show/showpage.component';
 import { EpisodeElement } from './episode/episode.component';
+import { ShowCreate } from './show/showcreate.component';
 
 import { LoginCheck } from './users/logincheck';
 
@@ -22,7 +24,10 @@ import { UserService } from './database/user.service';
 import { AccountService } from './database/account.service';
 import { ShowService } from './database/show.service';
 import { EpisodeService } from './database/episode.service';
+import { FavoriteService } from './database/favorite.service';
+import { FTPService } from './database/ftp.service';
 
+import { RoundPipe } from './touri.pipe';
 
 const routes :Routes = [
   { path: '', redirectTo:"/show/list", pathMatch:"full" },
@@ -35,6 +40,7 @@ const routes :Routes = [
   { path: 'login', component: LoginForm },
   { path: 'watch/:episode/:show/:epstring', component: WatchPage },
   { path: 'show/:show/:showstring', component: ShowPage },
+  { path: 'show/create', component: ShowCreate},
   { path: 'logout', component: LogoutSend },
   { path: 'register', component: RegisterForm },
   { path: '**', component: FourOFour }
@@ -52,7 +58,9 @@ const routes :Routes = [
     WatchPage,
     URIPipe,
     ShowPage,
-    EpisodeElement
+    EpisodeElement,
+    RoundPipe,
+    ShowCreate
   ],
   imports: [
     BrowserModule,
@@ -60,7 +68,7 @@ const routes :Routes = [
     HttpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserService, LoginCheck, AccountService, ShowService, EpisodeService],
+  providers: [UserService, LoginCheck, AccountService, ShowService, EpisodeService, FavoriteService, FTPService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

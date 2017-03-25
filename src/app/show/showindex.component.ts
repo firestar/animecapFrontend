@@ -14,12 +14,14 @@ import { AccountService } from '../database/account.service';
 export class ShowIndex {
   constructor(private showService:ShowService, private account: AccountService){}
   shows;
+  accountData = null;
   ngOnInit(){
     let self = this;
     let waitForAccount = function() {
       console.log("waiting, show index");
       setTimeout(function () {
         if(self.account.checked) {
+          self.accountData = self.account.saved;
           self.showService.list(self.account.sessionKey, function (data) {
             for (var i = 0; i < data.length; i++) {
               data[i].episodes.sort(function (a, b) {

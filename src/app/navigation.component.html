@@ -16,6 +16,13 @@
       <ul class="nav navbar-nav" *ngIf="accountService.saved!=null">
         <li><a [routerLink]="['/show/list']">Shows</a></li>
         <li><a [routerLink]="['/episode/list']">Latest Episodes</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Favorites <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Show Listing</a></li>
+            <li><a href="#">Unwatched Episodes</a></li>
+          </ul>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="accountService.saved==null"><a [routerLink]="['/login']">Member's Area</a></li>

@@ -12,16 +12,17 @@
       <div class="page-header">
         <div class="row">
           <div class="col-md-6">
-            <h2>{{showData.title}} <br/><small>{{showData.episodes.length}} Episodes</small></h2>
+            <h4>{{showData.title}} <br/><small>{{showData.episodes.length}} Episodes</small></h4>
           </div>
           <div class="col-md-6">
             <div class="row">
               <div class="col-md-12 text-center">
                 <div class="btn-group btn-group-justified">
-                  <a (click)="favorite()" class="btn btn-danger"><span style="color:#fff;" aria-hidden="true" class="glyphicon glyphicon-heart"></span> Favorite</a>
-                  <a (click)="tags()" class="btn btn-default"><span aria-hidden="true" class="glyphicon glyphicon-tags"></span> Tags</a>
-                  <a (click)="edit()" class="btn btn-default"><span aria-hidden="true" class="glyphicon glyphicon-cog"></span> Edit</a>
-                  <a (click)="resume()" *ngIf="resumeData" class="btn btn-success"><span aria-hidden="true" class="glyphicon glyphicon-play"></span> Resume</a>
+                  <a *ngIf="favoriteData==0" (click)="addFavorite()" class="btn btn-danger"><span style="color:#fff;" aria-hidden="true" class="glyphicon glyphicon-heart"></span> Favorite</a>
+                  <a *ngIf="favoriteData==1" (click)="removeFavorite()" class="btn btn-warning"><span style="color:#fff;" aria-hidden="true" class="glyphicon glyphicon-heart"></span> Remove Favorite</a>
+                  <a (click)="tags" class="btn btn-default"><span aria-hidden="true" class="glyphicon glyphicon-tags"></span> Tags</a>
+                  <a *ngIf="accountData.level==2" (click)="edit()" class="btn btn-default"><span aria-hidden="true" class="glyphicon glyphicon-cog"></span> Edit</a>
+                  <a *ngIf="resumeData!=null" [routerLink]="['/watch/'+resumeData.id+'/'+showData.title.toLowerCase().split(' ').join('_')+'/episode_'+resumeData.episode]" class="btn btn-success"><span aria-hidden="true" class="glyphicon glyphicon-play"></span> Resume</a>
                 </div>
               </div>
             </div>

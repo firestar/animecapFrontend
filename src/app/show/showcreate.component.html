@@ -1,0 +1,146 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/']">Home</a></li>
+  <li class="active">Create Show</li>
+</ol>
+<div *ngIf="allowed">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Show Information</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="title" class="col-sm-2 control-label"><strong>Title</strong></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" [(ngModel)]="show.title" id="title" name="title"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="cover" class="col-sm-2 control-label"><strong>Cover Art</strong></label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" [(ngModel)]="show.cover" id="cover" name="cover"/>
+                </div>
+                <div class="col-sm-6 text-center">
+                  <p style="padding:20px;min-height:200px;"><img [src]="show.cover" style="max-width: 70%;"/></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="ann" class="col-sm-2 control-label"><strong>Anime News Network</strong></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" [(ngModel)]="show.ann" id="ann" name="ann"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="mal" class="col-sm-2 control-label"><strong>MyAnimeList</strong></label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" [(ngModel)]="show.mal" id="mal" name="mal"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Description</h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <textarea class="form-control" rows="12" id="description" [(ngModel)]="show.description" name="description"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Select Path</h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <select placeholder="Working Directory" [disabled]="workingpath!=null && paths==null" class="form-control" (change)="grabListing()" [(ngModel)]="workingpath">
+                <option [value]="null"></option>
+                <option *ngFor="let type of options" [ngValue]="type">{{ type.title }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" *ngIf="workingpath!=null && paths==null">
+        <div class="panel-body text-center"> <img src="/ring.svg"/> </div>
+      </div>
+      <div class="panel" *ngIf="paths!=null && workingpath!=null">
+        <div class="panel-heading">
+          <h3 class="panel-title">Selecting Show Path</h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <select placeholder="Working Directory" class="form-control" (change)="grabFiles()" [(ngModel)]="show.path">
+                <option [ngValue]="null" selected></option>
+                <option *ngFor="let path of paths" [ngValue]="path">{{ path }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" *ngIf="show.path!=null && files==null">
+        <div class="panel-body text-center"> <img src="/ring.svg"/></div>
+      </div>
+      <div class="panel" *ngIf="show.path!=null && files!=null">
+        <div class="panel-heading">
+          <h3 class="panel-title">Information About Directory</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-6">
+              Episodes
+            </div>
+            <div class="col-sm-6">
+              {{files.length}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" *ngIf="show.path!=null && files!=null && show.title!='' && show.cover!=null">
+        <div class="panel-body">
+          <a (click)="save()" class="btn btn-primary">Create Show</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel" *ngIf="show.path!=null && files!=null">
+        <div class="panel-heading">
+          <h3 class="panel-title">Files to be downloaded</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <ul>
+              <li *ngFor="let file of files">{{file}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -9,3 +9,9 @@ export class URIPipe implements PipeTransform {
     return string.replace(/ /ig, "_");
   }
 }
+@Pipe({ name: 'round' })
+export class RoundPipe implements PipeTransform {
+  transform(ss) {
+    return Math.round(ss);
+  }
+}
