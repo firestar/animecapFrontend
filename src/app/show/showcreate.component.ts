@@ -20,6 +20,7 @@ export class ShowCreate {
   workingpath = null;
   paths = null;
   files=null;
+  finalpath = "";
   show={
     cover:null,
     title:null,
@@ -70,14 +71,22 @@ export class ShowCreate {
     self.files = null;
     self.show.title = self.show.path;
     self.ftpService.files(self.account.sessionKey, self.workingpath.path+"/"+self.show.path, function(data){
-      self.files = data;
       console.log(data);
+      self.files = data;
+      for(var i=0;i<self.files.length;i++){
+        if(self.files[i]=='720p') {
+          self.finalpath = self.workingpath.path + "/" + self.show.path + "/720p";
+        }else{
+          self.finalpath = self.workingpath.path + "/" + self.show.path;
+        }
+      }
+
     });
   }
   save(){
     let self = this;
     let showData = self.show;
-    showData.path=self.workingpath.path+"/"+showData.path;
+    showData.path=self.finalpath;
     self.showService.new(self.account.sessionKey, showData, function(data){
       if(data.id!=""){
         self.router.navigate(["/"]);
