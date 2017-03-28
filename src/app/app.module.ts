@@ -17,6 +17,11 @@ import { URIPipe } from './touri.pipe';
 import { ShowPage } from './show/showpage.component';
 import { EpisodeElement } from './episode/episode.component';
 import { ShowCreate } from './show/showcreate.component';
+import { LatestEpisodes } from './episode/latest.component';
+import { ShowElement } from './show/show.component';
+import { FavoriteShows } from './show/favorites.component';
+import { UnseenEpisodes } from './episode/unseen.component';
+import { UnfinishedEpisodes } from './episode/unfinished.component';
 
 import { LoginCheck } from './users/logincheck';
 
@@ -40,7 +45,11 @@ const routes :Routes = [
   { path: 'login', component: LoginForm },
   { path: 'watch/:episode/:show/:epstring', component: WatchPage },
   { path: 'show/:show/:showstring', component: ShowPage },
+  { path: 'show/favorites', component: FavoriteShows },
+  { path: 'favorite/unseen', component: UnseenEpisodes },
+  { path: 'favorite/unfinished', component: UnfinishedEpisodes },
   { path: 'show/create', component: ShowCreate},
+  { path: 'episode/list', component: LatestEpisodes },
   { path: 'logout', component: LogoutSend },
   { path: 'register', component: RegisterForm },
   { path: '**', component: FourOFour }
@@ -60,7 +69,12 @@ const routes :Routes = [
     ShowPage,
     EpisodeElement,
     RoundPipe,
-    ShowCreate
+    ShowCreate,
+    LatestEpisodes,
+    ShowElement,
+    FavoriteShows,
+    UnseenEpisodes,
+    UnfinishedEpisodes
   ],
   imports: [
     BrowserModule,

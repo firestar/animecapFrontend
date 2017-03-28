@@ -47,9 +47,9 @@
   <div class="row">
     <div class="col-md-12">
       <div class="col-md-2" *ngFor="let episode of showData.episodes">
-        <episode [episode]="episode" [showData]="showData"></episode>
+        <episode [episode]="episode.id"></episode>
       </div>
     </div>
   </div>
 </div>
-<div *ngIf="showData==null">Loading data</div>
+<div *ngIf="showData==null" class="loadingIcon"></div>

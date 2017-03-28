@@ -19,15 +19,17 @@
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Favorites <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Show Listing</a></li>
-            <li><a href="#">Unwatched Episodes</a></li>
+            <li><a [routerLink]="['/show/favorites']">Show Listing</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a [routerLink]="['/favorite/unseen']">Unseen Episodes</a></li>
+            <li><a [routerLink]="['/favorite/unfinished']">Unfinished Episodes</a></li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="accountService.saved==null"><a [routerLink]="['/login']">Member's Area</a></li>
-        <li *ngIf="accountService.saved==null"><a [routerLink]="['/register']">Create New Account</a></li>
-        <li *ngIf="accountService.saved!=null"><a [routerLink]="['/logout']">Logout <span *ngIf="accountService.saved.level==2">admin-</span>{{accountService.saved.user}}!</a></li>
+        <li *ngIf="accountService.saved==null"><button type="button" class="btn btn-default navbar-btn" style="margin-right:20px;" [routerLink]="['/login']">Member's Area</button></li>
+        <li *ngIf="accountService.saved==null"><button type="button" class="btn btn-default navbar-btn" [routerLink]="['/register']">Create New Account</button></li>
+        <li *ngIf="accountService.saved!=null"><button type="button" class="btn btn-default navbar-btn" [routerLink]="['/logout']">Logout <span *ngIf="accountService.saved.level==2">admin-</span>{{accountService.saved.user}}!</button></li>
       </ul>
     </div>
   </div>

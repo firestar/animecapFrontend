@@ -11,6 +11,7 @@ export class ShowService {
   private showFetch = "http://api.animecap.com/show/list";
   private showInfoFetch = "http://api.animecap.com/show/info";
   private showCreateFetch = "http://api.animecap.com/show/create";
+  private showFavoriteFetch = "http://api.animecap.com/show/favorite";
 
   list(session:string, func){
     this.fetchURLPost( this.showFetch, { session: session }, function(body){
@@ -25,6 +26,11 @@ export class ShowService {
   }
   info(session:string, id:string,  func){
     this.fetchURLPost( this.showInfoFetch, { session: session, objects: { show: id } }, function(body){
+      func( body );
+    });
+  }
+  favorites(session:string,  func){
+    this.fetchURLPost( this.showFavoriteFetch, { session: session }, function(body){
       func( body );
     });
   }

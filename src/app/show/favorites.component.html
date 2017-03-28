@@ -1,0 +1,11 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/']">Home</a></li>
+  <li class="active">Favorite Listing</li>
+</ol>
+<div class="row" *ngIf="shows!=null">
+  <div class="col-lg-12">
+    <span *ngFor="let show of shows">
+      <show [show]="show"></show>
+    </span>
+  </div>
+</div>

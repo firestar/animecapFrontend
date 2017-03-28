@@ -1,0 +1,6 @@
+<div class="col-lg-1 show">
+  <a class="img-thumbnail text-center" [routerLink]="['/show/'+show.id+'/'+show.title.toLowerCase().split(' ').join('_')]">
+    <img src="{{ show.cover }}"/>
+    <h6 class="text-center">{{show.title}}</h6>
+  </a>
+</div>

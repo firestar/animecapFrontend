@@ -4,17 +4,7 @@
 </ol>
 <div class="row" *ngIf="shows!=null">
   <div class="col-lg-12">
-    <div class="col-lg-1 show" *ngFor="let show of shows">
-      <a class="img-thumbnail text-center" [routerLink]="['/show/'+show.id+'/'+show.title.toLowerCase().split(' ').join('_')]">
-        <img src="{{ show.cover }}"/>
-        <h6 class="text-center">{{show.title}}</h6>
-      </a>
-      <!--<div class="btn-group-vertical">
-        <a *ngFor="let episode of show.episodes" class="btn btn-default btn-xs" [routerLink]="['/watch/'+episode.id+'/'+show.title.toLowerCase().split(' ').join('_')+'/episode_'+episode.episode]">
-          <span class="glyphicon glyphicon-film" aria-hidden="true"></span> Episode {{episode.episode}}
-        </a>
-      </div>-->
-    </div>
+    <show [show]="show" *ngFor="let show of shows"></show>
     <div class="col-lg-1 show" *ngIf="accountData.level==2">
       <a class="img-thumbnail" [routerLink]="['/show/create']">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>

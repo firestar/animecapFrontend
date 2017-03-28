@@ -1,0 +1,40 @@
+:-webkit-full-screen {
+  width:100%;
+  height:100%;
+}
+
+:-moz-full-screen {
+  width:100%;
+  height:100%;
+}
+
+:-ms-fullscreen {
+  width:100%;
+  height:100%;
+}
+
+:fullscreen {
+  width:100%;
+  height:100%;
+}
+:-webkit-full-screen video {
+  width:100%;
+  height:100%;
+  background: #000;
+}
+:-moz-full-screen video {
+  width:100%;
+  height:100%;
+  background: #000;
+}
+:-ms-fullscreen video {
+  width:100%;
+  height:100%;
+  background: #000;
+}
+
+:fullscreen video {
+  width:100%;
+  height:100%;
+  background: #000;
+}

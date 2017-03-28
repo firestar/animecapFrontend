@@ -6,16 +6,17 @@ import { AccountService } from '../database/account.service';
 import { ActivatedRoute, Params} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
 import { ShowService } from '../database/show.service'
-import { MetaService } from 'ng2-meta';
+import {CacheService} from 'ng2-cache/ng2-cache';
 
 @Component({
   selector: 'episode',
-  templateUrl: 'episode.component.html'
+  templateUrl: 'episode.component.html',
+  styleUrls: ['episode.component.css'],
+  providers: [ CacheService ]
 })
 export class EpisodeElement {
-  constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService){}
+  constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService, private _cacheService: CacheService){}
   @Input() episode;
-  @Input() showData;
   duration = null;
   episodeData = null;
   ngOnInit(){
@@ -24,16 +25,20 @@ export class EpisodeElement {
       console.log("waiting, watch");
       setTimeout(function () {
         if(self.account.checked) {
-          let id = self.episode.id;
-          self.episodeService.info(self.account.sessionKey, id.toString(), function(data){
-            var i=0;
-            for(i=0;i<data.sd[0].streams.length;i++) {
-              if (data.sd[0].streams[i].codec_type == "VIDEO") {
-                self.duration = data.sd[0].streams[i].duration;
+          if(!self._cacheService.exists('ep'+self.episode.toString())) {
+            self.episodeService.info(self.account.sessionKey, self.episode.toString(), function (data) {
+              var i = 0;
+              for (i = 0; i < data.source.streams.length; i++) {
+                if (data.source.streams[i].duration > 0) {
+                  self.duration = data.source.streams[i].duration;
+                }
               }
-            }
-            self.episodeData = data;
-          });
+              self.episodeData = data;
+              //self._cacheService.set('ep'+self.episode.toString(), data, {expires: Date.now() + 1000 * 60 * 2});
+            });
+          }else{
+            self.episodeData = self._cacheService.get('ep'+self.episode.toString());
+          }
         }else{
           waitForAccount();
         }
