@@ -85,7 +85,7 @@
         </div>
       </div>
       <div class="panel" *ngIf="workingpath!=null && paths==null">
-        <div class="panel-body text-center"> <img src="/ring.svg"/> </div>
+        <div class="panel-body text-center"> <img src="//vid.animecap.com/ring.svg"/> </div>
       </div>
       <div class="panel" *ngIf="paths!=null && workingpath!=null">
         <div class="panel-heading">
@@ -94,7 +94,7 @@
         <div class="panel-body">
           <div class="form-group">
             <div class="col-sm-12">
-              <select placeholder="Working Directory" class="form-control" (change)="grabFiles()" [(ngModel)]="show.path">
+              <select placeholder="Working Directory" class="form-control"  [disabled]="(subFolders==null && show.path!=null && files==null)" (change)="grabFiles()" [(ngModel)]="show.path">
                 <option [ngValue]="null" selected></option>
                 <option *ngFor="let path of paths" [ngValue]="path">{{ path }}</option>
               </select>
@@ -102,10 +102,25 @@
           </div>
         </div>
       </div>
-      <div class="panel" *ngIf="show.path!=null && files==null">
-        <div class="panel-body text-center"> <img src="/ring.svg"/></div>
+      <div class="panel" *ngIf="subFolders!=null">
+        <div class="panel-heading">
+          <h3 class="panel-title">Select Sub Folders</h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <select placeholder="Working Directory" class="form-control" (change)="grabSubFiles()" [(ngModel)]="subFolder">
+                <option [ngValue]="null" selected></option>
+                <option *ngFor="let path of subFolders" [ngValue]="path">{{ path }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="panel" *ngIf="show.path!=null && files!=null">
+      <div class="panel" *ngIf="show.path!=null && files==null && ( (subFolders!=null && subFolder!=null) || subFolders==null)">
+        <div class="panel-body text-center"> <img src="//vid.animecap.com/ring.svg"/></div>
+      </div>
+      <div class="panel" *ngIf="show.path!=null && files!=null && ( (subFolders!=null && subFolder!=null) || subFolders==null)">
         <div class="panel-heading">
           <h3 class="panel-title">Information About Directory</h3>
         </div>

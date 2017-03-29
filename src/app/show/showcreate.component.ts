@@ -19,6 +19,8 @@ export class ShowCreate {
   allowed = false;
   workingpath = null;
   paths = null;
+  subFolders = null;
+  subFolder = null;
   files=null;
   finalpath = "";
   show={
@@ -69,18 +71,31 @@ export class ShowCreate {
   grabFiles(){
     let self = this;
     self.files = null;
+    self.finalpath = null;
+    self.subFolders = null;
+    self.subFolder=null;
     self.show.title = self.show.path;
     self.ftpService.files(self.account.sessionKey, self.workingpath.path+"/"+self.show.path, function(data){
       console.log(data);
-      self.files = data;
-      for(var i=0;i<self.files.length;i++){
-        if(self.files[i]=='720p') {
-          self.finalpath = self.workingpath.path + "/" + self.show.path + "/720p";
+      for(var i=0;i<data.length;i++){
+        if(/([0-9]+)p/i.test(data[i])) {
+          self.finalpath = null;
+          self.subFolders = data;
         }else{
           self.finalpath = self.workingpath.path + "/" + self.show.path;
+          self.files = data;
         }
+        break;
       }
-
+    });
+  }
+  grabSubFiles(){
+    let self = this;
+    self.files = null;
+    self.ftpService.files(self.account.sessionKey, self.workingpath.path+"/"+self.show.path+"/"+self.subFolder, function(data){
+      console.log(data);
+      self.finalpath = self.workingpath.path + "/" + self.show.path+"/"+self.subFolder;
+      self.files = data;
     });
   }
   save(){
