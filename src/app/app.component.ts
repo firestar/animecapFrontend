@@ -13,6 +13,8 @@ export class AppComponent {
   constructor( private userRepo: UserService, private account: AccountService) { }
 
   ngOnInit() {
+    var platform = require('platform');
+    console.log(platform);
     let self = this;
     let x = localStorage.getItem('session');
     if(x!=null) {
