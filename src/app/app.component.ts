@@ -43,7 +43,7 @@ export class AppComponent {
         self.sendSessionKey();
       });
       self.ws.subscribe('/listen/remote', self.session, function(){
-        if(self.control.slave) {
+        if(!self.control.slave) {
           self.control.slave = true;
           self.router.navigate(['/slave']);
         }
