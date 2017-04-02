@@ -78,7 +78,7 @@ export class ShowCreate {
     self.ftpService.files(self.account.sessionKey, self.workingpath.path+"/"+self.show.path, function(data){
       console.log(data);
       for(var i=0;i<data.length;i++){
-        if(/([0-9]+)p/i.test(data[i])) {
+        if(/^([0-9]+)p$/i.test(data[i])) {
           self.finalpath = null;
           self.subFolders = data;
         }else{
