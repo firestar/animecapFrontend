@@ -21,13 +21,13 @@ export class ShowElement {
     let self = this;
     let waitForAccount = function() {
       console.log("waiting, watch");
-      setTimeout(function () {
-        if(self.account.checked) {
-          //top kek
-        }else{
+      if(self.account.checked) {
+        //top kek
+      }else{
+        setTimeout(function () {
           waitForAccount();
-        }
-      }, 50);
+        }, 50);
+      }
     }
     waitForAccount();
   }

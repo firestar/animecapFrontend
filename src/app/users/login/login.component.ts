@@ -5,6 +5,7 @@ import { Component, Input } from '@angular/core';
 import { UserService } from '../../database/user.service';
 import { Router } from '@angular/router';
 import { AccountService } from '../../database/account.service';
+import { WSService } from '../../database/ws.service';
 
 @Component({
   selector: 'login-form',
@@ -13,7 +14,7 @@ import { AccountService } from '../../database/account.service';
 })
 export class LoginForm {
 
-  constructor(private userRepo: UserService, private router: Router, private account: AccountService){}
+  constructor(private userRepo: UserService, private router: Router, private account: AccountService, private ws: WSService){}
 
   //on load
   ngOnInit(){
@@ -37,6 +38,7 @@ export class LoginForm {
   password : string = "";
   message : string = "";
   timeout;
+  session;
   loginButton: string = "Login";
 
   executeLogin(){
@@ -54,8 +56,9 @@ export class LoginForm {
         clearTimeout(self.timeout);
         self.message = "Welcome back "+response.account.user;
         self.loginButton = "Success";
-        localStorage.setItem("session", response.sessionKey);
-        self.account.set(response.account, response.sessionKey);
+        self.session = response.sessionKey;
+        localStorage.setItem("session", self.session);
+        self.account.set(response.account, self.session);
         self.account.checked=true;
         self.timeout = setTimeout(function() {
           self.router.navigate(['/']);

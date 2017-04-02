@@ -22,6 +22,7 @@ import { ShowElement } from './show/show.component';
 import { FavoriteShows } from './show/favorites.component';
 import { UnseenEpisodes } from './episode/unseen.component';
 import { UnfinishedEpisodes } from './episode/unfinished.component';
+import { SlavePage } from './episode/slave.component';
 
 import { LoginCheck } from './users/logincheck';
 
@@ -31,6 +32,8 @@ import { ShowService } from './database/show.service';
 import { EpisodeService } from './database/episode.service';
 import { FavoriteService } from './database/favorite.service';
 import { FTPService } from './database/ftp.service';
+import { WSService } from './database/ws.service';
+import { ControlService } from './database/control.service';
 
 import { RoundPipe } from './touri.pipe';
 
@@ -46,6 +49,7 @@ const routes :Routes = [
   { path: 'watch/:episode/:show/:epstring', component: WatchPage },
   { path: 'show/:show/:showstring', component: ShowPage },
   { path: 'show/favorites', component: FavoriteShows },
+  { path: 'slave', component: SlavePage },
   { path: 'favorite/unseen', component: UnseenEpisodes },
   { path: 'favorite/unfinished', component: UnfinishedEpisodes },
   { path: 'show/create', component: ShowCreate},
@@ -74,7 +78,8 @@ const routes :Routes = [
     ShowElement,
     FavoriteShows,
     UnseenEpisodes,
-    UnfinishedEpisodes
+    UnfinishedEpisodes,
+    SlavePage
   ],
   imports: [
     BrowserModule,
@@ -82,7 +87,19 @@ const routes :Routes = [
     HttpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserService, LoginCheck, AccountService, ShowService, EpisodeService, FavoriteService, FTPService],
-  bootstrap: [AppComponent]
+  providers: [
+    UserService,
+    LoginCheck,
+    AccountService,
+    ShowService,
+    EpisodeService,
+    FavoriteService,
+    FTPService,
+    WSService,
+    ControlService
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule {}

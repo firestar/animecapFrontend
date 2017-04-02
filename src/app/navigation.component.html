@@ -25,8 +25,25 @@
             <li><a [routerLink]="['/favorite/unfinished']">Unfinished Episodes</a></li>
           </ul>
         </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Control Instance <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li *ngFor="let instance of instances">
+              <a *ngIf="instance[0]!=sessionKey" (click)="controlInstance(instance[0])">
+                <span *ngIf="controlling.has()[instance[0]]" style="color:#004200;padding-right:5px;"><span class="glyphicon glyphicon-ok"></span></span>
+                 {{instance[1]}}
+              </a>
+            </li>
+          </ul>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li *ngIf="ws.client().connected">
+          <a>
+            <span *ngIf="!controlling.slave" style="color:#00ff00;padding-right:5px;"><span class="glyphicon glyphicon-sort" style="margin-right:20px;"></span></span>
+            <span *ngIf="controlling.slave" style="color:#ff0000;padding-right:5px;"><span class="glyphicon glyphicon-flash" style="margin-right:20px;"></span></span>
+          </a>
+        </li>
         <li *ngIf="accountService.saved==null"><button type="button" class="btn btn-default navbar-btn" style="margin-right:20px;" [routerLink]="['/login']">Member's Area</button></li>
         <li *ngIf="accountService.saved==null"><button type="button" class="btn btn-default navbar-btn" [routerLink]="['/register']">Create New Account</button></li>
         <li *ngIf="accountService.saved!=null"><button type="button" class="btn btn-default navbar-btn" [routerLink]="['/logout']">Logout <span *ngIf="accountService.saved.level==2">admin-</span>{{accountService.saved.user}}!</button></li>

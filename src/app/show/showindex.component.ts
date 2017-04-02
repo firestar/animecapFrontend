@@ -13,27 +13,27 @@ import { AccountService } from '../database/account.service';
 })
 export class ShowIndex {
   constructor(private showService:ShowService, private account: AccountService){}
-  shows;
+  shows = [];
   accountData = null;
   ngOnInit(){
     let self = this;
     let waitForAccount = function() {
-      console.log("waiting, show index");
-      setTimeout(function () {
-        if(self.account.checked) {
-          self.accountData = self.account.saved;
-          self.showService.list(self.account.sessionKey, function (data) {
-            for (var i = 0; i < data.length; i++) {
-              data[i].episodes.sort(function (a, b) {
-                return a.episode - b.episode;
-              });
-            }
-            self.shows = data;
-          });
-        }else{
+      if(self.account.checked) {
+        self.accountData = self.account.saved;
+        self.showService.list(self.account.sessionKey, function (data) {
+          console.log(data);
+          for (var i = 0; i < data.length; i++) {
+            data[i].episodes.sort(function (a, b) {
+              return a.episode - b.episode;
+            });
+          }
+          self.shows = data;
+        });
+      }else{
+        setTimeout(function () {
           waitForAccount();
-        }
-      }, 50);
+        }, 50);
+      }
     }
     waitForAccount();
   }

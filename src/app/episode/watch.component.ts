@@ -7,6 +7,8 @@ import { AccountService } from '../database/account.service';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
 import 'rxjs/Rx';
+import { WSService } from '../database/ws.service';
+import { ControlService} from '../database/control.service';
 
 @Component({
   selector: 'watch',
@@ -14,7 +16,7 @@ import 'rxjs/Rx';
   styleUrls: ['watch.component.css']
 })
 export class WatchPage {
-  constructor(private account: AccountService, private router: Router, private route: ActivatedRoute, private episodeService: EpisodeService, private element: ElementRef){}
+  constructor(private account: AccountService, private router: Router, private route: ActivatedRoute, private episodeService: EpisodeService, private element: ElementRef, private ws: WSService, private control: ControlService){}
   episodeData = null;
   duration = 0;
   video = null;
@@ -38,7 +40,7 @@ export class WatchPage {
     let self = this;
     let time = this.video.currentTime;
     self.episodeService.watching(self.account.sessionKey, self.episodeData.episode.id, "" + time + "", function(){});
-    if((time/self.duration)>0.97){
+    if((time/self.duration)>0.97 && !self.control.slave){
       self.showEpisode(self.next);
     }
 
@@ -57,6 +59,7 @@ export class WatchPage {
   ngOnDestroy(){
     let self = this;
     self.video.src="";
+    self.ws.unsubscribe('/listen/load');
   }
   waitForVideo(){
     let self = this;
@@ -111,6 +114,14 @@ export class WatchPage {
   }
   ngOnInit(){
     let self = this;
+    self.ws.subscribe('/listen/load', self.account.sessionKey, function(data){
+      let episode = JSON.parse(data.body);
+      console.log(episode);
+      self.router.navigate(['/watch',episode.id, episode.title, 'episode_'+episode.episodeNumber], {relativeTo: self.route, skipLocationChange: false});
+      self.episodeData = null;
+      self.episodeId = episode.id;
+      self.waitForAccount();
+    });
     self.route.params
       .map(params => params['episode'])
       .subscribe((id) => {

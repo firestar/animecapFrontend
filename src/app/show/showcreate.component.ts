@@ -112,18 +112,18 @@ export class ShowCreate {
     let self = this;
     let waitForAccount = function() {
       console.log("waiting, show index");
-      setTimeout(function () {
-        if(self.account.checked) {
-          self.accountData = self.account.saved;
-          if(self.accountData.level==2){
-            self.allowed = true;
-          }else{
-            self.router.navigate(['/']);
-          }
+      if(self.account.checked) {
+        self.accountData = self.account.saved;
+        if(self.accountData.level==2){
+          self.allowed = true;
         }else{
-          waitForAccount();
+          self.router.navigate(['/']);
         }
-      }, 50);
+      }else{
+        setTimeout(function () {
+          waitForAccount();
+        }, 50);
+      }
     }
     waitForAccount();
   }

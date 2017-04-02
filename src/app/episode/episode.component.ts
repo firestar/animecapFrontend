@@ -7,43 +7,51 @@ import { ActivatedRoute, Params} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
 import { ShowService } from '../database/show.service'
 import {CacheService} from 'ng2-cache/ng2-cache';
+import { ControlService} from '../database/control.service';
 
 @Component({
   selector: 'episode',
   templateUrl: 'episode.component.html',
   styleUrls: ['episode.component.css'],
   providers: [ CacheService ]
+
 })
 export class EpisodeElement {
-  constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService, private _cacheService: CacheService){}
+  constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService, private _cacheService: CacheService, private control: ControlService){}
   @Input() episode;
   duration = null;
   episodeData = null;
+  remote;
   ngOnInit(){
     let self = this;
     let waitForAccount = function() {
       console.log("waiting, watch");
-      setTimeout(function () {
-        if(self.account.checked) {
-          if(!self._cacheService.exists('ep'+self.episode.toString())) {
-            self.episodeService.info(self.account.sessionKey, self.episode.toString(), function (data) {
-              var i = 0;
-              for (i = 0; i < data.source.streams.length; i++) {
-                if (data.source.streams[i].duration > 0) {
-                  self.duration = data.source.streams[i].duration;
-                }
+      if(self.account.checked) {
+        self.remote=self.control;
+        if(!self._cacheService.exists('ep'+self.episode.toString())) {
+          self.episodeService.info(self.account.sessionKey, self.episode.toString(), function (data) {
+            var i = 0;
+            for (i = 0; i < data.source.streams.length; i++) {
+              if (data.source.streams[i].duration > 0) {
+                self.duration = data.source.streams[i].duration;
               }
-              self.episodeData = data;
-              //self._cacheService.set('ep'+self.episode.toString(), data, {expires: Date.now() + 1000 * 60 * 2});
-            });
-          }else{
-            self.episodeData = self._cacheService.get('ep'+self.episode.toString());
-          }
+            }
+            self.episodeData = data;
+            //self._cacheService.set('ep'+self.episode.toString(), data, {expires: Date.now() + 1000 * 60 * 2});
+          });
+
         }else{
-          waitForAccount();
+          self.episodeData = self._cacheService.get('ep'+self.episode.toString());
         }
-      }, 50);
+      }else{
+        setTimeout(function () {
+        waitForAccount();
+        }, 50);
+      }
     }
     waitForAccount();
+  }
+  load(episode){
+    this.control.load(episode, this.account.sessionKey);
   }
 }
