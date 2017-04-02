@@ -1,16 +1,1 @@
-.show{
-  float:left;
-  height:260px;
-  overflow: hidden;
-}
-.show>a>img{
-  height:150px;
-}
-.show div{
-  display:none;
-  position:relative;
-}
-.show:hover div{
-  display:block;
-  width:100%;
-}
+
