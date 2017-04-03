@@ -23,6 +23,7 @@ import { FavoriteShows } from './show/favorites.component';
 import { UnseenEpisodes } from './episode/unseen.component';
 import { UnfinishedEpisodes } from './episode/unfinished.component';
 import { SlavePage } from './episode/slave.component';
+import { HostPage } from './episode/host.component';
 
 import { LoginCheck } from './users/logincheck';
 
@@ -50,6 +51,7 @@ const routes :Routes = [
   { path: 'show/:show/:showstring', component: ShowPage },
   { path: 'show/favorites', component: FavoriteShows },
   { path: 'slave', component: SlavePage },
+  { path: 'host', component: HostPage },
   { path: 'favorite/unseen', component: UnseenEpisodes },
   { path: 'favorite/unfinished', component: UnfinishedEpisodes },
   { path: 'show/create', component: ShowCreate},
@@ -79,7 +81,8 @@ const routes :Routes = [
     FavoriteShows,
     UnseenEpisodes,
     UnfinishedEpisodes,
-    SlavePage
+    SlavePage,
+    HostPage
   ],
   imports: [
     BrowserModule,

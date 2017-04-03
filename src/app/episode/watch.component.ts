@@ -24,8 +24,23 @@ export class WatchPage {
   next = null;
   episodeId = null;
   seeked(){
-    console.log("play ;)");
+    let self = this;
     this.video.play();
+    if (self.control.slave) {
+      self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, true, self.episodeId, false);
+    }
+  }
+  buffering(){
+    let self = this;
+    if (self.control.slave) {
+      self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, false, self.episodeId, true);
+    }
+  }
+  paused(){
+    let self = this;
+    if (self.control.slave) {
+      self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, false, self.episodeId, false);
+    }
   }
   fullscreen(){
     var videoWrapper = document.getElementById("videoWrapper");
@@ -36,18 +51,30 @@ export class WatchPage {
       videoWrapper.webkitRequestFullscreen();
     }
   }
+  sendNext = 0;
   timeSend(){
     let self = this;
     let time = this.video.currentTime;
-    self.episodeService.watching(self.account.sessionKey, self.episodeData.episode.id, "" + time + "", function(){});
+    if(self.sendNext==0 || self.sendNext<new Date().getTime()) {
+      self.episodeService.watching(self.account.sessionKey, self.episodeData.episode.id, "" + time + "", function () {
+      });
+      if (self.control.slave) {
+        self.control.info(self.account.sessionKey, self.control.controller, time, self.duration, self.next != null, self.prev != null, true, self.episodeId, false);
+      }
+      self.sendNext=new Date().getTime()+1000;
+    }
     if((time/self.duration)>0.97 && !self.control.slave){
       self.showEpisode(self.next);
     }
 
   }
   playing(){
+    let self = this;
     this.timeSend();
     console.log("playing");
+    if(self.control.slave){
+      self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next!=null, self.prev!=null, true, self.episodeId, false);
+    }
   }
   showEpisode(episode){
     let self = this;
@@ -59,7 +86,9 @@ export class WatchPage {
   ngOnDestroy(){
     let self = this;
     self.video.src="";
-    self.ws.unsubscribe('/listen/load');
+    if(self.control.slave) {
+      self.destroyControlSubscriptions();
+    }
   }
   waitForVideo(){
     let self = this;
@@ -86,6 +115,9 @@ export class WatchPage {
     console.log("waiting, watch");
     setTimeout(function () {
       if(self.account.checked) {
+        if(self.control.slave) {
+          self.initControlSubscriptions();
+        }
         self.episodeService.info(self.account.sessionKey, self.episodeId.toString(), function(data){
           self.episodeData = data;
           self.episodeData.show.episodes.sort(function (a, b) {
@@ -112,7 +144,14 @@ export class WatchPage {
       }
     }, 50);
   }
-  ngOnInit(){
+  destroyControlSubscriptions(){
+    let self = this;
+    self.ws.unsubscribe('/listen/load');
+    self.ws.unsubscribe('/listen/control');
+    self.ws.unsubscribe('/listen/seek');
+
+  }
+  initControlSubscriptions(){
     let self = this;
     self.ws.subscribe('/listen/load', self.account.sessionKey, function(data){
       let episode = JSON.parse(data.body);
@@ -122,6 +161,30 @@ export class WatchPage {
       self.episodeId = episode.id;
       self.waitForAccount();
     });
+    self.ws.subscribe('/listen/seek', self.account.sessionKey, function(data){
+      let act = JSON.parse(data.body);
+      self.video.currentTime = act.position;
+    });
+    self.ws.subscribe('/listen/control', self.account.sessionKey, function(data){
+      let act = JSON.parse(data.body);
+      switch(act.action){
+        case "play":
+          self.video.play();
+          break;
+        case "pause":
+          self.video.pause();
+          break;
+        case "next":
+          self.showEpisode(self.next);
+          break;
+        case "prev":
+          self.showEpisode(self.prev);
+          break;
+      }
+    });
+  }
+  ngOnInit(){
+    let self = this;
     self.route.params
       .map(params => params['episode'])
       .subscribe((id) => {

@@ -42,17 +42,25 @@ export class AppComponent {
       self.ws.subscribe('/listen/session', self.session, function(){
         self.sendSessionKey();
       });
-      self.ws.subscribe('/listen/remote', self.session, function(){
+      self.ws.subscribe('/listen/remote', self.session, function(data){
+        let session = JSON.parse(data.body)[0];
+        self.control.controller = session;
         if(!self.control.slave) {
           self.control.slave = true;
           self.router.navigate(['/slave']);
+        }
+      });
+      self.ws.subscribe('/listen/release', self.session, function(){
+        if(self.control.slave) {
+          self.control.slave = false;
+          self.router.navigate(['/']);
         }
       });
       self.sendSessionKey();
     }else{
       setTimeout(function () {
         self.waitForAccount();
-      }, 50);
+      }, 100);
     }
   }
   sendSessionKey(){
@@ -64,7 +72,6 @@ export class AppComponent {
 
     let self = this;
     self.ws.initialize('https://api.animecap.com/websocket',function(client, data){
-      console.log(client);
 
     });
     self.waitForWS();

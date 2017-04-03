@@ -5,7 +5,7 @@
 <div class="row" *ngIf="accountData!=null">
   <div class="col-lg-12">
     <show [show]="show" *ngFor="let show of shows"></show>
-    <div class="col-lg-1 show" *ngIf="accountData.level==2">
+    <div class="col-md-2 show  text-center" *ngIf="accountData .level==2">
       <a class="img-thumbnail" [routerLink]="['/show/create']">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       </a>

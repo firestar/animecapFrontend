@@ -10,7 +10,6 @@ export class WSService{
   private socket;
   private stompClient=null;
   private subscriptions = {};
-  private dd = "https://api.animecap.com/auth/login";
 
   initialize(url:string, func){
     var self = this;

@@ -38,7 +38,7 @@ export class TopNavigationBar {
   }
   controlInstance(session){
     if(this.control.has()[session]){
-      this.control.remove(session);
+      this.control.remove(session, this.accountService.sessionKey);
     }else{
       this.control.add(session, this.accountService.sessionKey);
     }
