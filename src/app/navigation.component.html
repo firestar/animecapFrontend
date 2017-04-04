@@ -38,16 +38,14 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="ws.client().connected">
-          <a>
-            <span *ngIf="!controlling.slave && controlling.controlling==0" style="color:#60ffa2;padding-right:5px;"><span class="glyphicon glyphicon-sort" style="margin-right:20px;"></span></span>
-            <span *ngIf="!controlling.slave && controlling.controlling>0" [routerLink]="['/host']" style="color:#ff9632;padding-right:5px;cursor:pointer;"><span class="glyphicon glyphicon-cloud" style="margin-right:20px;"></span> Remote Control</span>
-            <span *ngIf="controlling.slave" style="color:#ff16f6;padding-right:5px;"><span class="glyphicon glyphicon-cloud" style="margin-right:20px;"></span>Remotely Controlled</span>
-          </a>
+        <li *ngIf="ws.client().connected" class="active">
+          <a *ngIf="!controlling.slave && controlling.controlling==0" style="color:#60ffa2;"><span class="glyphicon glyphicon-sort"></span></a>
+          <a *ngIf="!controlling.slave && controlling.controlling>0" [routerLink]="['/host']" style="color:#ff9632;cursor:pointer;"><span class="glyphicon glyphicon-cloud"></span> Remote Control</a>
+          <a *ngIf="controlling.slave" style="color:#ff16f6;"><span class="glyphicon glyphicon-cloud"></span>Remotely Controlled</a>
         </li>
-        <li *ngIf="accountService.saved==null"><button type="button" class="btn btn-default navbar-btn" style="margin-right:20px;" [routerLink]="['/login']">Member's Area</button></li>
-        <li *ngIf="accountService.saved==null"><button type="button" class="btn btn-default navbar-btn" [routerLink]="['/register']">Create New Account</button></li>
-        <li *ngIf="accountService.saved!=null"><button type="button" class="btn btn-default navbar-btn" [routerLink]="['/logout']">Logout <span *ngIf="accountService.saved.level==2">admin-</span>{{accountService.saved.user}}!</button></li>
+        <li *ngIf="accountService.saved==null"><a [routerLink]="['/login']">Member's Area</a></li>
+        <li *ngIf="accountService.saved==null"><a [routerLink]="['/register']">Create New Account</a></li>
+        <li *ngIf="accountService.saved!=null"><a [routerLink]="['/logout']">Logout <span *ngIf="accountService.saved.level==2">admin-</span>{{accountService.saved.user}}!</a></li>
       </ul>
     </div>
   </div>

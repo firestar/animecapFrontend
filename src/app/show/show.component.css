@@ -3,8 +3,11 @@ img{
 }
 .show{
   margin-bottom:10px;
-  height:300px;
+  height:320px;
 }
 .show a span{
   font-size:12px;
+}
+.show a small{
+  font-size:10px;
 }

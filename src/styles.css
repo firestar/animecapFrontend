@@ -11,3 +11,7 @@
 a:hover{
   text-decoration: none;
 }
+input[type='text']{
+  border:1px solid;
+}
+

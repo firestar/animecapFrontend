@@ -1,4 +1,4 @@
-<ol class="breadcrumb">
+<ol class="breadcrumb" *ngIf="!noBread && shows!=null">
   <li><a [routerLink]="['/']">Home</a></li>
   <li class="active">Favorite Listing</li>
 </ol>
@@ -9,3 +9,4 @@
     </span>
   </div>
 </div>
+<div class="loadingIcon" *ngIf="shows==null"></div>

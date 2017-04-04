@@ -1,24 +1,47 @@
-<ol class="breadcrumb">
+<ol class="breadcrumb" *ngIf="accountData!=null">
   <li><a [routerLink]="['/']">Home</a></li>
   <li class="active">Show Listing</li>
 </ol>
 <div class="row" *ngIf="accountData!=null">
   <div class="col-lg-2">
-    <h5 class="text-center">Latest Episodes</h5>
-    <hr/>
-    <latest [noBread]="true" [limit]="5"></latest>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h5 class="text-center"><a [routerLink]="['/episode/list']">Latest Episodes</a></h5>
+      </div>
+      <div class="panel-body">
+        <latest [noBread]="true" [limit]="5"></latest>
+      </div>
+    </div>
   </div>
   <div class="col-lg-10">
-    <h5 class="text-left">Show Listings</h5>
-    <hr/>
-    <show [show]="show" *ngFor="let show of shows"></show>
-    <div class="col-md-2 show  text-center" *ngIf="accountData .level==2">
-      <a class="img-thumbnail" [routerLink]="['/show/create']">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      </a>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h5 class="text-left">Show Listings</h5>
+      </div>
+      <div class="panel-body">
+        <show [show]="show" *ngFor="let show of shows"></show>
+        <div class="col-md-2 show  text-center" *ngIf="accountData .level==2">
+          <a class="img-thumbnail" [routerLink]="['/show/create']">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<div class="row" *ngIf="accountData!=null">
+  <div class="col-lg-12">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h5 class="text-center"><a [routerLink]="['/favorite/unfinished']">Finish Watching</a></h5>
+      </div>
+      <div class="panel-body">
+        <unfinished [noBread]="true" [limit]="6"></unfinished>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="loadingIcon" *ngIf="accountData==null"></div>
 <!--
 background: linear-gradient(to right, rgba(241,237,255,1) {{episode.watching.progress}}%, rgba(255,255,255,0) {{episode.watching.progress}}%);
 background: linear-gradient(to right, rgba(243,255,237,1) {{episode.watching.progress}}%,rgba(255,255,255,0) {{episode.watching.progress}}%);

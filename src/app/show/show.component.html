@@ -1,6 +1,7 @@
 <div class="col-md-2 show text-center">
   <a class="img-thumbnail text-center" [routerLink]="['/show/'+show.id+'/'+show.title.toLowerCase().split(' ').join('_')]">
     <img src="{{ show.cover }}"/><br/>
-    <span>{{show.title}}</span>
+    <span>{{show.title}}</span><br/>
+    <small>{{show.episodes.length}} Episodes</small>
   </a>
 </div>

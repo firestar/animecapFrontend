@@ -14,6 +14,7 @@ import { ShowService } from '../database/show.service'
 export class FavoriteShows {
   constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService){}
   shows = null;
+  @Input() noBread = false;
   ngOnInit(){
     let self = this;
     let waitForAccount = function() {

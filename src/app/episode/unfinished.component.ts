@@ -14,6 +14,8 @@ import { ShowService } from '../database/show.service'
 export class UnfinishedEpisodes {
   constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService){}
   episodes = null;
+  @Input() limit=50;
+  @Input() noBread=false;
   ngOnInit(){
     let self = this;
     let waitForAccount = function() {
@@ -21,7 +23,7 @@ export class UnfinishedEpisodes {
       setTimeout(function () {
         if(self.account.checked) {
           self.episodeService.unfinished(self.account.sessionKey, function(data){
-            self.episodes = data;
+            self.episodes = data.slice(0,self.limit);
           });
         }else{
           waitForAccount();

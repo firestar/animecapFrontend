@@ -1,5 +1,5 @@
 <div *ngIf="episodes!=null">
-  <ol class="breadcrumb">
+  <ol class="breadcrumb" *ngIf="!noBread">
     <li><a [routerLink]="['/']">Home</a></li>
     <li class="active">Unfinished Episodes</li>
   </ol>

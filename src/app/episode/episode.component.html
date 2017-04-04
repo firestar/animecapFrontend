@@ -1,7 +1,7 @@
 <a *ngIf="episodeData!=null && remote.is()==0" class="thumbnail episode" [routerLink]="['/watch/'+episodeData.episode.id+'/'+episodeData.show.title.toLowerCase().split(' ').join('_')+'/episode_'+episodeData.episode.episode]">
   <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
   <h5>
-    <small *ngIf="includeShow">{{episodeData.show.title}}</small>
+    <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
     Episode {{episodeData.episode.episode}}
     <small *ngIf="episodeData!=null && !includeShow">
       <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
@@ -11,7 +11,7 @@
 <a *ngIf="episodeData!=null && remote.is()>0" class="thumbnail episode" (click)="load(episodeData.episode.id)">
   <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
   <h5>
-    <small *ngIf="includeShow">{{episodeData.show.title}}</small>
+    <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
     Episode {{episodeData.episode.episode}}
     <small *ngIf="episodeData!=null && !includeShow">
       <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
