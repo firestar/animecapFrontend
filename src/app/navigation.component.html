@@ -26,7 +26,7 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Control Instance <span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Remote Control <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li *ngFor="let instance of instances">
               <a *ngIf="instance[0]!=sessionKey" (click)="controlInstance(instance[0])">
@@ -41,8 +41,8 @@
         <li *ngIf="ws.client().connected">
           <a>
             <span *ngIf="!controlling.slave && controlling.controlling==0" style="color:#60ffa2;padding-right:5px;"><span class="glyphicon glyphicon-sort" style="margin-right:20px;"></span></span>
-            <span *ngIf="!controlling.slave && controlling.controlling>0" [routerLink]="['/host']" style="color:#ff9632;padding-right:5px;"><span class="glyphicon glyphicon-cloud" style="margin-right:20px;"></span></span>
-            <span *ngIf="controlling.slave" style="color:#ff16f6;padding-right:5px;"><span class="glyphicon glyphicon-cloud" style="margin-right:20px;"></span></span>
+            <span *ngIf="!controlling.slave && controlling.controlling>0" [routerLink]="['/host']" style="color:#ff9632;padding-right:5px;cursor:pointer;"><span class="glyphicon glyphicon-cloud" style="margin-right:20px;"></span> Remote Control</span>
+            <span *ngIf="controlling.slave" style="color:#ff16f6;padding-right:5px;"><span class="glyphicon glyphicon-cloud" style="margin-right:20px;"></span>Remotely Controlled</span>
           </a>
         </li>
         <li *ngIf="accountService.saved==null"><button type="button" class="btn btn-default navbar-btn" style="margin-right:20px;" [routerLink]="['/login']">Member's Area</button></li>

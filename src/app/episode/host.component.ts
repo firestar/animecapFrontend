@@ -25,19 +25,28 @@ export class HostPage {
         position:null,
         playing:false
     };
-    ngOnInit(){
+    waitForAccount() {
         let self = this;
-        self.session = self.account.sessionKey;
-        self.remote = self.control;
-        self.ws.subscribe('/listen/info', self.account.sessionKey, function(data){
-            self.videoPosition = document.getElementById("videoPosition");
-            let info = JSON.parse(data.body);
-            self.info = info;
-            if(self.videoPosition) {
-                self.videoPosition.value=self.info.position;
-            }
-            // info status changed
-        });
+        if(self.account.checked && self.account.sessionKey!=null) {
+            self.session = self.account.sessionKey;
+            self.remote = self.control;
+            self.ws.subscribe('/listen/info', self.account.sessionKey, function (data) {
+                self.videoPosition = document.getElementById("videoPosition");
+                let info = JSON.parse(data.body);
+                self.info = info;
+                if (self.videoPosition) {
+                    self.videoPosition.value = self.info.position;
+                }
+                // info status changed
+            });
+        }else{
+            setTimeout(function () {
+                self.waitForAccount();
+            }, 100);
+        }
+    }
+    ngOnInit(){
+        this.waitForAccount();
 
     }
     seek(){

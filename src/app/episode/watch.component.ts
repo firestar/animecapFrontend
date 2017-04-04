@@ -40,6 +40,15 @@ export class WatchPage {
     let self = this;
     if (self.control.slave) {
       self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, false, self.episodeId, false);
+      let repeat = function(){
+        setTimeout(function () {
+          if (self.video.paused) {
+            self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, false, self.episodeId, false);
+            repeat();
+          }
+        }, 1000);
+      }
+      repeat();
     }
   }
   fullscreen(){
