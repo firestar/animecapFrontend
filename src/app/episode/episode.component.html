@@ -3,8 +3,7 @@
   <h5>
     <small *ngIf="includeShow">{{episodeData.show.title}}</small>
     Episode {{episodeData.episode.episode}}
-    <br/>
-    <small *ngIf="episodeData!=null">
+    <small *ngIf="episodeData!=null && !includeShow">
       <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
     </small>
   </h5>
@@ -14,8 +13,7 @@
   <h5>
     <small *ngIf="includeShow">{{episodeData.show.title}}</small>
     Episode {{episodeData.episode.episode}}
-    <br/>
-    <small *ngIf="episodeData!=null">
+    <small *ngIf="episodeData!=null && !includeShow">
       <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
     </small>
   </h5>
