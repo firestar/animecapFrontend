@@ -3,7 +3,14 @@
   <li class="active">Show Listing</li>
 </ol>
 <div class="row" *ngIf="accountData!=null">
-  <div class="col-lg-12">
+  <div class="col-lg-2">
+    <h5 class="text-center">Latest Episodes</h5>
+    <hr/>
+    <latest [noBread]="true" [limit]="5"></latest>
+  </div>
+  <div class="col-lg-10">
+    <h5 class="text-left">Show Listings</h5>
+    <hr/>
     <show [show]="show" *ngFor="let show of shows"></show>
     <div class="col-md-2 show  text-center" *ngIf="accountData .level==2">
       <a class="img-thumbnail" [routerLink]="['/show/create']">

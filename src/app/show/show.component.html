@@ -1,6 +1,6 @@
 <div class="col-md-2 show text-center">
   <a class="img-thumbnail text-center" [routerLink]="['/show/'+show.id+'/'+show.title.toLowerCase().split(' ').join('_')]">
-    <img src="{{ show.cover }}"/>
-    <h6 class="text-center">{{show.title}}</h6>
+    <img src="{{ show.cover }}"/><br/>
+    <span>{{show.title}}</span>
   </a>
 </div>

@@ -12,12 +12,15 @@ import { ControlService} from '../database/control.service';
 
 @Component({
     selector: 'host',
-    templateUrl: 'host.component.html'
+    templateUrl: 'host.component.html',
+    styleUrls:['host.component.css']
 })
 export class HostPage {
     constructor(private account: AccountService, private router: Router, private route: ActivatedRoute, private element: ElementRef, private episodeService: EpisodeService,  private ws: WSService, private control: ControlService) {
     }
     session;
+    episodeId=0;
+    episodeData=null;
     remote;
     videoPosition;
     info={
@@ -34,6 +37,12 @@ export class HostPage {
                 self.videoPosition = document.getElementById("videoPosition");
                 let info = JSON.parse(data.body);
                 self.info = info;
+                if(self.episodeId!=info.episode){
+                    self.episodeId = info.episode;
+                    self.episodeService.info(self.account.sessionKey, String(self.episodeId), function(data){
+                        self.episodeData = data;
+                    })
+                }
                 if (self.videoPosition) {
                     self.videoPosition.value = self.info.position;
                 }

@@ -1,12 +1,17 @@
 <div *ngIf="episodes!=null">
-  <ol class="breadcrumb">
+  <ol class="breadcrumb" *ngIf="!noBread">
     <li><a [routerLink]="['/']">Home</a></li>
     <li class="active">Latest Episodes Listing</li>
   </ol>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="!noBread">
       <div class="col-md-2" *ngFor="let episode of episodes">
-        <episode [episode]="episode"></episode>
+        <episode [episode]="episode" [includeShow]="true"></episode>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="noBread">
+      <div class="col-md-12" *ngFor="let episode of episodes">
+        <episode [episode]="episode" [includeShow]="true"></episode>
       </div>
     </div>
   </div>

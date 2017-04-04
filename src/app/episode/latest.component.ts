@@ -14,6 +14,8 @@ import { ShowService } from '../database/show.service'
 export class LatestEpisodes {
   constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService){}
   episodes = null;
+  @Input() noBread = false;
+  @Input() limit=25;
   ngOnInit(){
     let self = this;
     let waitForAccount = function() {
@@ -21,7 +23,7 @@ export class LatestEpisodes {
       setTimeout(function () {
         if(self.account.checked) {
           self.episodeService.latest(self.account.sessionKey, function(data){
-            self.episodes = data;
+            self.episodes = data.slice(0,self.limit);
           });
         }else{
           waitForAccount();

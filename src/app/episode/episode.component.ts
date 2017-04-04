@@ -19,6 +19,7 @@ import { ControlService} from '../database/control.service';
 export class EpisodeElement {
   constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService, private _cacheService: CacheService, private control: ControlService){}
   @Input() episode;
+  @Input() includeShow = false;
   duration = null;
   episodeData = null;
   remote;
