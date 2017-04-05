@@ -65,8 +65,7 @@ export class WatchPage {
     let self = this;
     let time = this.video.currentTime;
     if(self.sendNext==0 || self.sendNext<new Date().getTime()) {
-      self.episodeService.watching(self.account.sessionKey, self.episodeData.episode.id, "" + time + "", function () {
-      });
+      self.episodeService.watching(self.account.sessionKey, self.episodeData.episode.id, "" + time + "", function () {});
       if (self.control.slave) {
         self.control.info(self.account.sessionKey, self.control.controller, time, self.duration, self.next != null, self.prev != null, true, self.episodeId, false);
       }

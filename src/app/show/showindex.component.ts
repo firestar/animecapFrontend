@@ -26,6 +26,11 @@ export class ShowIndex {
       if(self.account.checked) {
         self.accountData = self.account.saved;
         self.showService.list(self.account.sessionKey, function (data) {
+          for (var i = 0; i < data.length; i++) {
+            data[i].episodes.sort(function (a, b) {
+              return a.episode - b.episode;
+            });
+          }
           self.shows = data;
           self.sort();
         });
@@ -68,12 +73,12 @@ export class ShowIndex {
     self.shows.sort(function (a, b) {
       var aC = a.episodes[a.episodes.length-1].added;
       var bC = b.episodes[b.episodes.length-1].added;
+      console.log(a.title+" "+aC+":"+b.title+" "+bC);
       if(aC < bC)
         return -1;
       if(aC > bC)
         return 1;
-      if(aC == bC)
-        return 0;
+      return 0;
     })
     if(order){
       self.shows.reverse();
@@ -90,8 +95,7 @@ export class ShowIndex {
         return -1;
       if(a.episodes.length > b.episodes.length)
         return 1;
-      if(a.episodes.length == b.episodes.length)
-        return 0;
+      return 0;
     })
     if(order){
       self.shows.reverse();
@@ -108,8 +112,7 @@ export class ShowIndex {
         return -1;
       if(a.title > b.title)
         return 1;
-      if(a.title == b.title)
-        return 0;
+      return 0;
     })
     if(order){
       self.shows.reverse();
