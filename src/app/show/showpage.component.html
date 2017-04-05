@@ -44,12 +44,15 @@
     </div>
   </div>
   <hr/>
-  <div class="row">
+  <div class="row" *ngIf="episodesData!=null">
     <div class="col-md-12">
       <div class="col-md-2" *ngFor="let episode of showData.episodes">
-        <episode [episode]="episode.id"></episode>
+        <episode [episode]="episode.id" [episodeData]="episodesData[episode.id]"></episode>
       </div>
     </div>
+  </div>
+  <div *ngIf="episodesData==null" class="text-center">
+    <img  src="https://vid.animecap.com/ring.svg"/>
   </div>
 </div>
 <div *ngIf="showData==null" class="loadingIcon"></div>

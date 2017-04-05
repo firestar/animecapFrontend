@@ -18,6 +18,11 @@ export class EpisodeService {
       func( body );
     });
   }
+  infoAndIgnore(session:string, episode:string, ignore:string, func){
+    this.fetchURLPost( this.episodeFetch, { session: session, objects: { episode: episode, ignore: ignore } }, function(body){
+      func( body );
+    });
+  }
   watching(session:string, episode:string, progress, func){
     this.fetchURLPost( this.episodeProgress, { session: session, objects: { episode: episode, position:progress } }, function(body){
       func( body );

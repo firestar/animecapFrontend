@@ -18,6 +18,7 @@ export class ShowPage {
   showData = null;
   resumeData = null;
   favoriteData =0;
+  episodesData;
   accountData;
   addFavorite(){
     let self = this;
@@ -48,6 +49,26 @@ export class ShowPage {
             self.showData = data[0];
             self.resumeData = data[1];
             self.favoriteData = data[2];
+            var episodeList = "";
+            var i=0;
+            for(i=0;i<data[0].episodes.length;i++){
+              episodeList+=((episodeList=="")?"":"/")+data[0].episodes[i].id;
+            }
+            if(i==1) {
+              self.episodesData = {};
+              self.episodeService.infoAndIgnore(self.account.sessionKey, episodeList, "show/sd", function (data) {
+                self.episodesData[parseInt(episodeList)] = data;
+                  data.show=self.showData;
+              });
+            }else{
+              self.episodeService.infoAndIgnore(self.account.sessionKey, episodeList, "show/sd", function (data) {
+                var keys = Object.keys(data);
+                for(var i=0;i<keys.length;i++){
+                  data[keys[i]].show = self.showData;
+                }
+                self.episodesData = data;
+              });
+            }
           });
         }else{
           waitForAccount();
