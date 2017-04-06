@@ -71,7 +71,7 @@ export class WatchPage {
       }
       self.sendNext=new Date().getTime()+1000;
     }
-    if((time/self.duration)>0.97 && !self.control.slave){
+    if((time/self.duration)>0.97 && !self.control.slave && self.next){
       self.showEpisode(self.next);
     }
 
@@ -136,12 +136,14 @@ export class WatchPage {
               self.duration = data.source.streams[i].duration;
             }
           }
+          self.next = null;
+          self.prev=null;
           for(var i=0;i<self.episodeData.show.episodes.length;i++){
             if(self.episodeData.show.episodes[i].id==self.episodeId){
               if(i-1>=0)
                 self.prev = self.episodeData.show.episodes[i-1];
               if(i+1<self.episodeData.show.episodes.length)
-                self.next = self.episodeData.show.episodes[i+1];
+                self.next = self.episodeData.show.episodes[i + 1];
               break;
             }
           }
