@@ -73,7 +73,7 @@ export class ShowIndex {
     self.shows.sort(function (a, b) {
       var aC = a.episodes[a.episodes.length-1].added;
       var bC = b.episodes[b.episodes.length-1].added;
-      console.log(a.title+" "+aC+":"+b.title+" "+bC);
+      //console.log(a.title+" "+aC+":"+b.title+" "+bC);
       if(aC < bC)
         return -1;
       if(aC > bC)

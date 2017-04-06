@@ -37,6 +37,7 @@ import { WSService } from './database/ws.service';
 import { ControlService } from './database/control.service';
 
 import { RoundPipe } from './touri.pipe';
+import { NL2BR } from './nl2br.pipe';
 
 const routes :Routes = [
   { path: '', redirectTo:"/show/list", pathMatch:"full" },
@@ -82,7 +83,8 @@ const routes :Routes = [
     UnseenEpisodes,
     UnfinishedEpisodes,
     SlavePage,
-    HostPage
+    HostPage,
+    NL2BR
   ],
   imports: [
     BrowserModule,

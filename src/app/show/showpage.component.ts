@@ -47,6 +47,7 @@ export class ShowPage {
               return a.episode - b.episode;
             });
             self.showData = data[0];
+            self.showData.description = self.showData.description.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + "<br/>" + '$2');
             self.resumeData = data[1];
             self.favoriteData = data[2];
             var episodeList = "";
