@@ -1,0 +1,24 @@
+<div style="width:100%" style="padding-top:10px;">
+    <video width="100%" [style.max-height]="maxHeight" (loadedmetadata)="loaded()" (play)="playing()" (pause)="paused()" (seeked)="seeked()" controls="controls">
+        <source src="{{videoSD}}">
+        <source src="{{videoSource}}">
+        <track kind="captions" src="{{videoSubtitle}}" srclang="en" label="English">
+    </video>
+</div>
+<div style="padding-top:20px;width:400px;left:100%;margin-left:-430px;top:40px;position:fixed;">
+    <div class="panel" [style.height]="chatHeight" [style.opacity]="showChat" (mouseenter)="visible()" (mouseleave)="hide()" *ngIf="groupService!=null">
+            <div id="chatBox" [style.height]="chatText" *ngIf="(groupService.messages|json)!='{}'" style="overflow-y: scroll;">
+                <div *ngFor="let key of groupService.messageKeys">
+                    <div class="col-md-12" style="padding-top:2px;padding-bottom:2px;" *ngFor="let obj of groupService.messages[key]">
+                        <small *ngIf="groupService.users[obj[0]]!=null" class="group-{{groupService.users[obj[0]][1]}} {{(accountService.saved.user==obj[0])?'you':''}} {{(groupService.leader==obj[0])?'leader':''}}"><strong>{{obj[0]}}:</strong></small>
+                        <small *ngIf="groupService.users[obj[0]]==null" class="{{(accountService.saved.user==obj[0])?'you':''}} {{(groupService.leader==obj[0])?'leader':''}}"><strong>{{obj[0]}}:</strong></small>
+                        <span style="color:#fff;">{{obj[1]}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="newMessage">
+                <!--<span class="col-md-12" *ngIf="message!=''">You: {{message}}</span>-->
+                <input type="text" [(ngModel)]="message" (keyup.enter)="sendMessage()" class="form-control" style="border-color:#696b72;border-top-right-radius: 0px;border-top-left-radius: 0px;background:none;color:#fff;">
+            </div>
+    </div>
+</div>

@@ -24,6 +24,9 @@ import { UnseenEpisodes } from './episode/unseen.component';
 import { UnfinishedEpisodes } from './episode/unfinished.component';
 import { SlavePage } from './episode/slave.component';
 import { HostPage } from './episode/host.component';
+import { GroupRoute } from './group/group.component';
+import { GroupListing } from './group/grouplisting.component';
+import { GroupWatch } from './group/groupwatch.component';
 
 import { LoginCheck } from './users/logincheck';
 
@@ -35,6 +38,7 @@ import { FavoriteService } from './database/favorite.service';
 import { FTPService } from './database/ftp.service';
 import { WSService } from './database/ws.service';
 import { ControlService } from './database/control.service';
+import { GroupService } from './database/group.service';
 
 import { RoundPipe } from './touri.pipe';
 import { NL2BR } from './nl2br.pipe';
@@ -53,6 +57,9 @@ const routes :Routes = [
   { path: 'show/favorites', component: FavoriteShows },
   { path: 'slave', component: SlavePage },
   { path: 'host', component: HostPage },
+  { path: 'group', component: GroupRoute },
+  { path: 'group/watch', component: GroupWatch },
+  { path: 'group/listing', component: GroupListing },
   { path: 'favorite/unseen', component: UnseenEpisodes },
   { path: 'favorite/unfinished', component: UnfinishedEpisodes },
   { path: 'show/create', component: ShowCreate},
@@ -84,7 +91,10 @@ const routes :Routes = [
     UnfinishedEpisodes,
     SlavePage,
     HostPage,
-    NL2BR
+    NL2BR,
+    GroupRoute,
+    GroupListing,
+    GroupWatch
   ],
   imports: [
     BrowserModule,
@@ -101,7 +111,8 @@ const routes :Routes = [
     FavoriteService,
     FTPService,
     WSService,
-    ControlService
+    ControlService,
+    GroupService
   ],
   bootstrap: [
     AppComponent

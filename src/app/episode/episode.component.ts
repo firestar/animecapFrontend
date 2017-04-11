@@ -3,11 +3,11 @@
  */
 import { Component, Input } from '@angular/core';
 import { AccountService } from '../database/account.service';
-import { ActivatedRoute, Params} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
-import { ShowService } from '../database/show.service'
 import {CacheService} from 'ng2-cache/ng2-cache';
 import { ControlService} from '../database/control.service';
+import { GroupService } from '../database/group.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'episode',
@@ -17,18 +17,23 @@ import { ControlService} from '../database/control.service';
 
 })
 export class EpisodeElement {
-  constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService, private _cacheService: CacheService, private control: ControlService){}
+  constructor(private account: AccountService, private router: Router, private episodeService: EpisodeService, private _cacheService: CacheService, private control: ControlService, private group: GroupService){}
   @Input() episode;
   @Input() includeShow = false;
   duration = null;
   @Input() episodeData = null;
+  groupService;
+  accountService;
   remote;
   ngOnInit(){
     let self = this;
+    self.groupService = self.group;
+    self.accountService = self.account;
     console.log(self.episodeData);
     let waitForAccount = function() {
       console.log("waiting, watch");
       if(self.account.checked) {
+
         self.remote=self.control;
         if(self.episodeData==null) {
           if (!self._cacheService.exists('ep' + self.episode.toString())) {
@@ -61,6 +66,10 @@ export class EpisodeElement {
       }
     }
     waitForAccount();
+  }
+  groupload(episode){
+    this.group.load(this.account.sessionKey, episode);
+    this.router.navigate(['/group']);
   }
   load(episode){
     this.control.load(episode, this.account.sessionKey);

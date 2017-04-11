@@ -5,20 +5,23 @@
 import { Component, Input } from '@angular/core';
 import { AccountService } from './database/account.service';
 import { WSService } from './database/ws.service';
-import { ControlService} from './database/control.service';
+import { ControlService } from './database/control.service';
+import { GroupService } from './database/group.service';
 
 @Component({
   selector: 'navigation',
   templateUrl: './navigation.component.html'
 })
 export class TopNavigationBar {
-  constructor(private accountService: AccountService, private ws: WSService, private control: ControlService){}
+  constructor(private accountService: AccountService, private ws: WSService, private control: ControlService, private group: GroupService){}
   @Input() title: string;
   instances=null;
   controlling;
   sessionKey;
+  groupService = null;
   ngOnInit(){
     var self = this;
+    self.groupService = self.group;
     self.controlling = self.control;
     let waitForAccount = function() {
       console.log("waiting, show index");

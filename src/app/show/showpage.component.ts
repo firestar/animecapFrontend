@@ -50,7 +50,7 @@ export class ShowPage {
             self.showData.description = self.showData.description.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + "<br/>" + '$2');
             self.resumeData = data[1];
             self.favoriteData = data[2];
-            var episodeList = "";
+            /*var episodeList = "";
             var i=0;
             for(i=0;i<data[0].episodes.length;i++){
               episodeList+=((episodeList=="")?"":"/")+data[0].episodes[i].id;
@@ -69,7 +69,7 @@ export class ShowPage {
                 }
                 self.episodesData = data;
               });
-            }
+            }*/
           });
         }else{
           waitForAccount();

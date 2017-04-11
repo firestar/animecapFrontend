@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" *ngIf="groupService.groupid==null || groupService.leader==accountService.saved.user && !groupService.playing">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topnavigationbar" aria-expanded="false">
@@ -24,6 +24,12 @@
             <li><a [routerLink]="['/favorite/unseen']">Unseen Episodes</a></li>
             <li><a [routerLink]="['/favorite/unfinished']">Unfinished Episodes</a></li>
           </ul>
+        </li>
+        <li>
+          <a [routerLink]="['/group']">
+            Group Watch
+            <span *ngIf="groupService.leader==accountService.saved.user" class="glyphicon glyphicon-star" style="color:#1ce1ff;"></span>
+          </a>
         </li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Remote Control <span class="caret"></span></a>

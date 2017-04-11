@@ -3,6 +3,7 @@ import { UserService } from './database/user.service';
 import { AccountService } from './database/account.service';
 import { WSService } from './database/ws.service';
 import { ControlService} from './database/control.service';
+import { GroupService } from './database/group.service';
 import {Router} from "@angular/router";
 
 @Component({
@@ -13,11 +14,12 @@ import {Router} from "@angular/router";
 export class AppComponent {
   title = 'AnimeCap';
   session = localStorage.getItem("session");
-  constructor( private userRepo: UserService, private account: AccountService, private ws: WSService, private control: ControlService, private router: Router ) { }
+  constructor( private userRepo: UserService, private account: AccountService, private ws: WSService, private control: ControlService, private router: Router, private group: GroupService ) { }
   waitForWS() {
     let self = this;
     if(self.ws.client().connected) {
       self.control.setWS(self.ws);
+      self.group.setWS(self.ws);
       if (self.session != null) {
         this.userRepo.session(self.session, function (response) {
           if (response.code) {

@@ -6,7 +6,7 @@
   </ol>
   <div class="row">
     <div class="col-md-3 text-center">
-      <img class="img-thumbnail" src="{{showData.cover}}" />
+      <img class="img-thumbnail cover" src="{{showData.cover}}" />
     </div>
     <div class="col-md-9">
       <div class="page-header">
@@ -38,21 +38,19 @@
           </div>
         </div>
       </div>
-      <div class="lead">
-        <p><strong>Summary:</strong> <span [innerHTML]="showData.description"></span></p>
+      <div>
+        <p><strong>Summary:</strong> <em [innerHTML]="showData.description"></em></p>
       </div>
     </div>
   </div>
   <hr/>
-  <div class="row" *ngIf="episodesData!=null">
+  <div class="row">
     <div class="col-md-12">
       <div class="col-md-2" *ngFor="let episode of showData.episodes">
-        <episode [episode]="episode.id" [episodeData]="episodesData[episode.id]"></episode>
+        <!--[episodeData]="episodesData[episode.id]"-->
+        <episode [episode]="episode.id" ></episode>
       </div>
     </div>
-  </div>
-  <div *ngIf="episodesData==null" class="text-center">
-    <img  src="https://vid.animecap.com/ring.svg"/>
   </div>
 </div>
 <div *ngIf="showData==null" class="loadingIcon"></div>
