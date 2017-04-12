@@ -90,6 +90,8 @@ export class GroupWatch {
         console.log("loaded");
         if(self.group.leader==self.account.saved.user) {
             self.video.play();
+        }else{
+            self.video.play();
         }
     }
     playing(){
