@@ -1,7 +1,7 @@
 /**
  * Created by Nathaniel on 3/20/2017.
  */
-import { Component, Input } from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import { AccountService } from '../database/account.service';
 import { EpisodeService } from '../database/episode.service';
 import {CacheService} from 'ng2-cache/ng2-cache';
@@ -21,6 +21,8 @@ export class EpisodeElement {
   @Input() episode;
   @Input() includeShow = false;
   duration = null;
+  @Output() hasFinished = new EventEmitter<boolean>();
+  @Output() hasStarted = new EventEmitter<boolean>();
   @Input() episodeData = null;
   @Input() compressed = false;
   groupService;
@@ -52,6 +54,17 @@ export class EpisodeElement {
             var data = JSON.parse(self._cacheService.get('ep' + self.episode));
             self.episodeData = data[0];
             self.duration = data[1];
+            if(self.episodeData.wr!=null && self.duration!=null){
+              self.hasStarted.emit(true);
+              if((self.episodeData.wr.progress/self.duration)*100<90){
+                self.hasFinished.emit(false);
+              }else{
+                self.hasFinished.emit(true);
+              }
+            }else{
+              self.hasStarted.emit(false);
+            }
+
           }
         }else{
           if(self.episodeData.source) {

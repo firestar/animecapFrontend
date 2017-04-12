@@ -18,3 +18,6 @@ input[type='text']{
   -webkit-transition: width 1s, height 1s, background-color 1s, -webkit-transform 1s;
   transition: width 1s, height 1s, background-color 1s, transform 1s;
 }
+a{
+  cursor:pointer;
+}

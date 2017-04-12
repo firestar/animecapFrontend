@@ -25,7 +25,7 @@
             </h5>
           </span>
           <span class="col-md-4">
-            <input type="text" class="form-control input-sm" (change)="filter()" (keyup)="filter()" [(ngModel)]="filterTitle"/>
+            <input type="text" class="form-control input-sm" (change)="filter()" (keyup)="filter()" placeholder="Search by show title" [(ngModel)]="filterTitle"/> <a *ngIf="filterTitle!=''" style="color:#f00;positon:absolute;margin-top:-25px;margin-right:5px;float:right;" class="glyphicon glyphicon-remove-circle" (click)="clearFilter()"></a>
           </span>
         </span>
       </div>

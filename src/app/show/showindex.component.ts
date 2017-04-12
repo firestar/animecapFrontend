@@ -26,6 +26,10 @@ export class ShowIndex {
     }
     let waitForAccount = function() {
       if(self.account.checked) {
+        var filterTitleSaved = localStorage.getItem("filterTitle");
+        if(filterTitleSaved){
+          self.filterTitle = filterTitleSaved;
+        }
         self.accountData = self.account.saved;
         self.showService.list(self.account.sessionKey, function (data) {
           for (var i = 0; i < data.length; i++) {
@@ -36,6 +40,7 @@ export class ShowIndex {
           self.shows = data;
           self.originalShows = data;
           self.sort();
+          self.filter();
         });
       }else{
         setTimeout(function () {
@@ -45,14 +50,21 @@ export class ShowIndex {
     }
     waitForAccount();
   }
+  clearFilter(){
+    let self=this;
+    self.filterTitle="";
+    self.filter();
+  }
   filter(){
     let self=this;
     if(self.filterTitle!=""){
+      localStorage.setItem("filterTitle", self.filterTitle);
       self.shows = self.originalShows.filter(function(v){
         return v.title.match(new RegExp(self.filterTitle, 'gi'));
       });
     }else{
       self.shows = self.originalShows;
+      localStorage.removeItem("filterTitle");
     }
   }
   sort(){
