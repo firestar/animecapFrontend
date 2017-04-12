@@ -15,6 +15,7 @@ export class LatestEpisodes {
   constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService){}
   episodes = null;
   @Input() noBread = false;
+  @Input() compressed = false;
   @Input() limit=25;
   ngOnInit(){
     let self = this;

@@ -27,6 +27,11 @@ export class GroupWatch {
     maxHeight;
     hiderTimeout = null;
     mousedOver = false;
+
+    notificationQueue = new Array();
+    notificationFader=0;
+    notificationText="";
+
     visible(){
         let self = this;
         self.mousedOver = true;
@@ -107,12 +112,42 @@ export class GroupWatch {
         self.video.src="";
         self.group.playing = false;
     }
+    remainderNotifications(){
+        let self = this;
+        if(self.notificationQueue.length>0) {
+            self.notificationText = self.notificationQueue.pop();
+            self.notificationFader = 1;
+            setTimeout(function () {
+                self.notificationText = "";
+                self.notificationFader = 0;
+                setTimeout(function () {
+                    self.remainderNotifications();
+                }, 1000);
+            }, (4000 / self.notificationQueue.length));
+        }
+    }
+    showNotification(message){
+        let self = this;
+        if(self.notificationFader==0 && self.notificationQueue.length==0) {
+            self.notificationText = message;
+            self.notificationFader = 1;
+            setTimeout(function(){
+                self.notificationText = "";
+                self.notificationFader=0;
+                setTimeout(function(){
+                    self.remainderNotifications();
+                },1000);
+            },3000);
+        }else{
+            self.notificationQueue.push(message);
+        }
+    }
     ngOnInit(){
         let self = this;
         var height = 550;
         self.maxHeight = window.outerHeight+"px";
         self.chatHeight = height+"px";
-        self.chatText = (height-39)+"px";
+        self.chatText = (height-45)+"px";
         let waitForAccount = function() {
             if(self.account.checked) {
                 self.video = self.element.nativeElement.querySelector('video');
@@ -126,6 +161,9 @@ export class GroupWatch {
                     document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
                 },220);
                 self.accountService = self.account;
+                self.group.notificationBar = function(message){
+                    self.showNotification(message);
+                };
                 self.group.seekFunction = function(position){
                     self.video.currentTime = position;
                 };

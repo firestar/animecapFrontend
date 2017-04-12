@@ -1,12 +1,20 @@
-img{
-  height:200px;
-}
 .show{
   margin-bottom:10px;
-  height:320px;
+  height:290px;
+}
+.show a:hover{
+  border: #3c6fc6 1px solid;
+}
+.show img{
+  height:200px;
+  padding-top:6px;
+  padding-left:6px;
+  padding-right:6px;
 }
 .show a span{
   font-size:12px;
+  padding-left:6px;
+  padding-right:6px;
 }
 .show a small{
   font-size:10px;

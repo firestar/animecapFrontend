@@ -10,3 +10,18 @@
 .leader{
     color: #c149af;
 }
+.notification{
+    position:fixed;
+    top:20px;
+    width:400px;
+    opacity:0;
+    left:50%;
+    margin-left:-200px;
+}
+.notification h2{
+    margin:0px;
+    font-size:23px;
+    text-shadow: 2px 2px #000000;
+    padding:20px;
+    text-align:center;
+}

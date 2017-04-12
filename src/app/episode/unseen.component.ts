@@ -14,6 +14,7 @@ import { ShowService } from '../database/show.service'
 export class UnseenEpisodes {
   constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService){}
   episodes = null;
+  @Input() compressed = false;
   ngOnInit(){
     let self = this;
     let waitForAccount = function() {

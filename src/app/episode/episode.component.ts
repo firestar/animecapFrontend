@@ -22,6 +22,7 @@ export class EpisodeElement {
   @Input() includeShow = false;
   duration = null;
   @Input() episodeData = null;
+  @Input() compressed = false;
   groupService;
   accountService;
   remote;
@@ -36,19 +37,21 @@ export class EpisodeElement {
 
         self.remote=self.control;
         if(self.episodeData==null) {
-          if (!self._cacheService.exists('ep' + self.episode.toString())) {
-            self.episodeService.info(self.account.sessionKey, self.episode.toString(), function (data) {
+          if (!self._cacheService.exists('ep' + self.episode)) {
+            self.episodeService.info(self.account.sessionKey, self.episode, function (data) {
               for (var i = 0; i < data.source.streams.length; i++) {
                 if (data.source.streams[i].duration > 0) {
                   self.duration = data.source.streams[i].duration;
                 }
               }
               self.episodeData = data;
-              //self._cacheService.set('ep'+self.episode.toString(), data, {expires: Date.now() + 1000 * 60 * 2});
+              self._cacheService.set('ep'+self.episode, JSON.stringify([data, self.duration]), {expires: Date.now() + 1000*60});
             });
 
           } else {
-            self.episodeData = self._cacheService.get('ep' + self.episode.toString());
+            var data = JSON.parse(self._cacheService.get('ep' + self.episode));
+            self.episodeData = data[0];
+            self.duration = data[1];
           }
         }else{
           if(self.episodeData.source) {

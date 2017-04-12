@@ -1,33 +1,97 @@
-<a *ngIf="episodeData!=null && remote.is()==0 && groupService.groupid==null" class="thumbnail episode" [routerLink]="['/watch/'+episodeData.episode.id+'/'+episodeData.show.title.toLowerCase().split(' ').join('_')+'/episode_'+episodeData.episode.episode]">
-  <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
-  <h5>
-    <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
-    Episode {{episodeData.episode.episode}}
-    <small *ngIf="episodeData!=null && !includeShow">
-      <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
-    </small>
-  </h5>
-</a>
-<a *ngIf="episodeData!=null && remote.is()>0 && groupService.groupid==null" class="thumbnail episode" (click)="load(episodeData.episode.id)">
-  <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
-  <h5>
-    <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
-    Episode {{episodeData.episode.episode}}
-    <small *ngIf="episodeData!=null && !includeShow">
-      <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
-    </small>
-  </h5>
-</a>
-<a *ngIf="episodeData!=null && groupService.groupid!=null && groupService.leader==accountService.saved.user" class="thumbnail episode" (click)="groupload(episodeData.episode.id)">
-  <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
-  <h5>
-    <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
-    Episode {{episodeData.episode.episode}}
-    <small *ngIf="episodeData!=null && !includeShow">
-      <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
-    </small>
-  </h5>
-</a>
-<span *ngIf="episodeData==null">
+<ng-container *ngIf="!compressed">
+  <ng-container *ngIf="episodeData!=null && remote.is()==0 && groupService.groupid==null">
+    <a class="thumbnail episode" [routerLink]="['/watch/'+episodeData.episode.id+'/'+episodeData.show.title.toLowerCase().split(' ').join('_')+'/episode_'+episodeData.episode.episode]">
+      <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
+      <h5>
+        <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
+        Episode {{episodeData.episode.episode}}
+        <small *ngIf="episodeData!=null && !includeShow">
+          <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
+        </small>
+      </h5>
+    </a>
+  </ng-container>
+  <ng-container *ngIf="episodeData!=null && remote.is()>0 && groupService.groupid==null">
+    <a class="thumbnail episode" (click)="load(episodeData.episode.id)">
+      <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
+      <h5>
+        <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
+        Episode {{episodeData.episode.episode}}
+        <small *ngIf="episodeData!=null && !includeShow">
+          <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
+        </small>
+      </h5>
+    </a>
+  </ng-container>
+  <ng-container *ngIf="episodeData!=null && groupService.groupid!=null && groupService.leader==accountService.saved.user">
+    <a class="thumbnail episode" (click)="groupload(episodeData.episode.id)">
+      <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
+      <h5>
+        <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
+        Episode {{episodeData.episode.episode}}
+        <small *ngIf="episodeData!=null && !includeShow">
+          <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
+        </small>
+      </h5>
+    </a>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="compressed">
+  <ng-container *ngIf="episodeData!=null && remote.is()==0 && groupService.groupid==null">
+    <a href="#" class="episode-compressed" [routerLink]="['/watch/'+episodeData.episode.id+'/'+episodeData.show.title.toLowerCase().split(' ').join('_')+'/episode_'+episodeData.episode.episode]">
+      <div class="row">
+        <div class="col-md-4">
+          <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
+        </div>
+        <div class="col-md-8">
+          <h4 class="list-group-item-heading">Episode {{episodeData.episode.episode}}</h4>
+          <p class="list-group-item-text" style="color:#868686">
+            <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
+            <small *ngIf="episodeData!=null && !includeShow">
+              <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
+            </small>
+          </p>
+        </div>
+      </div>
+    </a>
+  </ng-container>
+  <ng-container *ngIf="episodeData!=null && remote.is()>0 && groupService.groupid==null">
+    <a class="episode-compressed" (click)="load(episodeData.episode.id)">
+      <div class="row">
+        <div class="col-md-4">
+          <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
+        </div>
+        <div class="col-md-8">
+          <h4 class="list-group-item-heading">Episode {{episodeData.episode.episode}}</h4>
+          <p class="list-group-item-text" style="color:#868686">
+            <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
+            <small *ngIf="episodeData!=null && !includeShow">
+              <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
+            </small>
+          </p>
+        </div>
+      </div>
+    </a>
+  </ng-container>
+  <ng-container *ngIf="episodeData!=null && groupService.groupid!=null && groupService.leader==accountService.saved.user">
+    <a class="episode-compressed" (click)="groupload(episodeData.episode.id)">
+      <div class="row">
+        <div class="col-md-4">
+          <img src="https://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
+        </div>
+        <div class="col-md-8">
+          <h4 class="list-group-item-heading">Episode {{episodeData.episode.episode}}</h4>
+          <p class="list-group-item-text" style="color:#868686">
+            <small *ngIf="includeShow" style="font-size:11px;height:11px;width:100%;display:inline-block;overflow:hidden;">{{episodeData.show.title}}</small>
+            <small *ngIf="episodeData!=null && !includeShow">
+              <span *ngIf="episodeData.wr!=null && duration!=null">{{(episodeData.wr.progress/duration)*100 | round}}% Complete</span>
+            </small>
+          </p>
+        </div>
+      </div>
+    </a>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="episodeData==null">
   <img class="thumbnail episode" src="https://vid.animecap.com/ring.svg"/>
-</span>
+</ng-container>

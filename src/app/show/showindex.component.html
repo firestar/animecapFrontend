@@ -4,14 +4,10 @@
 </ol>
 <div class="row" *ngIf="accountData!=null">
   <div class="col-lg-2">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h5 class="text-center"><a [routerLink]="['/episode/list']">Latest Episodes</a></h5>
-      </div>
-      <div class="panel-body">
-        <latest [noBread]="true" [limit]="5"></latest>
-      </div>
-    </div>
+    <h5 class="text-center"><a [routerLink]="['/episode/list']">Latest Episodes</a></h5>
+    <latest [noBread]="true" [compressed]="true" [limit]="10"></latest>
+    <h5 class="text-center"><a [routerLink]="['/favorite/unfinished']">Finish Watching</a></h5>
+    <unfinished [noBread]="true" [compressed]="true" [limit]="10"></unfinished>
   </div>
   <div class="col-lg-10">
     <div class="panel panel-primary">
@@ -33,18 +29,6 @@
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
           </a>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row" *ngIf="accountData!=null">
-  <div class="col-lg-12">
-    <div class="panel panel-warning">
-      <div class="panel-heading">
-        <h5 class="text-center"><a [routerLink]="['/favorite/unfinished']">Finish Watching</a></h5>
-      </div>
-      <div class="panel-body">
-        <unfinished [noBread]="true" [limit]="6"></unfinished>
       </div>
     </div>
   </div>

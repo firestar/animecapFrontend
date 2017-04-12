@@ -1,3 +1,46 @@
 .episode{
     cursor: pointer;
 }
+.episode:hover{
+    border: #3c6fc6 1px solid;
+}
+h5{
+    padding-left:6px;
+}
+.episode-compressed{
+    display: block;
+    padding:5px;
+    border-radius: 4px;
+}
+.episode-compressed .row{
+    padding:0px;
+    margin:0px;
+}
+.episode-compressed .col-md-4{
+    padding:0px;
+    margin:0px;
+}
+.episode-compressed .col-md-4 img{
+    border:1px solid #0d0d0d;
+}
+.episode-compressed:hover .col-md-4 img{
+    border:1px solid #3c6fc6;
+}
+.episode-compressed .col-md-8{
+    padding:0px;
+    margin:0px;
+}
+.episode-compressed .list-group-item-heading{
+    padding:0px;
+    padding-top:5px;
+    margin:0px;
+    padding-left:10px;
+}
+.episode-compressed .list-group-item-text{
+    padding:0px;
+    margin:0px;
+    padding-left:10px;
+}
+.episode-compressed:hover{
+    background: #111111;
+}

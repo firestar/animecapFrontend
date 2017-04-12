@@ -19,6 +19,7 @@ export class GroupService{
     public pauseFunction = function(){};
     public seekFunction = function(x){};
     public updateFunction = function(){};
+    public notificationBar = function(message){};
     public listenersSet = false;
     setWS(ws){
         this.ws = ws;
@@ -50,7 +51,7 @@ export class GroupService{
     }
     listen(session){
         let self = this;
-        if(!self.listenersSet){
+        if(!self.listenersSet && session!=null){
             self.listenersSet=true;
             self.ws.subscribe('/listen/group/listing', "", function(data){
                 self.groups = JSON.parse(data.body);
@@ -67,6 +68,7 @@ export class GroupService{
                 }
                 self.leader = data.leader[1];
                 self.joinFunction(data);
+                self.notificationBar("Welcome to AnimeCap Groups!");
             });
             self.ws.subscribe('/listen/group/update/', session, function(data) {
                 self.updateFunction();
@@ -81,13 +83,17 @@ export class GroupService{
                     self.messageKeys = Object.keys(self.messages);
                 }else if(data[0]=="joined"){
                     self.users[data[2]] = [data[1], data[3]];
+                    self.notificationBar(data[2]+" has joined!");
                 }else if(data[0]=="left"){
                     delete self.users[data[2]];
+                    self.notificationBar(data[2]+" has left!");
                 }else if(data[0]=="leader"){
                     self.leader = data[2];
+                    self.notificationBar(self.leader+" is the new leader!");
                 }else if(data[0]=="load"){
                     self.currentEpisode = data[1];
                     self.episodeCommand(data[1]);
+                    self.notificationBar("New video has been loaded!");
                 }else if(data[0]=="play"){
                     self.playFunction();
                 }else if(data[0]=="pause"){
@@ -96,10 +102,12 @@ export class GroupService{
                     if(data[1]==self.groupid) {
                         self.seekFunction(data[2]);
                     }
+                    self.notificationBar("You are behind the leader, moving you up!");
                 }
                 self.commandFunction(data);
             });
             self.ws.subscribe('/listen/group/left/', session, function(data){
+                self.notificationBar("you have left the group!");
                 self.groupid = null;
             });
             self.ws.subscribe('/listen/group/renew/', session, function(data) {
