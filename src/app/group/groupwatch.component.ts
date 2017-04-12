@@ -125,7 +125,7 @@ export class GroupWatch {
                 setTimeout(function () {
                     self.remainderNotifications();
                 }, 1000);
-            }, (4000 / self.notificationQueue.length));
+            }, (4000 / (self.notificationQueue.length+1)));
         }
     }
     showNotification(message){

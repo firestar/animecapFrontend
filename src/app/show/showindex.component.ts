@@ -16,6 +16,8 @@ export class ShowIndex {
   shows = [];
   sorted=["episode","desc"];
   accountData = null;
+  originalShows = [];
+  filterTitle="";
   ngOnInit(){
     let self = this;
     var defaultSort = localStorage.getItem('defaultSort');
@@ -32,6 +34,7 @@ export class ShowIndex {
             });
           }
           self.shows = data;
+          self.originalShows = data;
           self.sort();
         });
       }else{
@@ -41,6 +44,16 @@ export class ShowIndex {
       }
     }
     waitForAccount();
+  }
+  filter(){
+    let self=this;
+    if(self.filterTitle!=""){
+      self.shows = self.originalShows.filter(function(v){
+        return v.title.match(new RegExp(self.filterTitle, 'gi'));
+      });
+    }else{
+      self.shows = self.originalShows;
+    }
   }
   sort(){
     let self = this;
