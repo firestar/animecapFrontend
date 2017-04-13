@@ -70,9 +70,16 @@ export class AppComponent {
     var platform = require('platform');
     self.ws.client().send('/call/session', {}, JSON.stringify({session: self.session, platform: platform.name+"-"+platform.os.family}));
   }
+  setIfNotSet(key, defaultValue){
+    if(!localStorage.getItem(key)){
+      localStorage.setItem(key, defaultValue);
+    }
+  }
   ngOnInit() {
-
     let self = this;
+    self.setIfNotSet("goToNextVideoOnComplete","true");
+    self.setIfNotSet("percentToComplete", "97");
+    self.setIfNotSet("goToShowPageOnComplete", "false");
     self.ws.initialize('https://api.animecap.com/websocket',function(client, data){
 
     });

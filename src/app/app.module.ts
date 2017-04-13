@@ -27,6 +27,7 @@ import { HostPage } from './episode/host.component';
 import { GroupRoute } from './group/group.component';
 import { GroupListing } from './group/grouplisting.component';
 import { GroupWatch } from './group/groupwatch.component';
+import { SettingsPage } from './settings/settings.component';
 
 import { LoginCheck } from './users/logincheck';
 
@@ -57,6 +58,7 @@ const routes :Routes = [
   { path: 'show/favorites', component: FavoriteShows },
   { path: 'slave', component: SlavePage },
   { path: 'host', component: HostPage },
+  { path: 'settings', component: SettingsPage },
   { path: 'group', component: GroupRoute },
   { path: 'group/watch', component: GroupWatch },
   { path: 'group/listing', component: GroupListing },
@@ -94,7 +96,8 @@ const routes :Routes = [
     NL2BR,
     GroupRoute,
     GroupListing,
-    GroupWatch
+    GroupWatch,
+    SettingsPage
   ],
   imports: [
     BrowserModule,

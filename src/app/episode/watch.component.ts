@@ -20,6 +20,9 @@ export class WatchPage {
   episodeData = null;
   duration = 0;
   video = null;
+  completePercent=97;
+  rollToNextVideo=true;
+  goBackToShowOnComplete=false;
   prev = null;
   next = null;
   episodeId = null;
@@ -71,8 +74,10 @@ export class WatchPage {
       }
       self.sendNext=new Date().getTime()+1000;
     }
-    if((time/self.duration)>0.97 && !self.control.slave && self.next){
+    if((time/self.duration)>(self.completePercent/100) && !self.control.slave && self.next && self.rollToNextVideo){
       self.showEpisode(self.next);
+    }else if(self.goBackToShowOnComplete && !self.control.slave){
+      self.router.navigate(['show', self.episodeData.show.id, self.episodeData.show.title.toLowerCase().split(' ').join('_')])
     }
 
   }
@@ -126,6 +131,9 @@ export class WatchPage {
         if(self.control.slave) {
           self.initControlSubscriptions();
         }
+        self.rollToNextVideo = localStorage.getItem("goToNextVideoOnComplete")=="true";
+        self.goBackToShowOnComplete = localStorage.getItem("goToShowPageOnComplete")=="true";
+        self.completePercent = parseInt(localStorage.getItem("percentToComplete"));
         self.episodeService.info(self.account.sessionKey, self.episodeId.toString(), function(data){
           self.episodeData = data;
           self.episodeData.show.episodes.sort(function (a, b) {
