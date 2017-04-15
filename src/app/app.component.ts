@@ -55,7 +55,7 @@ export class AppComponent {
       });
 
       self.ws.subscribe('/listen/new_favorite', self.session, function(data){
-        let episode = JSON.parse(data.body)[0];
+        let episode = JSON.parse(data.body);
         self._pushNotifications.create(episode.show.title+' Episode '+episode.episode.episode+' Just Released!', { data:episode, sticky: true, body: 'Click to go to episode', 'icon':'https://vid.animecap.com/'+episode.source.original+'_100x70.png'}).subscribe(
           res => {
             if(res.event.type=="click"){
