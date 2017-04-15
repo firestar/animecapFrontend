@@ -24,6 +24,7 @@ export class WatchPage {
   rollToNextVideo=true;
   goBackToShowOnComplete=false;
   prev = null;
+  videoSource;
   next = null;
   episodeId = null;
   seeked(){
@@ -203,6 +204,7 @@ export class WatchPage {
   }
   ngOnInit(){
     let self = this;
+    self.videoSource = localStorage.getItem("videoSource");
     self.route.params
       .map(params => params['episode'])
       .subscribe((id) => {

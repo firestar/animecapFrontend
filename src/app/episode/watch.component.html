@@ -14,8 +14,8 @@
       </div>
       <div id="videoWrapper">
         <video  *ngIf="episodeData!=null" (loadeddata)="test" (seeked)="seeked()" (stalled)="buffering()" (pause)="paused()" preload="auto" poster="https://vid.animecap.com/{{episodeData.episode.uuid}}.png" (timeupdate)="timeSend()" (play)="playing()" controls="controls" width="100%">
-          <source src="https://vid.animecap.com/{{episodeData.sd[0].original}}.webm"/>
-          <source src="https://vid.animecap.com/{{episodeData.source.original}}.mp4"/>
+          <source *ngIf="videoSource=='sd' || videoSource=='any'" src="https://vid.animecap.com/{{episodeData.sd[0].original}}.webm"/>
+          <source *ngIf="videoSource=='source' || videoSource=='any'" src="https://vid.animecap.com/{{episodeData.source.original}}.mp4"/>
           <track label="English" kind="subtitles" srclang="en" src="https://animecap.com/subtitle/{{episodeData.episode.uuid}}/sub.vtt" default/>
         </video>
       </div>

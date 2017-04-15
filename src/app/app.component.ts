@@ -94,6 +94,7 @@ export class AppComponent {
     self._pushNotifications.requestPermission();
     self.setIfNotSet("goToNextVideoOnComplete","true");
     self.setIfNotSet("percentToComplete", "97");
+    self.setIfNotSet("videoSource","sd");
     self.setIfNotSet("goToShowPageOnComplete", "false");
     self.ws.initialize('https://api.animecap.com/websocket',function(client, data){
 

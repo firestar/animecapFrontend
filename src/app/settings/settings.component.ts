@@ -17,6 +17,7 @@ export class SettingsPage {
     constructor(private account: AccountService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService, private _cacheService: CacheService){}
     completePercent=97;
     goBackToShowOnComplete=false;
+    videoSource="sd";
     rollToNextVideo=true;
     save(whatChanged){
         let self = this;
@@ -32,6 +33,9 @@ export class SettingsPage {
                 self.goBackToShowOnComplete=false;
                 self.save("goBackToShowOnComplete");
                 break;
+            case "videoSource":
+                localStorage.setItem("videoSource", self.videoSource);
+                break;
         }
     }
     ngOnInit(){
@@ -43,6 +47,7 @@ export class SettingsPage {
                 self.rollToNextVideo = localStorage.getItem("goToNextVideoOnComplete")=="true";
                 self.goBackToShowOnComplete = localStorage.getItem("goToShowPageOnComplete")=="true";
                 console.log(self);
+                self.videoSource = localStorage.getItem("videoSource");
                 self.completePercent = parseInt(localStorage.getItem("percentToComplete"));
             }else{
                 setTimeout(function () {
