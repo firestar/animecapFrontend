@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import {RouterModule, Routes}   from '@angular/router';
+import { PushNotificationsModule } from 'angular2-notifications';
 import { MaterialModule } from '@angular/material';
 
 import { LoginForm } from './users/login/login.component';
@@ -28,6 +29,7 @@ import { GroupRoute } from './group/group.component';
 import { GroupListing } from './group/grouplisting.component';
 import { GroupWatch } from './group/groupwatch.component';
 import { SettingsPage } from './settings/settings.component';
+
 
 import { LoginCheck } from './users/logincheck';
 
@@ -103,7 +105,8 @@ const routes :Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    PushNotificationsModule
   ],
   providers: [
     UserService,

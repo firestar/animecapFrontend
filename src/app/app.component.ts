@@ -5,6 +5,7 @@ import { WSService } from './database/ws.service';
 import { ControlService} from './database/control.service';
 import { GroupService } from './database/group.service';
 import {Router} from "@angular/router";
+import { PushNotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ import {Router} from "@angular/router";
 export class AppComponent {
   title = 'AnimeCap';
   session = localStorage.getItem("session");
-  constructor( private userRepo: UserService, private account: AccountService, private ws: WSService, private control: ControlService, private router: Router, private group: GroupService ) { }
+  constructor( private userRepo: UserService, private account: AccountService, private ws: WSService, private control: ControlService, private router: Router, private group: GroupService, private _pushNotifications: PushNotificationsService ) { }
   waitForWS() {
     let self = this;
     if(self.ws.client().connected) {
@@ -52,6 +53,19 @@ export class AppComponent {
           self.router.navigate(['/slave']);
         }
       });
+
+      self.ws.subscribe('/listen/new_favorite', self.session, function(data){
+        let episode = JSON.parse(data.body)[0];
+        self._pushNotifications.create(episode.show.title+' Episode '+episode.episode.episode+' Just Released!', { data:episode, sticky: true, body: 'Click to go to episode', 'icon':'https://vid.animecap.com/'+episode.source.original+'_100x70.png'}).subscribe(
+          res => {
+            if(res.event.type=="click"){
+              res.notification.close();
+              window.open('http://animecap.com/watch/'+res.notification.data.episode.id+'/'+res.notification.data.show.title.toLowerCase().split(' ').join('_')+'/episode_'+res.notification.data.episode.episode, '_blank');
+            }
+          },
+          err => console.log(err)
+      );
+      });
       self.ws.subscribe('/listen/release', self.session, function(){
         if(self.control.slave) {
           self.control.slave = false;
@@ -77,6 +91,7 @@ export class AppComponent {
   }
   ngOnInit() {
     let self = this;
+    self._pushNotifications.requestPermission();
     self.setIfNotSet("goToNextVideoOnComplete","true");
     self.setIfNotSet("percentToComplete", "97");
     self.setIfNotSet("goToShowPageOnComplete", "false");
