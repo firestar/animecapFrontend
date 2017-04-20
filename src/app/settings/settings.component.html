@@ -6,7 +6,7 @@
             </div>
             <div class="panel-body">
                 <div class="form-group">
-                    <label for="videoCompletePercent" class="col-sm-9 control-label">Percent of video watched to be completed</label>
+                    <label for="videoCompletePercent" class="col-sm-9 control-label" style="padding-top:10px;">Percent of video watched to be completed</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" [(ngModel)]="completePercent" (change)="save('completePercent')" id="videoCompletePercent" placeholder="97%">
                     </div>
@@ -29,9 +29,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-12" style="border-bottom:1px solid #666666;width:100%;height:10px;margin-bottom:20px;"></div>
                 <div class="form-group">
-                    <label for="videoSource" class="col-sm-9 control-label">Which video source to use</label>
-                    <div class="col-sm-3">
+                    <label for="videoSource" class="col-sm-3 control-label" style="padding-top:10px;">Video Source</label>
+                    <div class="col-sm-9">
                         <select type="text" class="form-control" [(ngModel)]="videoSource" (change)="save('videoSource')" id="videoSource">
                             <option value="any">Any</option>
                             <option value="source">HD Source ( [h.264] No Firefox Support )</option>

@@ -71,6 +71,7 @@ export class ShowPage {
           self.accountData = self.account.saved;
           let id = self.route.snapshot.params['show'];
           self.showService.info(self.account.sessionKey, id.toString(), function(data){
+            console.log(data);
             data[0].episodes.sort(function (a, b) {
               return a.episode - b.episode;
             });
@@ -81,10 +82,12 @@ export class ShowPage {
             if(savedPage){
               self.page=parseInt(savedPage);
             }else {
-              for (var i = 0; i < data[0].episodes.length; i++) {
-                if (data[0].episodes[i].id == data[1].id) {
-                  self.page = Math.floor(i / self.limit);
-                  localStorage.setItem("pageShow["+self.showData.id+"]", self.page.toString());
+              if(data[1]!=null) {
+                for (var i = 0; i < data[0].episodes.length; i++) {
+                  if (data[0].episodes[i].id == data[1].id) {
+                    self.page = Math.floor(i / self.limit);
+                    localStorage.setItem("pageShow[" + self.showData.id + "]", self.page.toString());
+                  }
                 }
               }
             }
@@ -95,7 +98,9 @@ export class ShowPage {
               }
             }
             self.showData.description = self.showData.description.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + "<br/>" + '$2');
+
             self.resumeData = data[1];
+
             self.favoriteData = data[2];
             /*var episodeList = "";
             var i=0;

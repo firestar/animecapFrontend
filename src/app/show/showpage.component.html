@@ -22,7 +22,12 @@
                   <a *ngIf="favoriteData==1" (click)="removeFavorite()" class="btn btn-warning"><span style="color:#fff;" aria-hidden="true" class="glyphicon glyphicon-heart"></span> Remove Favorite</a>
                   <a (click)="tags" class="btn btn-default"><span aria-hidden="true" class="glyphicon glyphicon-tags"></span> Tags</a>
                   <a *ngIf="accountData.level==2" (click)="edit()" class="btn btn-default"><span aria-hidden="true" class="glyphicon glyphicon-cog"></span> Edit</a>
-                  <a *ngIf="resumeData!=null" [routerLink]="['/watch/'+resumeData.id+'/'+showData.title.toLowerCase().split(' ').join('_')+'/episode_'+resumeData.episode]" class="btn btn-success"><span aria-hidden="true" class="glyphicon glyphicon-play"></span> Resume</a>
+                  <ng-container *ngIf="resumeData!=null">
+                    <a [routerLink]="['/watch/'+resumeData.id+'/'+showData.title.toLowerCase().split(' ').join('_')+'/episode_'+resumeData.episode]" class="btn btn-success">
+                      <span aria-hidden="true" class="glyphicon glyphicon-play"></span>
+                      Resume
+                    </a>
+                  </ng-container>
                 </div>
               </div>
             </div>

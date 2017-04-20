@@ -81,8 +81,12 @@ export class GroupWatch {
     changeVideo(data){
         let self = this;
         self.videoSubtitle = "https://animecap.com/subtitle/"+data.source.original+"/sub.vtt";
-        self.videoSource = "https://vid.animecap.com/"+data.source.original+".mp4";
-        self.videoSD = "https://vid.animecap.com/"+data.sd[0].original+".webm";
+        if(self.videoSource=="any" || self.videoSource=="source") {
+            self.videoSource = "https://vid.animecap.com/" + data.source.original + ".mp4";
+        }
+        if(self.videoSource=="any" || self.videoSource=="sd") {
+            self.videoSD = "https://vid.animecap.com/" + data.sd[0].original + ".webm";
+        }
         self.video.load();
     }
     loaded(){
@@ -144,8 +148,15 @@ export class GroupWatch {
             self.notificationQueue.push(message);
         }
     }
+    rollToNextVideo;
+    goBackToShowOnComplete;
+    completePercent;
     ngOnInit(){
         let self = this;
+        self.rollToNextVideo = localStorage.getItem("goToNextVideoOnComplete")=="true";
+        self.goBackToShowOnComplete = localStorage.getItem("goToShowPageOnComplete")=="true";
+        self.completePercent = parseInt(localStorage.getItem("percentToComplete"));
+        self.videoSource = localStorage.getItem("videoSource");
         var height = 550;
         self.maxHeight = window.outerHeight+"px";
         self.chatHeight = height+"px";
