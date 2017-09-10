@@ -38,7 +38,7 @@ pipeline {
 
             sh '''mkdir dockerbuild/
             mkdir dockerbuild/static/
-cp dst/* dockerbuild/static/
+cp dist/* dockerbuild/static/
 cp Dockerfile dockerbuild/Dockerfile
 cd dockerbuild/
 docker build -t firestarthehack/animecapfrontend:latest ./'''
