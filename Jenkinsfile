@@ -75,7 +75,7 @@ docker build -t firestarthehack/animecapfrontend:latest ./'''
           echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Deploying docker image to Rancher"
         }
 
-        rancher(environmentId: '1a5', ports: '8000:8080', environments: '1i1167', confirm: true, image: 'firestarthehack/animecapfrontend:latest', service: 'AnimeCap/API', endpoint: 'http://212.47.248.38:8080/v2-beta', credentialId: 'rancher-server')
+        rancher(environmentId: '11', ports: '8080:80', environments: '11', confirm: true, image: 'firestarthehack/animecapfrontend:latest', service: 'AnimeCap/Frontend', endpoint: 'http://212.47.248.38:8080/v2-beta', credentialId: 'rancher-server')
         script {
           echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Deployed docker image to Rancher"
         }
