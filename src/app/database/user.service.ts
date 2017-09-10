@@ -7,10 +7,10 @@ import { Http, Response } from '@angular/http';
 export class UserService{
   constructor (private http: Http) {}
 
-  private authLogin = "/auth/login";
-  private authLogout = "/auth/logout";
-  private authRegister = "/auth/register";
-  private authSession = "/auth/session";
+  private authLogin = "/api/auth/login";
+  private authLogout = "/api/auth/logout";
+  private authRegister = "/api/auth/register";
+  private authSession = "/api/auth/session";
 
   login(username : string, password: string, func){
     this.fetchURLPost(this.authLogin,{user:username,pass:password}, function(body){

@@ -8,8 +8,8 @@ import { AccountService } from '../database/account.service';
 @Injectable()
 export class FTPService {
   constructor(private http: Http) {}
-  private showList = "/ftp/list";
-  private showFiles = "/ftp/files";
+  private showList = "/api/ftp/list";
+  private showFiles = "/api/ftp/files";
 
   list(session:string, path:string, by:string, func){
     this.fetchURLPost( this.showList, { session: session, objects: { path: path, by: by } }, function(body){
