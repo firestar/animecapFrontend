@@ -52,7 +52,8 @@ docker build -t firestarthehack/animecapfrontend:latest ./'''
             script {
               echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Archived artifacts"
             }
-            archiveArtifacts(artifacts: 'build/libs/*.jar', onlyIfSuccessful: true)
+            sh 'zip -r static.zip dockerbuild/static/'
+            archiveArtifacts(artifacts: 'static.zip', onlyIfSuccessful: true)
           }
         )
       }
