@@ -7,11 +7,11 @@ import { Http, Response } from '@angular/http';
 @Injectable()
 export class EpisodeService {
   constructor(private http: Http) {}
-  private episodeFetch = "https://api.animecap.com/episode/info";
-  private episodeProgress = "https://api.animecap.com/episode/watching";
-  private episodeLatest = "https://api.animecap.com/episode/latest";
-  private episodeUnseen = "https://api.animecap.com/episode/unseen";
-  private episodeUnfinished = "https://api.animecap.com/episode/unfinished";
+  private episodeFetch = "/episode/info";
+  private episodeProgress = "/episode/watching";
+  private episodeLatest = "/episode/latest";
+  private episodeUnseen = "/episode/unseen";
+  private episodeUnfinished = "/episode/unfinished";
 
   info(session:string, episode:string, func){
     this.fetchURLPost( this.episodeFetch, { session: session, objects: { episode: episode } }, function(body){
