@@ -40,6 +40,7 @@ pipeline {
             mkdir dockerbuild/static/
 cp dist/* dockerbuild/static/
 cp Dockerfile dockerbuild/Dockerfile
+cp nginx.vh.default.conf dockerbuild/nginx.vh.default.conf
 cd dockerbuild/
 docker build -t firestarthehack/animecapfrontend:latest ./'''
             script {
