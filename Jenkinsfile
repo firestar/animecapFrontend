@@ -20,8 +20,8 @@ pipeline {
         script {
           echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Compiling Spring application"
         }
-        sh 'npm set registry http://registry.npmjs.org/'
-        sh 'npm install'
+        sh 'npm set registry http://registry.npmjs.org/ && npm install'
+        sh ''
         sh 'npm run ng build'
         script {
           echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Compiled Spring application"
@@ -38,7 +38,7 @@ pipeline {
             }
 
             sh '''mkdir dockerbuild/
-            mkdir dockerbuild/static
+            mkdir dockerbuild/static/
 cp dst/* dockerbuild/static/
 cp Dockerfile dockerbuild/Dockerfile
 cd dockerbuild/
