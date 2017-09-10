@@ -17,6 +17,7 @@ export class WSService{
     var Stomp = require('stompjs');
     self.socket = new SocketJS(url);
     self.stompClient = Stomp.over(self.socket);
+    self.stompClient.reconnect_delay = 5000;
     self.stompClient.connect({},function(data){
       func(self.stompClient, data);
     });
