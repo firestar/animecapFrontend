@@ -20,8 +20,7 @@ pipeline {
         script {
           echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Compiling Spring application"
         }
-        sh 'npm set registry http://registry.npmjs.org/ && npm install'
-        sh ''
+        sh 'npm install --registry http://registry.npmjs.org/'
         sh 'npm run ng build'
         script {
           echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Compiled Spring application"
