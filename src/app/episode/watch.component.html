@@ -13,10 +13,10 @@
         <div class="col-md-1 text-right"><a (click)="fullscreen()"><span class="glyphicon glyphicon-resize-full"></span></a></div>
       </div>
       <div id="videoWrapper">
-        <video  *ngIf="episodeData!=null" (loadeddata)="test" (seeked)="seeked()" (stalled)="buffering()" (pause)="paused()" preload="auto" poster="https://vid.animecap.com/{{episodeData.episode.uuid}}.png" (timeupdate)="timeSend()" (play)="playing()" controls="controls" width="100%">
-          <source *ngIf="videoSource=='sd' || videoSource=='any'" src="https://vid.animecap.com/{{episodeData.sd[0].original}}.webm"/>
-          <source *ngIf="videoSource=='source' || videoSource=='any'" src="https://vid.animecap.com/{{episodeData.source.original}}.mp4"/>
-          <track label="English" kind="subtitles" srclang="en" src="https://animecap.com/subtitle/{{episodeData.episode.uuid}}/sub.vtt" default/>
+        <video  *ngIf="episodeData!=null" (loadeddata)="test" (seeked)="seeked()" (stalled)="buffering()" (pause)="paused()" preload="auto" poster="http://vid.animecap.com/{{episodeData.episode.uuid}}.png" (timeupdate)="timeSend()" (play)="playing()" controls="controls" width="100%">
+          <source *ngIf="videoSource=='sd' || videoSource=='any'" src="http://vid.animecap.com/{{episodeData.sd[0].original}}.webm"/>
+          <source *ngIf="videoSource=='source' || videoSource=='any'" src="http://vid.animecap.com/{{episodeData.source.original}}.mp4"/>
+          <track label="English" kind="subtitles" srclang="en" src="http://animecap.com/subtitle/{{episodeData.episode.uuid}}/sub.vtt" default/>
         </video>
       </div>
     </div>
