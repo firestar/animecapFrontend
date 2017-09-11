@@ -96,7 +96,7 @@ export class AppComponent {
     self.setIfNotSet("percentToComplete", "97");
     self.setIfNotSet("videoSource","sd");
     self.setIfNotSet("goToShowPageOnComplete", "false");
-    self.ws.initialize('https://api.animecap.com/websocket',function(client, data){
+    self.ws.initialize('/site/websocket',function(client, data){
 
     });
     self.waitForWS();
