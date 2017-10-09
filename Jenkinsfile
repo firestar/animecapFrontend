@@ -16,7 +16,7 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh 'npm run ng build'
+        sh 'npm install && npm run ng build'
       }
     }
     stage('Docker Build') {
