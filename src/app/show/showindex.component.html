@@ -31,11 +31,6 @@
       </div>
       <div class="panel-body">
         <show [show]="show" *ngFor="let show of shows"></show>
-        <div class="col-md-2 show  text-center" *ngIf="accountData .level==2">
-          <a class="img-thumbnail" [routerLink]="['/show/create']">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-          </a>
-        </div>
       </div>
     </div>
   </div>
