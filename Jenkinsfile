@@ -1,96 +1,44 @@
 pipeline {
   agent any
+  environment {
+      DOCKER_ACCOUNT = 'firestarthehack'
+      IMAGE_VERSION = '1.01'
+      IMAGE_NAME = 'animecapfrontend'
+      RANCHER_STACK_NAME = 'AnimeCap'
+      RANCHER_SERVICE_NAME = 'Frontend'
+      RANCHER_SERVICE_URL = 'http://34.215.0.188:8080/v2-beta'
+    }
   stages {
     stage('BeginProcess') {
       steps {
-        parallel(
-          "BeginProcess": {
-            script {
-              echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Started the pipeline (<${env.BUILD_URL}|Open>)"
-            }
-          },
-          "Delete old build": {
-            sh 'rm -rf dockerbuild/'
-          }
-        )
+        sh 'rm -rf dockerbuild/'
       }
     }
     stage('Build') {
       steps {
-        script {
-          echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Compiling Spring application"
-        }
         sh 'npm install --registry http://registry.npmjs.org/'
         sh 'npm run ng build'
-        script {
-          echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Compiled Spring application"
-        }
-
       }
     }
     stage('Docker Build') {
       steps {
-        parallel(
-          "Build Docker Image": {
-            script {
-              echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Building Docker image"
-            }
-
-            sh '''mkdir dockerbuild/
-            mkdir dockerbuild/static/
-cp dist/* dockerbuild/static/
-cp Dockerfile dockerbuild/Dockerfile
-cp nginx.vh.default.conf dockerbuild/nginx.vh.default.conf
-cd dockerbuild/
-docker build -t firestarthehack/animecapfrontend:latest ./'''
-            script {
-              echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Built Docker image"
-            }
-
-
-          },
-          "Save Artifact": {
-            script {
-              echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Archived artifacts"
-            }
-            sh 'zip -r static.zip dockerbuild/static/'
-            archiveArtifacts(artifacts: 'static.zip', onlyIfSuccessful: true)
-          }
-        )
+        sh "mkdir dockerbuild/"
+        sh "mkdir dockerbuild/static/"
+        sh "cp dist/* dockerbuild/static/"
+        sh 'zip -r static.zip dockerbuild/static/'
+        archiveArtifacts(artifacts: 'static.zip', onlyIfSuccessful: true)
+        sh "cp Dockerfile dockerbuild/Dockerfile && cp nginx.vh.default.conf dockerbuild/nginx.vh.default.conf"
+        sh "cd dockerbuild/ && docker build -t ${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}:${env.IMAGE_VERSION} ./"
       }
     }
     stage('Publish Latest Image') {
       steps {
-        script {
-          echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Docker image publishing to DockerHub"
-        }
-
-        sh 'docker push firestarthehack/animecapfrontend:latest'
-        script {
-          echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Docker image published to DockerHub"
-        }
-
+        sh "docker push ${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}:${env.IMAGE_VERSION}"
       }
     }
     stage('Deploy') {
       steps {
-        script {
-          echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Deploying docker image to Rancher"
-        }
-
-        rancher(environmentId: '1a5', ports: '', environments: '1i1234', confirm: true, image: 'firestarthehack/animecapfrontend:latest', service: 'AnimeCap/Frontend', endpoint: 'http://212.47.248.38:8080/v2-beta', credentialId: 'rancher-server')
-        script {
-          echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Deployed docker image to Rancher"
-        }
-
-      }
-    }
-    stage('Finished') {
-      steps {
-        script {
-          echo "[${env.JOB_NAME} #${env.BUILD_NUMBER}] Finished pipeline"
-         }
-
+        rancher(environmentId: '1a5', ports: '', environments: '1i12214', confirm: true, image: "${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}:${env.IMAGE_VERSION}", service: "${env.RANCHER_STACK_NAME}/${env.RANCHER_SERVICE_NAME}", endpoint: "${env.RANCHER_SERVICE_URL}", credentialId: 'rancher-server')
       }
     }
   }
