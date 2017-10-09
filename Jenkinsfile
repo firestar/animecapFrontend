@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('BeginProcess') {
       steps {
-        sh 'rm -rf dockerbuild/'
+        sh 'rm -rf dockerbuild/ && rm -rf node_modules/'
       }
     }
     stage('Build') {
