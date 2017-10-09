@@ -16,7 +16,7 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh 'npm install --registry http://registry.npmjs.org/'
+        sh 'npm install'
         sh 'npm run ng build'
       }
     }
