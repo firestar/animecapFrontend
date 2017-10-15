@@ -40,8 +40,10 @@ import { EpisodeService } from './database/episode.service';
 import { FavoriteService } from './database/favorite.service';
 import { FTPService } from './database/ftp.service';
 import { WSService } from './database/ws.service';
+import { Remote_WSService } from './database/remote.service';
 import { ControlService } from './database/control.service';
 import { GroupService } from './database/group.service';
+import { EventService} from "./database/event.service";
 
 import { RoundPipe } from './touri.pipe';
 import { NL2BR } from './nl2br.pipe';
@@ -118,7 +120,9 @@ const routes :Routes = [
     FTPService,
     WSService,
     ControlService,
-    GroupService
+    GroupService,
+    Remote_WSService,
+    EventService
   ],
   bootstrap: [
     AppComponent
