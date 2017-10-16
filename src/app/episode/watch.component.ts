@@ -31,23 +31,23 @@ export class WatchPage {
     let self = this;
     this.video.play();
     if (self.control.slave) {
-      self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, true, self.episodeId, false);
+      self.control.info(self.account.sessionKey(), self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, true, self.episodeId, false);
     }
   }
   buffering(){
     let self = this;
     if (self.control.slave) {
-      self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, false, self.episodeId, true);
+      self.control.info(self.account.sessionKey(), self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, false, self.episodeId, true);
     }
   }
   paused(){
     let self = this;
     if (self.control.slave) {
-      self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, false, self.episodeId, false);
+      self.control.info(self.account.sessionKey(), self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, false, self.episodeId, false);
       let repeat = function(){
         setTimeout(function () {
           if (self.video.paused) {
-            self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, false, self.episodeId, false);
+            self.control.info(self.account.sessionKey(), self.control.controller, self.video.currentTime, self.duration, self.next != null, self.prev != null, false, self.episodeId, false);
             repeat();
           }
         }, 1000);
@@ -69,9 +69,9 @@ export class WatchPage {
     let self = this;
     let time = this.video.currentTime;
     if(self.sendNext==0 || self.sendNext<new Date().getTime()) {
-      self.episodeService.watching(self.account.sessionKey, self.episodeData.episode.id, "" + time + "", function () {});
+      self.episodeService.watching(self.account.sessionKey(), self.episodeData.episode.id, "" + time + "", function () {});
       if (self.control.slave) {
-        self.control.info(self.account.sessionKey, self.control.controller, time, self.duration, self.next != null, self.prev != null, true, self.episodeId, false);
+        self.control.info(self.account.sessionKey(), self.control.controller, time, self.duration, self.next != null, self.prev != null, true, self.episodeId, false);
       }
       self.sendNext=new Date().getTime()+1000;
     }
@@ -87,7 +87,7 @@ export class WatchPage {
     this.timeSend();
     console.log("playing");
     if(self.control.slave){
-      self.control.info(self.account.sessionKey, self.control.controller, self.video.currentTime, self.duration, self.next!=null, self.prev!=null, true, self.episodeId, false);
+      self.control.info(self.account.sessionKey(), self.control.controller, self.video.currentTime, self.duration, self.next!=null, self.prev!=null, true, self.episodeId, false);
     }
   }
   showEpisode(episode){
@@ -126,42 +126,37 @@ export class WatchPage {
   }
   waitForAccount() {
     let self = this;
-    console.log("waiting, watch");
-    setTimeout(function () {
-      if(self.account.checked) {
-        if(self.control.slave) {
-          self.initControlSubscriptions();
-        }
-        self.rollToNextVideo = localStorage.getItem("goToNextVideoOnComplete")=="true";
-        self.goBackToShowOnComplete = localStorage.getItem("goToShowPageOnComplete")=="true";
-        self.completePercent = parseInt(localStorage.getItem("percentToComplete"));
-        self.episodeService.info(self.account.sessionKey, self.episodeId.toString(), function(data){
-          self.episodeData = data;
-          self.episodeData.show.episodes.sort(function (a, b) {
-            return a.episode - b.episode;
-          });
-          for (i = 0; i < data.source.streams.length; i++) {
-            if (data.source.streams[i].duration > 0) {
-              self.duration = data.source.streams[i].duration;
-            }
-          }
-          self.next = null;
-          self.prev=null;
-          for(var i=0;i<self.episodeData.show.episodes.length;i++){
-            if(self.episodeData.show.episodes[i].id==self.episodeId){
-              if(i-1>=0)
-                self.prev = self.episodeData.show.episodes[i-1];
-              if(i+1<self.episodeData.show.episodes.length)
-                self.next = self.episodeData.show.episodes[i + 1];
-              break;
-            }
-          }
-          self.waitForVideo();
-        });
-      }else{
-        self.waitForAccount();
+    self.account.executeWhenLoggedIn(function () {
+      if(self.control.slave) {
+        self.initControlSubscriptions();
       }
-    }, 50);
+      self.rollToNextVideo = localStorage.getItem("goToNextVideoOnComplete")=="true";
+      self.goBackToShowOnComplete = localStorage.getItem("goToShowPageOnComplete")=="true";
+      self.completePercent = parseInt(localStorage.getItem("percentToComplete"));
+      self.episodeService.info(self.account.sessionKey(), self.episodeId.toString(), function(data){
+        self.episodeData = data;
+        self.episodeData.show.episodes.sort(function (a, b) {
+          return a.episode - b.episode;
+        });
+        for (i = 0; i < data.source.streams.length; i++) {
+          if (data.source.streams[i].duration > 0) {
+            self.duration = data.source.streams[i].duration;
+          }
+        }
+        self.next = null;
+        self.prev=null;
+        for(var i=0;i<self.episodeData.show.episodes.length;i++){
+          if(self.episodeData.show.episodes[i].id==self.episodeId){
+            if(i-1>=0)
+              self.prev = self.episodeData.show.episodes[i-1];
+            if(i+1<self.episodeData.show.episodes.length)
+              self.next = self.episodeData.show.episodes[i + 1];
+            break;
+          }
+        }
+        self.waitForVideo();
+      });
+    });
   }
   destroyControlSubscriptions(){
     let self = this;
@@ -172,7 +167,7 @@ export class WatchPage {
   }
   initControlSubscriptions(){
     let self = this;
-    self.ws.subscribe('/listen/load', self.account.sessionKey, function(data){
+    self.ws.subscribe('/listen/load', self.account.sessionKey(), function(data){
       let episode = JSON.parse(data.body);
       console.log(episode);
       self.router.navigate(['/watch',episode.id, episode.title, 'episode_'+episode.episodeNumber], {relativeTo: self.route, skipLocationChange: false});
@@ -180,11 +175,11 @@ export class WatchPage {
       self.episodeId = episode.id;
       self.waitForAccount();
     });
-    self.ws.subscribe('/listen/seek', self.account.sessionKey, function(data){
+    self.ws.subscribe('/listen/seek', self.account.sessionKey(), function(data){
       let act = JSON.parse(data.body);
       self.video.currentTime = act.position;
     });
-    self.ws.subscribe('/listen/control', self.account.sessionKey, function(data){
+    self.ws.subscribe('/listen/control', self.account.sessionKey(), function(data){
       let act = JSON.parse(data.body);
       switch(act.action){
         case "play":

@@ -23,7 +23,7 @@
       </h5>
     </a>
   </ng-container>
-  <ng-container *ngIf="episodeData!=null && groupService.groupid!=null && groupService.leader==accountService.saved.user">
+  <ng-container *ngIf="episodeData!=null && groupService.groupid!=null && groupService.leader==accountService.user().user">
     <a class="thumbnail episode" (click)="groupload(episodeData.episode.id)">
       <img src="http://vid.animecap.com/{{episodeData.source.original}}.png" width="100%" class="img-rounded"/>
       <h5>
@@ -73,7 +73,7 @@
       </div>
     </a>
   </ng-container>
-  <ng-container *ngIf="episodeData!=null && groupService.groupid!=null && groupService.leader==accountService.saved.user">
+  <ng-container *ngIf="episodeData!=null && groupService.groupid!=null && groupService.leader==accountService.user().user">
     <a class="episode-compressed" (click)="groupload(episodeData.episode.id)">
       <div class="row">
         <div class="col-md-4">

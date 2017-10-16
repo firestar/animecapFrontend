@@ -19,17 +19,16 @@ export class GroupListing {
     groupService = null;
     new(){
         let self = this;
-        self.group.join(self.account.sessionKey, self.name);
+        self.group.join(self.account.sessionKey(), self.name);
     }
     join(name){
         let self = this;
-        self.group.join(self.account.sessionKey, name );
+        self.group.join(self.account.sessionKey(), name );
     }
     ngOnInit(){
         let self = this;
-        let waitForAccount = function() {
-            console.log("waiting, watch");
-            if(self.account.checked) {
+        self.group.client().executeWhenConnected(function () {
+            self.account.executeWhenLoggedIn(function () {
                 self.groupService = self.group;
                 self.group.groupListFunction = function(data){
                     self.groups = Object.keys(data);
@@ -37,14 +36,9 @@ export class GroupListing {
                 self.group.joinFunction = function (data) {
                     self.router.navigate(['/group']);
                 };
-                self.group.listen(self.account.sessionKey);
-                self.group.listing(self.account.sessionKey);
-            }else{
-                setTimeout(function () {
-                    waitForAccount();
-                }, 50);
-            }
-        }
-        waitForAccount();
+                self.group.listen(self.account.sessionKey());
+                self.group.listing(self.account.sessionKey());
+            });
+        });
     }
 }

@@ -40,21 +40,12 @@ export class SettingsPage {
     }
     ngOnInit(){
         let self = this;
-        let waitForAccount = function() {
-            console.log("waiting, watch");
-            if(self.account.checked) {
-                //top kek
-                self.rollToNextVideo = localStorage.getItem("goToNextVideoOnComplete")=="true";
-                self.goBackToShowOnComplete = localStorage.getItem("goToShowPageOnComplete")=="true";
-                console.log(self);
-                self.videoSource = localStorage.getItem("videoSource");
-                self.completePercent = parseInt(localStorage.getItem("percentToComplete"));
-            }else{
-                setTimeout(function () {
-                    waitForAccount();
-                }, 50);
-            }
-        }
-        waitForAccount();
+        self.account.executeWhenLoggedIn(function () {
+            self.rollToNextVideo = localStorage.getItem("goToNextVideoOnComplete")=="true";
+            self.goBackToShowOnComplete = localStorage.getItem("goToShowPageOnComplete")=="true";
+            console.log(self);
+            self.videoSource = localStorage.getItem("videoSource");
+            self.completePercent = parseInt(localStorage.getItem("percentToComplete"));
+        });
     }
 }

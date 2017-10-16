@@ -8,10 +8,10 @@ import { AccountService } from '../database/account.service';
 @Injectable()
 export class ShowService {
   constructor(private http: Http) {}
-  private showFetch = "/api/show/list";
-  private showInfoFetch = "/api/show/info";
-  private showCreateFetch = "/api/show/create";
-  private showFavoriteFetch = "/api/show/favorite";
+  private showFetch = "http://animecap.com/api/show/list";
+  private showInfoFetch = "http://animecap.com/api/show/info";
+  private showCreateFetch = "http://animecap.com/api/show/create";
+  private showFavoriteFetch = "http://animecap.com/api/show/favorite";
 
   list(session:string, func){
     this.fetchURLPost( this.showFetch, { session: session }, function(body){

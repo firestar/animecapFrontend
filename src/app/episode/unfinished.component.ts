@@ -19,18 +19,10 @@ export class UnfinishedEpisodes {
   @Input() compressed = false;
   ngOnInit(){
     let self = this;
-    let waitForAccount = function() {
-      console.log("waiting, watch");
-      setTimeout(function () {
-        if(self.account.checked) {
-          self.episodeService.unfinished(self.account.sessionKey, function(data){
-            self.episodes = data.slice(0,self.limit);
-          });
-        }else{
-          waitForAccount();
-        }
-      }, 50);
-    }
-    waitForAccount();
+    self.account.executeWhenLoggedIn(function () {
+      self.episodeService.unfinished(self.account.sessionKey(), function(data){
+        self.episodes = data.slice(0,self.limit);
+      });
+    });
   }
 }

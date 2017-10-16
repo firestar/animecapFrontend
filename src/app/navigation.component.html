@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" *ngIf="groupService.groupid==null || groupService.leader==accountService.saved.user && !groupService.playing">
+<nav class="navbar navbar-default" *ngIf="groupService.groupid==null || groupService.leader==accountService.user().user && !groupService.playing">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topnavigationbar" aria-expanded="false">
@@ -13,7 +13,7 @@
     </div>
 
     <div class="collapse navbar-collapse" id="topnavigationbar">
-      <ul class="nav navbar-nav" *ngIf="accountService.saved!=null">
+      <ul class="nav navbar-nav" *ngIf="accountService.user()!=null">
         <li><a [routerLink]="['/show/list']">Shows</a></li>
         <li><a [routerLink]="['/episode/list']">Latest Episodes</a></li>
         <li class="dropdown">
@@ -28,7 +28,7 @@
         <li>
           <a [routerLink]="['/group']">
             Group Watch
-            <span *ngIf="groupService.leader==accountService.saved.user" class="glyphicon glyphicon-star" style="color:#1ce1ff;"></span>
+            <span *ngIf="groupService.leader==accountService.user().user" class="glyphicon glyphicon-star" style="color:#1ce1ff;"></span>
           </a>
         </li>
         <li class="dropdown">
@@ -42,7 +42,7 @@
             </li>
           </ul>
         </li>
-        <li *ngIf="accountService.saved.level==2">
+        <li *ngIf="accountService.user().level==2">
           <a [routerLink]="['/show/create']">
             Add Show
           </a>
@@ -54,10 +54,10 @@
           <a *ngIf="!controlling.slave && controlling.controlling>0" [routerLink]="['/host']" style="color:#ff9632;cursor:pointer;"><span class="glyphicon glyphicon-cloud"></span> Remote Control</a>
           <a *ngIf="controlling.slave" style="color:#ff16f6;"><span class="glyphicon glyphicon-cloud"></span>Remotely Controlled</a>
         </li>
-        <li *ngIf="accountService.saved==null"><a [routerLink]="['/login']">Member's Area</a></li>
-        <li *ngIf="accountService.saved==null"><a [routerLink]="['/register']">Create New Account</a></li>
-        <li *ngIf="accountService.saved!=null"><a [routerLink]="['/settings']"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
-        <li *ngIf="accountService.saved!=null"><a [routerLink]="['/logout']">Logout <span *ngIf="accountService.saved.level==2">admin-</span>{{accountService.saved.user}}!</a></li>
+        <li *ngIf="accountService.user()==null"><a [routerLink]="['/login']">Member's Area</a></li>
+        <li *ngIf="accountService.user()==null"><a [routerLink]="['/register']">Create New Account</a></li>
+        <li *ngIf="accountService.user()!=null"><a [routerLink]="['/settings']"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+        <li *ngIf="accountService.user()!=null"><a [routerLink]="['/logout']">Logout <span *ngIf="accountService.user().level==2">admin-</span>{{accountService.user().user}}!</a></li>
       </ul>
     </div>
   </div>

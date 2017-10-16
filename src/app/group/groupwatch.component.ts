@@ -72,7 +72,7 @@ export class GroupWatch {
         let self = this;
         var messageToSend = self.message;
         self.message = '';
-        self.group.sendChatMessage( self.account.sessionKey, messageToSend);
+        self.group.sendChatMessage( self.account.sessionKey(), messageToSend);
     }
     seeked(){
         let self = this;
@@ -80,19 +80,19 @@ export class GroupWatch {
     }
     changeVideo(data){
         let self = this;
-        self.videoSubtitle = "https://animecap.com/subtitle/"+data.source.original+"/sub.vtt";
+        self.videoSubtitle = "http://animecap.com/subtitle/"+data.source.original+"/sub.vtt";
         if(self.videoSource=="any" || self.videoSource=="source") {
-            self.videoSource = "https://vid.animecap.com/" + data.source.original + ".mp4";
+            self.videoSource = "http://vid.animecap.com/" + data.source.original + ".mp4";
         }
         if(self.videoSource=="any" || self.videoSource=="sd") {
-            self.videoSD = "https://vid.animecap.com/" + data.sd[0].original + ".webm";
+            self.videoSD = "http://vid.animecap.com/" + data.sd[0].original + ".webm";
         }
         self.video.load();
     }
     loaded(){
         let self = this;
         console.log("loaded");
-        if(self.group.leader==self.account.saved.user) {
+        if(self.group.leader==self.account.user().user) {
             self.video.play();
         }else{
             self.video.play();
@@ -101,20 +101,20 @@ export class GroupWatch {
     playing(){
         let self = this;
         self.group.playing=true;
-        if(self.group.leader==self.account.saved.user) {
-            self.group.play(self.accountService.sessionKey);
+        if(self.group.leader==self.account.user().user) {
+            self.group.play(self.accountService.sessionKey());
         }
     }
     paused(){
         let self = this;
         self.group.playing=false;
-        if(self.group.leader==self.account.saved.user) {
-            self.group.pause(self.accountService.sessionKey);
+        if(self.group.leader==self.account.user().user) {
+            self.group.pause(self.accountService.sessionKey());
         }
     }
     ngOnDestroy(){
         let self = this;
-        window.removeEventListener("onresize");
+        //window.removeEventListener("onresize");
         self.video.src="";
         self.group.playing = false;
     }
@@ -161,61 +161,54 @@ export class GroupWatch {
         self.maxHeight = window.outerHeight+"px";
         self.chatHeight = height+"px";
         self.chatText = (height-45)+"px";
-        let waitForAccount = function() {
-            if(self.account.checked) {
-                self.video = self.element.nativeElement.querySelector('video');
-                self.groupService = self.group;
-                if(self.group.currentEpisode!=null){
-                    self.episodeService.info(self.account.sessionKey, self.group.currentEpisode.id, function (data) {
-                        self.changeVideo(data);
-                    });
-                }
-                setTimeout(function () {
-                    document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
-                },220);
-                self.accountService = self.account;
-                self.group.notificationBar = function(message){
-                    self.showNotification(message);
-                };
-                self.group.seekFunction = function(position){
-                    self.video.currentTime = position;
-                };
-                self.group.updateFunction = function(){
-                    self.group.update(self.account.sessionKey, self.video.currentTime);
-                };
-                self.group.playFunction = function(){
-                    if(self.group.leader!=self.account.saved.user) {
-                        self.video.play();
-                    }
-                };
-                self.group.pauseFunction = function(){
-                    if(self.group.leader!=self.account.saved.user) {
-                        self.video.pause();
-                    }
-                };
-                self.group.commandFunction = function(cmd){
-                    if(cmd[0]=="message"){
-                        self.visibleTrigger();
-                        setTimeout(function () {
-                            document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
-                        },220);
-                    }
-                }
-                self.group.episodeCommand = function(data){
-                    self.episodeService.info(self.account.sessionKey, data.id, function (data) {
-                        self.changeVideo(data);
-                    });
-                };
-                if(self.group.groupid==null){
-                    self.router.navigate(['/group']);
-                }
-
-            }else{
-                setTimeout(function () {
-                    waitForAccount();
-                }, 50);
+        self.account.executeWhenLoggedIn(function () {
+            self.video = self.element.nativeElement.querySelector('video');
+            self.groupService = self.group;
+            if(self.group.currentEpisode!=null){
+                self.episodeService.info(self.account.sessionKey(), self.group.currentEpisode.id, function (data) {
+                    self.changeVideo(data);
+                });
             }
-        }
-        waitForAccount();
+            setTimeout(function () {
+                if(document.getElementById("chatBox"))
+                    document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
+            },220);
+            self.accountService = self.account;
+            self.group.notificationBar = function(message){
+                self.showNotification(message);
+            };
+            self.group.seekFunction = function(position){
+                self.video.currentTime = position;
+            };
+            self.group.updateFunction = function(){
+                self.group.update(self.account.sessionKey(), self.video.currentTime);
+            };
+            self.group.playFunction = function(){
+                if(self.group.leader!=self.account.user().user) {
+                    self.video.play();
+                }
+            };
+            self.group.pauseFunction = function(){
+                if(self.group.leader!=self.account.user().user) {
+                    self.video.pause();
+                }
+            };
+            self.group.commandFunction = function(cmd){
+                if(cmd[0]=="message"){
+                    self.visibleTrigger();
+                    setTimeout(function () {
+                        document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
+                    },220);
+                }
+            }
+            self.group.episodeCommand = function(data){
+                self.episodeService.info(self.account.sessionKey(), data.id, function (data) {
+                    self.changeVideo(data);
+                });
+            };
+            if(self.group.groupid==null){
+                self.router.navigate(['/group']);
+            }
+        });
     }
 }

@@ -24,7 +24,7 @@ export class RegisterForm {
           localStorage.removeItem("session");
         } else {
           self.account.set(response.account, response.sessionKey);
-          self.account.checked=true;
+          self.account.data.checked=true;
           self.timeout = setTimeout(function() {
             self.router.navigate(['/']);
           },20);
@@ -65,7 +65,7 @@ export class RegisterForm {
           self.message = "Successfully created account and logged into account [" + response.account.user + "] with the session code " + response.sessionKey;
           self.registerButton = "Success";
           self.account.set(response.account, response.sessionKey);
-          self.account.checked=true;
+          self.account.data.checked=true;
           localStorage.setItem("session", response.sessionKey);
           self.router.navigate(['/']);
         }

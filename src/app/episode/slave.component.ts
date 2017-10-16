@@ -20,9 +20,9 @@ export class SlavePage {
     }
     ngOnInit(){
         let self = this;
-        let waitForAccount = function() {
-            if(self.account.checked && self.account.sessionKey!=null) {
-                self.ws.subscribe('/listen/load', self.account.sessionKey, function (data) {
+        self.ws.executeWhenConnected(function () {
+            self.account.executeWhenLoggedIn(function () {
+                self.ws.subscribe('/listen/load', self.account.sessionKey(), function (data) {
                     let episode = JSON.parse(data.body);
                     console.log(episode);
                     self.router.navigate(['/watch', episode.id, episode.title, 'episode_' + episode.episodeNumber], {
@@ -30,12 +30,13 @@ export class SlavePage {
                         skipLocationChange: false
                     });
                 });
-            }
-        }
-        waitForAccount();
+            });
+        });
     }
     ngOnDestroy(){
         let self = this;
-        self.ws.unsubscribe('/listen/load');
+        self.ws.executeWhenConnected(function () {
+            self.ws.unsubscribe('/listen/load');
+        });
     }
 }

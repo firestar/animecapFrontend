@@ -23,7 +23,10 @@ export class GroupService{
     public listenersSet = false;
     setWS(ws){
         this.ws = ws;
-        this.ws.client().debug = null
+        //this.ws.client().debug = null
+    }
+    client(){
+        return this.ws;
     }
     sendChatMessage(session, message){
         this.ws.client().send('/call/group/chat', {}, JSON.stringify({ message: message, session: session, group: this.groupid }));

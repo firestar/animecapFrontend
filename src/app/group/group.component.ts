@@ -17,20 +17,12 @@ export class GroupRoute {
     shows = null;
     ngOnInit(){
         let self = this;
-        let waitForAccount = function() {
-            console.log("waiting, watch");
-            setTimeout(function () {
-                if(self.account.checked) {
-                    if(self.group.groupid!=null){
-                        self.router.navigate(['/group/watch']);
-                    }else{
-                        self.router.navigate(['/group/listing'])
-                    }
-                }else{
-                    waitForAccount();
-                }
-            }, 50);
-        }
-        waitForAccount();
+        self.account.executeWhenLoggedIn(function () {
+            if(self.group.groupid!=null){
+                self.router.navigate(['/group/watch']);
+            }else{
+                self.router.navigate(['/group/listing'])
+            }
+        });
     }
 }

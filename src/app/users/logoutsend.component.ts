@@ -21,9 +21,11 @@ export class LogoutSend {
     if(x!=null) {
       self.userRepo.logout(x, function (response) {
         localStorage.removeItem("session");
-        self.account.set(null, null);
+        //self.account.set(null, null);
+
         setTimeout(function(){
-          self.router.navigate(['/login']);
+          location.href="/login";
+          //self.router.navigate(['/login']);
         },500);
       });
     }else{

@@ -19,18 +19,10 @@ export class LatestEpisodes {
   @Input() limit=25;
   ngOnInit(){
     let self = this;
-    let waitForAccount = function() {
-      console.log("waiting, watch");
-      setTimeout(function () {
-        if(self.account.checked) {
-          self.episodeService.latest(self.account.sessionKey, function(data){
-            self.episodes = data.slice(0,self.limit);
-          });
-        }else{
-          waitForAccount();
-        }
-      }, 50);
-    }
-    waitForAccount();
+    self.account.executeWhenLoggedIn(function () {
+      self.episodeService.latest(self.account.sessionKey(), function(data){
+        self.episodes = data.slice(0,self.limit);
+      });
+    });
   }
 }

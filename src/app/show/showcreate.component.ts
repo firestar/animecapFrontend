@@ -63,7 +63,7 @@ export class ShowCreate {
     self.show.path=null;
     console.log("working: ");
     console.log(self.workingpath);
-    self.ftpService.list(self.account.sessionKey, self.workingpath.path, self.workingpath.by, function(data){
+    self.ftpService.list(self.account.sessionKey(), self.workingpath.path, self.workingpath.by, function(data){
       self.paths = data;
       console.log(data);
     });
@@ -75,7 +75,7 @@ export class ShowCreate {
     self.subFolders = null;
     self.subFolder=null;
     self.show.title = self.show.path;
-    self.ftpService.files(self.account.sessionKey, self.workingpath.path+"/"+self.show.path, function(data){
+    self.ftpService.files(self.account.sessionKey(), self.workingpath.path+"/"+self.show.path, function(data){
       console.log(data);
       for(var i=0;i<data.length;i++){
         if(/^([0-9]+)p$/i.test(data[i])) {
@@ -92,7 +92,7 @@ export class ShowCreate {
   grabSubFiles(){
     let self = this;
     self.files = null;
-    self.ftpService.files(self.account.sessionKey, self.workingpath.path+"/"+self.show.path+"/"+self.subFolder, function(data){
+    self.ftpService.files(self.account.sessionKey(), self.workingpath.path+"/"+self.show.path+"/"+self.subFolder, function(data){
       console.log(data);
       self.finalpath = self.workingpath.path + "/" + self.show.path+"/"+self.subFolder;
       self.files = data;
@@ -102,7 +102,7 @@ export class ShowCreate {
     let self = this;
     let showData = self.show;
     showData.path=self.finalpath;
-    self.showService.new(self.account.sessionKey, showData, function(data){
+    self.showService.new(self.account.sessionKey(), showData, function(data){
       if(data.id!=""){
         self.router.navigate(["/"]);
       }
@@ -110,21 +110,13 @@ export class ShowCreate {
   }
   ngOnInit(){
     let self = this;
-    let waitForAccount = function() {
-      console.log("waiting, show index");
-      if(self.account.checked) {
-        self.accountData = self.account.saved;
-        if(self.accountData.level==2){
-          self.allowed = true;
-        }else{
-          self.router.navigate(['/']);
-        }
+    self.account.executeWhenLoggedIn(function () {
+      self.accountData = self.account.user();
+      if(self.accountData.level==2){
+        self.allowed = true;
       }else{
-        setTimeout(function () {
-          waitForAccount();
-        }, 50);
+        self.router.navigate(['/']);
       }
-    }
-    waitForAccount();
+    });
   }
 }

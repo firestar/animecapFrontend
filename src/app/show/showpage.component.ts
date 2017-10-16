@@ -29,14 +29,14 @@ export class ShowPage {
   addFavorite(){
     let self = this;
     let id = self.route.snapshot.params['show'];
-    self.favoriteService.add(self.account.sessionKey, id.toString(), function(data){
+    self.favoriteService.add(self.account.sessionKey(), id.toString(), function(data){
       self.favoriteData = data;
     });
   }
   removeFavorite(){
     let self = this;
     let id = self.route.snapshot.params['show'];
-    self.favoriteService.remove(self.account.sessionKey, id.toString(), function(data){
+    self.favoriteService.remove(self.account.sessionKey(), id.toString(), function(data){
       self.favoriteData = data;
     });
   }
@@ -62,73 +62,69 @@ export class ShowPage {
     },1200);
 
   }
-  ngOnInit(){
+  accountFound(){
     let self = this;
-    let waitForAccount = function() {
-      console.log("waiting, watch");
-      setTimeout(function () {
-        if(self.account.checked) {
-          self.accountData = self.account.saved;
-          let id = self.route.snapshot.params['show'];
-          self.showService.info(self.account.sessionKey, id.toString(), function(data){
-            console.log(data);
-            data[0].episodes.sort(function (a, b) {
-              return a.episode - b.episode;
-            });
-            self.showData = data[0];
-            self.originalEpisodes = self.showData.episodes;
-            self.pages = Math.ceil(self.originalEpisodes.length/self.limit);
-            var savedPage = localStorage.getItem("pageShow["+self.showData.id+"]");
-            if(savedPage){
-              self.page=parseInt(savedPage);
-            }else {
-              if(data[1]!=null) {
-                for (var i = 0; i < data[0].episodes.length; i++) {
-                  if (data[0].episodes[i].id == data[1].id) {
-                    self.page = Math.floor(i / self.limit);
-                    localStorage.setItem("pageShow[" + self.showData.id + "]", self.page.toString());
-                  }
-                }
-              }
+    self.accountData = self.account.user();
+    let id = self.route.snapshot.params['show'];
+    self.showService.info(self.account.sessionKey(), id.toString(), function(data){
+      console.log(data);
+      data[0].episodes.sort(function (a, b) {
+        return a.episode - b.episode;
+      });
+      self.showData = data[0];
+      self.originalEpisodes = self.showData.episodes;
+      self.pages = Math.ceil(self.originalEpisodes.length/self.limit);
+      var savedPage = localStorage.getItem("pageShow["+self.showData.id+"]");
+      if(savedPage){
+        self.page=parseInt(savedPage);
+      }else {
+        if(data[1]!=null) {
+          for (var i = 0; i < data[0].episodes.length; i++) {
+            if (data[0].episodes[i].id == data[1].id) {
+              self.page = Math.floor(i / self.limit);
+              localStorage.setItem("pageShow[" + self.showData.id + "]", self.page.toString());
             }
-            if(self.showData.episodes.length>self.limit){
-              self.showData.episodes = self.originalEpisodes.slice(self.page*self.limit, (self.page*self.limit)+self.limit);
-              for(var i=0;i<self.pages;i++){
-                self.pagelist.push(i);
-              }
-            }
-            self.showData.description = self.showData.description.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + "<br/>" + '$2');
-
-            self.resumeData = data[1];
-
-            self.favoriteData = data[2];
-            /*var episodeList = "";
-            var i=0;
-            for(i=0;i<data[0].episodes.length;i++){
-              episodeList+=((episodeList=="")?"":"/")+data[0].episodes[i].id;
-            }
-            if(i==1) {
-              self.episodesData = {};
-              self.episodeService.infoAndIgnore(self.account.sessionKey, episodeList, "show/sd", function (data) {
-                self.episodesData[parseInt(episodeList)] = data;
-                  data.show=self.showData;
-              });
-            }else{
-              self.episodeService.infoAndIgnore(self.account.sessionKey, episodeList, "show/sd", function (data) {
-                var keys = Object.keys(data);
-                for(var i=0;i<keys.length;i++){
-                  data[keys[i]].show = self.showData;
-                }
-                self.episodesData = data;
-              });
-            }*/
-          });
-        }else{
-          waitForAccount();
+          }
         }
-      }, 50);
-    }
-    waitForAccount();
+      }
+      if(self.showData.episodes.length>self.limit){
+        self.showData.episodes = self.originalEpisodes.slice(self.page*self.limit, (self.page*self.limit)+self.limit);
+        for(var i=0;i<self.pages;i++){
+          self.pagelist.push(i);
+        }
+      }
+      self.showData.description = self.showData.description.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + "<br/>" + '$2');
+
+      self.resumeData = data[1];
+
+      self.favoriteData = data[2];
+      /*var episodeList = "";
+      var i=0;
+      for(i=0;i<data[0].episodes.length;i++){
+        episodeList+=((episodeList=="")?"":"/")+data[0].episodes[i].id;
+      }
+      if(i==1) {
+        self.episodesData = {};
+        self.episodeService.infoAndIgnore(self.account.sessionKey, episodeList, "show/sd", function (data) {
+          self.episodesData[parseInt(episodeList)] = data;
+            data.show=self.showData;
+        });
+      }else{
+        self.episodeService.infoAndIgnore(self.account.sessionKey, episodeList, "show/sd", function (data) {
+          var keys = Object.keys(data);
+          for(var i=0;i<keys.length;i++){
+            data[keys[i]].show = self.showData;
+          }
+          self.episodesData = data;
+        });
+      }*/
+    });
+  }
+  ngOnInit(){
+    var self = this;
+    self.account.executeWhenLoggedIn(function () {
+      self.accountFound();
+    });
   }
   favorite(){
 

@@ -24,31 +24,24 @@ export class ShowIndex {
     if(defaultSort){
       self.sorted = JSON.parse(defaultSort);
     }
-    let waitForAccount = function() {
-      if(self.account.checked) {
-        var filterTitleSaved = localStorage.getItem("filterTitle");
-        if(filterTitleSaved){
-          self.filterTitle = filterTitleSaved;
-        }
-        self.accountData = self.account.saved;
-        self.showService.list(self.account.sessionKey, function (data) {
-          for (var i = 0; i < data.length; i++) {
-            data[i].episodes.sort(function (a, b) {
-              return a.episode - b.episode;
-            });
-          }
-          self.shows = data;
-          self.originalShows = data;
-          self.sort();
-          self.filter();
-        });
-      }else{
-        setTimeout(function () {
-          waitForAccount();
-        }, 50);
+    self.account.executeWhenLoggedIn(function(){
+      var filterTitleSaved = localStorage.getItem("filterTitle");
+      if(filterTitleSaved){
+        self.filterTitle = filterTitleSaved;
       }
-    }
-    waitForAccount();
+      self.accountData = self.account.user();
+      self.showService.list(self.account.sessionKey(), function (data) {
+        for (var i = 0; i < data.length; i++) {
+          data[i].episodes.sort(function (a, b) {
+            return a.episode - b.episode;
+          });
+        }
+        self.shows = data;
+        self.originalShows = data;
+        self.sort();
+        self.filter();
+      });
+    })
   }
   clearFilter(){
     let self=this;

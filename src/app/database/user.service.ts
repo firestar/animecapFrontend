@@ -7,10 +7,10 @@ import { Http, Response } from '@angular/http';
 export class UserService{
   constructor (private http: Http) {}
 
-  private authLogin = "/api/auth/login";
-  private authLogout = "/api/auth/logout";
-  private authRegister = "/api/auth/register";
-  private authSession = "/api/auth/session";
+  private authLogin = "http://animecap.com/api/auth/login";
+  private authLogout = "http://animecap.com/api/auth/logout";
+  private authRegister = "http://animecap.com/api/auth/register";
+  private authSession = "http://animecap.com/api/auth/session";
 
   login(username : string, password: string, func){
     this.fetchURLPost(this.authLogin,{user:username,pass:password}, function(body){

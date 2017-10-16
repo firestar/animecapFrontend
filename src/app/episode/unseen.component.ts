@@ -17,18 +17,10 @@ export class UnseenEpisodes {
   @Input() compressed = false;
   ngOnInit(){
     let self = this;
-    let waitForAccount = function() {
-      console.log("waiting, watch");
-      setTimeout(function () {
-        if(self.account.checked) {
-          self.episodeService.unseen(self.account.sessionKey, function(data){
-            self.episodes = data;
-          });
-        }else{
-          waitForAccount();
-        }
-      }, 50);
-    }
-    waitForAccount();
+    self.account.executeWhenLoggedIn(function () {
+      self.episodeService.unseen(self.account.sessionKey(), function(data){
+        self.episodes = data;
+      });
+    });
   }
 }

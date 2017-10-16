@@ -19,16 +19,16 @@ export class ShowElement {
   @Input() show;
   ngOnInit(){
     let self = this;
-    let waitForAccount = function() {
+    /*let waitForAccount = function() {
       console.log("waiting, watch");
-      if(self.account.checked) {
-        //top kek
+      if(self.account.checked()) {
+        //account found
       }else{
         setTimeout(function () {
           waitForAccount();
         }, 50);
       }
     }
-    waitForAccount();
+    waitForAccount();*/
   }
 }

@@ -17,18 +17,10 @@ export class FavoriteShows {
   @Input() noBread = false;
   ngOnInit(){
     let self = this;
-    let waitForAccount = function() {
-      console.log("waiting, watch");
-      setTimeout(function () {
-        if(self.account.checked) {
-          self.showService.favorites(self.account.sessionKey, function(data){
-            self.shows = data;
-          });
-        }else{
-          waitForAccount();
-        }
-      }, 50);
-    }
-    waitForAccount();
+    self.account.executeWhenLoggedIn(function () {
+      self.showService.favorites(self.account.sessionKey(), function(data){
+        self.shows = data;
+      });
+    });
   }
 }

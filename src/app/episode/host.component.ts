@@ -28,34 +28,29 @@ export class HostPage {
         position:null,
         playing:false
     };
-    waitForAccount() {
-        let self = this;
-        if(self.account.checked && self.account.sessionKey!=null) {
-            self.session = self.account.sessionKey;
-            self.remote = self.control;
-            self.ws.subscribe('/listen/info', self.account.sessionKey, function (data) {
-                self.videoPosition = document.getElementById("videoPosition");
-                let info = JSON.parse(data.body);
-                self.info = info;
-                if(self.episodeId!=info.episode){
-                    self.episodeId = info.episode;
-                    self.episodeService.info(self.account.sessionKey, String(self.episodeId), function(data){
-                        self.episodeData = data;
-                    })
-                }
-                if (self.videoPosition) {
-                    self.videoPosition.value = self.info.position;
-                }
-                // info status changed
-            });
-        }else{
-            setTimeout(function () {
-                self.waitForAccount();
-            }, 100);
-        }
-    }
     ngOnInit(){
-        this.waitForAccount();
+      let self = this;
+      self.ws.executeWhenConnected(function () {
+        self.account.executeWhenLoggedIn(function () {
+          self.session = self.account.sessionKey();
+          self.remote = self.control;
+          self.ws.subscribe('/listen/info', self.session, function (data) {
+            self.videoPosition = document.getElementById("videoPosition");
+            let info = JSON.parse(data.body);
+            self.info = info;
+            if (self.episodeId != info.episode) {
+              self.episodeId = info.episode;
+              self.episodeService.info(self.session, String(self.episodeId), function (data) {
+                self.episodeData = data;
+              })
+            }
+            if (self.videoPosition) {
+              self.videoPosition.value = self.info.position;
+            }
+            // info status changed
+          });
+        });
+      });
 
     }
     seek(){
@@ -64,6 +59,10 @@ export class HostPage {
     }
     ngOnDestroy(){
         let self = this;
-        self.ws.unsubscribe('/listen/load');
+        self.ws.executeWhenConnected(function () {
+          self.account.executeWhenLoggedIn(function () {
+            self.ws.unsubscribe('/listen/load');
+          });
+        });
     }
 }

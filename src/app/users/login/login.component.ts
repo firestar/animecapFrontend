@@ -26,7 +26,7 @@ export class LoginForm {
           localStorage.removeItem("session");
         } else {
           self.account.set(response.account, response.sessionKey);
-          self.account.checked=true;
+          self.account.data.checked=true;
           self.timeout = setTimeout(function() {
             self.router.navigate(['/']);
           },20);
@@ -59,7 +59,7 @@ export class LoginForm {
         self.session = response.sessionKey;
         localStorage.setItem("session", self.session);
         self.account.set(response.account, self.session);
-        self.account.checked=true;
+        self.account.data.checked=true;
         self.timeout = setTimeout(function() {
           self.router.navigate(['/']);
         },1500);
