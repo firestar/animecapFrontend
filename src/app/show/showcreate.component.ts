@@ -54,6 +54,11 @@ export class ShowCreate {
       title: "Special",
       path: "/Anime/Specials",
       by: "name"
+    },
+    {
+      title: "Web",
+      path: "/Anime/Web/",
+      by: "name"
     }
   ];
   grabListing(){

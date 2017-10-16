@@ -89,13 +89,15 @@ export class ShowIndex {
   sortByLastEpisode(order=false){
     let self = this;
     self.shows.sort(function (a, b) {
-      var aC = a.episodes[a.episodes.length-1].added;
-      var bC = b.episodes[b.episodes.length-1].added;
-      //console.log(a.title+" "+aC+":"+b.title+" "+bC);
-      if(aC < bC)
-        return -1;
-      if(aC > bC)
-        return 1;
+      if (a.episodes[a.episodes.length - 1] && b.episodes[b.episodes.length - 1]) {
+        var aC = a.episodes[a.episodes.length - 1].added;
+        var bC = b.episodes[b.episodes.length - 1].added;
+        //console.log(a.title+" "+aC+":"+b.title+" "+bC);
+        if (aC < bC)
+          return -1;
+        if (aC > bC)
+          return 1;
+      }
       return 0;
     })
     if(order){
