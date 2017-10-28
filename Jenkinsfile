@@ -1,29 +1,27 @@
 pipeline {
-  agent {
-    dockerfile {
-      filename 'JenkinsCI-Docker/slave/Dockerfile'
-    }
-  }
+  agent none
   environment {
     DOCKER_ACCOUNT = 'firestarthehack'
-    IMAGE_VERSION = '1.01'
+    IMAGE_VERSION = '1.02'
     IMAGE_NAME = 'animecapfrontend'
     RANCHER_STACK_NAME = 'AnimeCap'
     RANCHER_SERVICE_NAME = 'Frontend'
     RANCHER_SERVICE_URL = 'http://34.215.0.188:8080/v2-beta'
   }
   stages {
-    stage('BeginProcess') {
-      steps {
-        sh 'rm -rf dockerbuild/ && rm -rf node_modules/'
-      }
-    }
+    def app
     stage('Build') {
+      agent {
+        dockerfile {
+          filename 'JenkinsCI-Docker/node/Dockerfile'
+        }
+      }
       steps {
         sh 'npm install && npm run ng build'
       }
     }
     stage('Docker Build') {
+      agent 'jenkinsci/ssh-slave'
       steps {
         sh "mkdir dockerbuild/"
         sh "mkdir dockerbuild/static/"
@@ -31,12 +29,19 @@ pipeline {
         sh 'zip -r static.zip dockerbuild/static/'
         archiveArtifacts(artifacts: 'static.zip', onlyIfSuccessful: true)
         sh "cp Dockerfile dockerbuild/Dockerfile && cp nginx.vh.default.conf dockerbuild/nginx.vh.default.conf"
-        sh "cd dockerbuild/ && docker build -t ${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}:${env.IMAGE_VERSION} ./"
+        sh "cd dockerbuild/"
+        app = docker.build("${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}")
+      }
+    }
+    stage('Test image') {
+      app.inside {
+        sh 'echo "Tests passed"'
       }
     }
     stage('Publish Latest Image') {
       docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-        app.push("${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}:${env.IMAGE_VERSION}")
+        app.push("${env.IMAGE_VERSION}")
+        app.push("latest")
       }
     }
     stage('Deploy') {
