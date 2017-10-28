@@ -16,13 +16,13 @@ pipeline {
           filename 'JenkinsCI-Docker/node/Dockerfile'
         }
       }
-      step{
+      steps{
         sh 'npm install && npm run ng build'
       }
     }
     stage('Docker Build') {
         agent 'jenkinsci/ssh-slave'
-        step {
+        steps {
             sh "mkdir dockerbuild/"
             sh "mkdir dockerbuild/static/"
             sh "cp dist/* dockerbuild/static/"
@@ -43,10 +43,12 @@ pipeline {
         }
     }
     stage('Publish Latest Image') {
-      docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-        app.push("${env.IMAGE_VERSION}")
-        app.push("latest")
-      }
+        script{
+            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                app.push("${env.IMAGE_VERSION}")
+                app.push("latest")
+            }
+        }
     }
     stage('Deploy') {
       steps {
