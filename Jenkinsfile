@@ -8,35 +8,39 @@ pipeline {
     RANCHER_SERVICE_NAME = 'Frontend'
     RANCHER_SERVICE_URL = 'http://34.215.0.188:8080/v2-beta'
   }
+  def app
   stages {
-    def app
     stage('Build') {
       agent {
         dockerfile {
           filename 'JenkinsCI-Docker/node/Dockerfile'
         }
       }
-      steps {
+      step{
         sh 'npm install && npm run ng build'
       }
     }
     stage('Docker Build') {
-      agent 'jenkinsci/ssh-slave'
-      steps {
-        sh "mkdir dockerbuild/"
-        sh "mkdir dockerbuild/static/"
-        sh "cp dist/* dockerbuild/static/"
-        sh 'zip -r static.zip dockerbuild/static/'
-        archiveArtifacts(artifacts: 'static.zip', onlyIfSuccessful: true)
-        sh "cp Dockerfile dockerbuild/Dockerfile && cp nginx.vh.default.conf dockerbuild/nginx.vh.default.conf"
-        sh "cd dockerbuild/"
-        app = docker.build("${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}")
-      }
+        agent 'jenkinsci/ssh-slave'
+        step {
+            sh "mkdir dockerbuild/"
+            sh "mkdir dockerbuild/static/"
+            sh "cp dist/* dockerbuild/static/"
+            sh 'zip -r static.zip dockerbuild/static/'
+            archiveArtifacts(artifacts: 'static.zip', onlyIfSuccessful: true)
+            sh "cp Dockerfile dockerbuild/Dockerfile && cp nginx.vh.default.conf dockerbuild/nginx.vh.default.conf"
+            sh "cd dockerbuild/"
+            script{
+                app = docker.build("${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}")
+            }
+        }
     }
     stage('Test image') {
-      app.inside {
-        sh 'echo "Tests passed"'
-      }
+        script{
+            app.inside {
+              sh 'echo "Tests passed"'
+            }
+        }
     }
     stage('Publish Latest Image') {
       docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
