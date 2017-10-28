@@ -4,7 +4,7 @@
 
 import { Component, Input } from '@angular/core';
 import { AccountService } from './database/account.service';
-import { WSService } from './database/ws.service';
+import { WSService } from './database/websocket/ws.service';
 import { ControlService } from './database/control.service';
 import { GroupService } from './database/group.service';
 

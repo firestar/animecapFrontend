@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { UserService } from './database/user.service';
 import { AccountService } from './database/account.service';
-import { WSService } from './database/ws.service';
+import { WSService } from './database/websocket/ws.service';
 import { ControlService} from './database/control.service';
 import { GroupService } from './database/group.service';
-import { Remote_WSService } from './database/remote.service';
+import { Remote_WSService } from './database/websocket/remote.service';
 import { EventService} from "./database/event.service";
 import {Router} from "@angular/router";
 import { PushNotificationsService } from 'angular2-notifications';
@@ -19,7 +19,7 @@ export class AppComponent {
   title = 'AnimeCap';
   private watcher = null;
   session = localStorage.getItem("session");
-  constructor( private userRepo: UserService, private account: AccountService, private es: EventService, private rws: Remote_WSService, private ws: WSService, private control: ControlService, private router: Router, private group: GroupService, private _pushNotifications: PushNotificationsService ) {}
+  constructor( private userRepo: UserService, private account: AccountService, private es: EventService, private rws: Remote_WSService, private gws: WSService, private control: ControlService, private router: Router, private group: GroupService, private _pushNotifications: PushNotificationsService ) {}
 
   accountSet(self){
     self.rws.subscribe('/listen/session', self.session, function(){
@@ -83,7 +83,7 @@ export class AppComponent {
     self.rws.initialize('//animecap.com/site/websocket/remote',function(client, data){
 
     });
-    self.ws.initialize('//animecap.com/site/websocket',function(client, data){
+    self.gws.initialize('//animecap.com/websocket/groupwatch',function(client, data){
 
     });
     if (self.session != null) {
@@ -96,8 +96,8 @@ export class AppComponent {
         self.account.data.checked = true;
       });
     }
-    self.group.setWS(self.ws);
-    self.ws.executeWhenConnected(function(){
+    self.group.setWS(self.gws);
+    self.gws.executeWhenConnected(function(){
       console.log("Connected to group websocket");
     });
     self.control.setWS(self.rws);

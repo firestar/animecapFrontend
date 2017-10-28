@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
 import { UserService } from '../../database/user.service';
 import { Router } from '@angular/router';
 import { AccountService } from '../../database/account.service';
-import { WSService } from '../../database/ws.service';
+import { WSService } from '../../database/websocket/ws.service';
 
 @Component({
   selector: 'login-form',

@@ -7,7 +7,7 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
 import { ShowService } from '../database/show.service'
 import { GroupService } from '../database/group.service';
-import { WSService } from '../database/ws.service';
+import { WSService } from '../database/websocket/ws.service';
 
 @Component({
     selector: 'groupwatch',
