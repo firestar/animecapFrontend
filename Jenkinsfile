@@ -35,10 +35,8 @@ pipeline {
       }
     }
     stage('Publish Latest Image') {
-      steps {
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-          app.push("${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}:${env.IMAGE_VERSION}")
-        }
+      docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+        app.push("${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}:${env.IMAGE_VERSION}")
       }
     }
     stage('Deploy') {
