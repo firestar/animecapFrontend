@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { WatchObject } from 'watchobject';
 
 @Injectable()
-export class WSService{
+export class Group_WSService{
   constructor () {}
   private socket;
   private watchObject;

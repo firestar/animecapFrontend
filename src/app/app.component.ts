@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from './database/user.service';
 import { AccountService } from './database/account.service';
-import { WSService } from './database/websocket/ws.service';
+import { Group_WSService } from './database/websocket/group.service';
 import { ControlService} from './database/control.service';
 import { GroupService } from './database/group.service';
 import { Remote_WSService } from './database/websocket/remote.service';
@@ -19,7 +19,7 @@ export class AppComponent {
   title = 'AnimeCap';
   private watcher = null;
   session = localStorage.getItem("session");
-  constructor( private userRepo: UserService, private account: AccountService, private es: EventService, private rws: Remote_WSService, private gws: WSService, private control: ControlService, private router: Router, private group: GroupService, private _pushNotifications: PushNotificationsService ) {}
+  constructor( private userRepo: UserService, private account: AccountService, private es: EventService, private rws: Remote_WSService, private gws: Group_WSService, private control: ControlService, private router: Router, private group: GroupService, private _pushNotifications: PushNotificationsService ) {}
 
   accountSet(self){
     self.rws.subscribe('/listen/session', self.session, function(){

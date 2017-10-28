@@ -4,7 +4,8 @@
 
 import { Component, Input } from '@angular/core';
 import { AccountService } from './database/account.service';
-import { WSService } from './database/websocket/ws.service';
+import { Group_WSService } from './database/websocket/group.service';
+import { Remote_WSService } from './database/websocket/remote.service';
 import { ControlService } from './database/control.service';
 import { GroupService } from './database/group.service';
 
@@ -13,7 +14,7 @@ import { GroupService } from './database/group.service';
   templateUrl: './navigation.component.html'
 })
 export class TopNavigationBar {
-  constructor(private accountService: AccountService, private ws: WSService, private control: ControlService, private group: GroupService){}
+  constructor(private accountService: AccountService, private rws: Remote_WSService, private gws: Group_WSService, private control: ControlService, private group: GroupService){}
   @Input() title: string;
   instances=null;
   controlling;

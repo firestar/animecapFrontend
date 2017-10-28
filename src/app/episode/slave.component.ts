@@ -8,7 +8,7 @@ import { AccountService } from '../database/account.service';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
 import 'rxjs/Rx';
-import { WSService } from '../database/websocket/ws.service';
+import { WSService } from '../database/websocket/group.service';
 import { ControlService} from '../database/control.service';
 
 @Component({

@@ -39,7 +39,7 @@ import { ShowService } from './database/show.service';
 import { EpisodeService } from './database/episode.service';
 import { FavoriteService } from './database/favorite.service';
 import { FTPService } from './database/ftp.service';
-import { WSService } from './database/websocket/ws.service';
+import { Group_WSService } from './database/websocket/group.service';
 import { Remote_WSService } from './database/websocket/remote.service';
 import { ControlService } from './database/control.service';
 import { GroupService } from './database/group.service';
@@ -118,7 +118,7 @@ const routes :Routes = [
     EpisodeService,
     FavoriteService,
     FTPService,
-    WSService,
+    Group_WSService,
     ControlService,
     GroupService,
     Remote_WSService,

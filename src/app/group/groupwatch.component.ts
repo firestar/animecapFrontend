@@ -7,7 +7,7 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
 import { ShowService } from '../database/show.service'
 import { GroupService } from '../database/group.service';
-import { WSService } from '../database/websocket/ws.service';
+import { Group_WSService } from '../database/websocket/group.service';
 
 @Component({
     selector: 'groupwatch',
@@ -15,7 +15,7 @@ import { WSService } from '../database/websocket/ws.service';
     styleUrls:['groupwatch.component.css']
 })
 export class GroupWatch {
-    constructor(private account: AccountService, private element: ElementRef, private route: ActivatedRoute, private router: Router, private episodeService: EpisodeService, private ws: WSService, private showService: ShowService, private group: GroupService){}
+    constructor(private account: AccountService, private element: ElementRef, private route: ActivatedRoute, private router: Router, private episodeService: EpisodeService, private gws: Group_WSService, private showService: ShowService, private group: GroupService){}
     groupService = null;
     video = null;
     message="";
@@ -80,12 +80,12 @@ export class GroupWatch {
     }
     changeVideo(data){
         let self = this;
-        self.videoSubtitle = "http://animecap.com/subtitle/"+data.source.original+"/sub.vtt";
+        self.videoSubtitle = "//animecap.com/subtitle/"+data.source.original+"/sub.vtt";
         if(self.videoSource=="any" || self.videoSource=="source") {
-            self.videoSource = "http://vid.animecap.com/" + data.source.original + ".mp4";
+            self.videoSource = "//vid.animecap.com/" + data.source.original + ".mp4";
         }
         if(self.videoSource=="any" || self.videoSource=="sd") {
-            self.videoSD = "http://vid.animecap.com/" + data.sd[0].original + ".webm";
+            self.videoSD = "//vid.animecap.com/" + data.sd[0].original + ".webm";
         }
         self.video.load();
     }

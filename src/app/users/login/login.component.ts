@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
 import { UserService } from '../../database/user.service';
 import { Router } from '@angular/router';
 import { AccountService } from '../../database/account.service';
-import { WSService } from '../../database/websocket/ws.service';
+import { Group_WSService } from '../../database/websocket/group.service';
 
 @Component({
   selector: 'login-form',
@@ -14,7 +14,7 @@ import { WSService } from '../../database/websocket/ws.service';
 })
 export class LoginForm {
 
-  constructor(private userRepo: UserService, private router: Router, private account: AccountService, private ws: WSService){}
+  constructor(private userRepo: UserService, private router: Router, private account: AccountService, private gws: Group_WSService){}
 
   //on load
   ngOnInit(){
