@@ -27,7 +27,7 @@ node {
             }
         }
         stage('Publish Latest Image') {
-            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+            docker.withRegistry('https://registry.hub.docker.com', null) {
                  app.push("${env.IMAGE_VERSION}")
                  app.push("latest")
              }
