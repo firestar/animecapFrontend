@@ -5,13 +5,13 @@ pipeline {
     }
   }
   environment {
-      DOCKER_ACCOUNT = 'firestarthehack'
-      IMAGE_VERSION = '1.01'
-      IMAGE_NAME = 'animecapfrontend'
-      RANCHER_STACK_NAME = 'AnimeCap'
-      RANCHER_SERVICE_NAME = 'Frontend'
-      RANCHER_SERVICE_URL = 'http://34.215.0.188:8080/v2-beta'
-    }
+    DOCKER_ACCOUNT = 'firestarthehack'
+    IMAGE_VERSION = '1.01'
+    IMAGE_NAME = 'animecapfrontend'
+    RANCHER_STACK_NAME = 'AnimeCap'
+    RANCHER_SERVICE_NAME = 'Frontend'
+    RANCHER_SERVICE_URL = 'http://34.215.0.188:8080/v2-beta'
+  }
   stages {
     stage('BeginProcess') {
       steps {
@@ -36,7 +36,10 @@ pipeline {
     }
     stage('Publish Latest Image') {
       steps {
-        sh "docker push ${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}:${env.IMAGE_VERSION}"
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+          app.push("${env.IMAGE_NAME}")
+          app.push("${env.IMAGE_VERSION}")
+        }
       }
     }
     stage('Deploy') {
