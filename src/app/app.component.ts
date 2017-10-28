@@ -83,7 +83,7 @@ export class AppComponent {
     self.rws.initialize('//animecap.com/site/websocket/remote',function(client, data){
 
     });
-    self.gws.initialize('//animecap.com/websocket/groupwatch',function(client, data){
+    self.gws.initialize('//animecap.com/socket/groupwatch',function(client, data){
 
     });
     if (self.session != null) {
