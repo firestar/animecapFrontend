@@ -29,38 +29,38 @@ export class GroupService{
         return this.ws;
     }
     sendChatMessage(session, message){
-        this.ws.client().send('/call/group/chat', {}, JSON.stringify({ message: message, session: session, group: this.groupid }));
+        this.ws.client().send('/call/chat', {}, JSON.stringify({ message: message, session: session, group: this.groupid }));
     }
     join(session, name){
-        this.ws.client().send('/call/group/register', {}, JSON.stringify({ session: session, group: name }));
+        this.ws.client().send('/call/register', {}, JSON.stringify({ session: session, group: name }));
     }
     load(session, episode){
-        this.ws.client().send('/call/group/load', {}, JSON.stringify({ session: session, group: this.groupid, episode: episode }));
+        this.ws.client().send('/call/load', {}, JSON.stringify({ session: session, group: this.groupid, episode: episode }));
     }
     renew(session){
-        this.ws.client().send('/call/group/renew', {}, JSON.stringify({ session: session, group: this.groupid }));
+        this.ws.client().send('/call/renew', {}, JSON.stringify({ session: session, group: this.groupid }));
     }
     listing(session){
-        this.ws.client().send('/call/group/listing', {}, JSON.stringify({ session: session, group: "" }));
+        this.ws.client().send('/call/listing', {}, JSON.stringify({ session: session, group: "" }));
     }
     update(session, position){
-        this.ws.client().send('/call/group/update', {}, JSON.stringify({ session: session, group: this.groupid, position: position }));
+        this.ws.client().send('/call/update', {}, JSON.stringify({ session: session, group: this.groupid, position: position }));
     }
     play(session){
-        this.ws.client().send('/call/group/play', {}, JSON.stringify({ session: session, group: this.groupid }));
+        this.ws.client().send('/call/play', {}, JSON.stringify({ session: session, group: this.groupid }));
     }
     pause(session){
-        this.ws.client().send('/call/group/pause', {}, JSON.stringify({ session: session, group: this.groupid }));
+        this.ws.client().send('/call/pause', {}, JSON.stringify({ session: session, group: this.groupid }));
     }
     listen(session){
         let self = this;
         if(!self.listenersSet && session!=null){
             self.listenersSet=true;
-            self.ws.subscribe('/listen/group/listing', "", function(data){
+            self.ws.subscribe('/listen/listing', "", function(data){
                 self.groups = JSON.parse(data.body);
                 self.groupListFunction(self.groups);
             });
-            self.ws.subscribe('/listen/group/joined/', session, function(data){
+            self.ws.subscribe('/listen/joined/', session, function(data){
                 var data = JSON.parse(data.body);
                 self.groupid = data.group;
                 self.messages = data.messages;
@@ -73,10 +73,10 @@ export class GroupService{
                 self.joinFunction(data);
                 self.notificationBar("Welcome to AnimeCap Groups!");
             });
-            self.ws.subscribe('/listen/group/update/', session, function(data) {
+            self.ws.subscribe('/listen/update/', session, function(data) {
                 self.updateFunction();
             });
-            self.ws.subscribe('/listen/group/command/', session, function(data){
+            self.ws.subscribe('/listen/command/', session, function(data){
                 var data = JSON.parse(data.body);
                 if(data[0]=="message"){
                     if(!self.messages[data[1]]){
@@ -109,11 +109,11 @@ export class GroupService{
                 }
                 self.commandFunction(data);
             });
-            self.ws.subscribe('/listen/group/left/', session, function(data){
+            self.ws.subscribe('/listen/left/', session, function(data){
                 self.notificationBar("you have left the group!");
                 self.groupid = null;
             });
-            self.ws.subscribe('/listen/group/renew/', session, function(data) {
+            self.ws.subscribe('/listen/renew/', session, function(data) {
                 if (data.body == self.groupid) {
                     self.renew(session);
                 }

@@ -80,7 +80,7 @@ export class AppComponent {
     self.setIfNotSet("percentToComplete", "97");
     self.setIfNotSet("videoSource","sd");
     self.setIfNotSet("goToShowPageOnComplete", "false");
-    self.rws.initialize('//animecap.com/site/websocket/remote',function(client, data){
+    self.rws.initialize('//animecap.com/socket/remote',function(client, data){
 
     });
     self.gws.initialize('//animecap.com/socket/groupwatch',function(client, data){
