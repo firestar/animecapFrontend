@@ -8,7 +8,7 @@ import { AccountService } from '../database/account.service';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
 import 'rxjs/Rx';
-import { WSService } from '../database/websocket/group.service';
+import { Group_WSService } from '../database/websocket/group.service';
 import { ControlService} from '../database/control.service';
 
 @Component({
@@ -16,13 +16,13 @@ import { ControlService} from '../database/control.service';
   templateUrl: 'slave.component.html'
 })
 export class SlavePage {
-    constructor(private account: AccountService, private router: Router, private route: ActivatedRoute, private episodeService: EpisodeService, private element: ElementRef, private ws: WSService, private control: ControlService) {
+    constructor(private account: AccountService, private router: Router, private route: ActivatedRoute, private episodeService: EpisodeService, private element: ElementRef, private gws: Group_WSService, private control: ControlService) {
     }
     ngOnInit(){
         let self = this;
-        self.ws.executeWhenConnected(function () {
+        self.gws.executeWhenConnected(function () {
             self.account.executeWhenLoggedIn(function () {
-                self.ws.subscribe('/listen/load', self.account.sessionKey(), function (data) {
+                self.gws.subscribe('/listen/load', self.account.sessionKey(), function (data) {
                     let episode = JSON.parse(data.body);
                     console.log(episode);
                     self.router.navigate(['/watch', episode.id, episode.title, 'episode_' + episode.episodeNumber], {
@@ -35,8 +35,8 @@ export class SlavePage {
     }
     ngOnDestroy(){
         let self = this;
-        self.ws.executeWhenConnected(function () {
-            self.ws.unsubscribe('/listen/load');
+        self.gws.executeWhenConnected(function () {
+            self.gws.unsubscribe('/listen/load');
         });
     }
 }
