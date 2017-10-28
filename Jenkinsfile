@@ -27,12 +27,10 @@ node {
             }
         }
         stage('Publish Latest Image') {
-            dockerImage.inside {
-                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                    app.push("${env.IMAGE_VERSION}")
-                    app.push("latest")
-                }
-            }
+            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                 app.push("${env.IMAGE_VERSION}")
+                 app.push("latest")
+             }
         }
         stage('Deploy') {
             rancher(environmentId: '1a5', ports: '', environments: '1i12214', confirm: true, image: "${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}:${env.IMAGE_VERSION}", service: "${env.RANCHER_STACK_NAME}/${env.RANCHER_SERVICE_NAME}", endpoint: "${env.RANCHER_SERVICE_URL}", credentialId: 'rancher-server')
