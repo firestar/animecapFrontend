@@ -37,8 +37,7 @@ pipeline {
     stage('Publish Latest Image') {
       steps {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-          app.push("${env.IMAGE_NAME}")
-          app.push("${env.IMAGE_VERSION}")
+          app.push("${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}:${env.IMAGE_VERSION}")
         }
       }
     }
