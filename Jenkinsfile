@@ -33,9 +33,8 @@ pipeline {
             sh 'zip -r static.zip dockerbuild/static/'
             archiveArtifacts(artifacts: 'static.zip', onlyIfSuccessful: true)
             sh "cp Dockerfile dockerbuild/Dockerfile && cp nginx.vh.default.conf dockerbuild/nginx.vh.default.conf"
-            sh "cd dockerbuild/"
             script{
-                def app = docker.build("${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}")
+                def app = docker.build("${env.DOCKER_ACCOUNT}/${env.IMAGE_NAME}", "./dockerbuild/")
             }
         }
     }
