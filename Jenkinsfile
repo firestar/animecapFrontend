@@ -1,5 +1,9 @@
 pipeline {
-  agent any
+  agent {
+    dockerfile {
+      filename 'JenkinsCI-Docker/slave/Dockerfile'
+    }
+  }
   environment {
       DOCKER_ACCOUNT = 'firestarthehack'
       IMAGE_VERSION = '1.01'

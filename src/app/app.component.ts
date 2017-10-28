@@ -45,7 +45,7 @@ export class AppComponent {
         res => {
           if(res.event.type=="click"){
             res.notification.close();
-            window.open('http://animecap.com/watch/'+res.notification.data.episode.id+'/'+res.notification.data.show.title.toLowerCase().split(' ').join('_')+'/episode_'+res.notification.data.episode.episode, '_blank');
+            window.open('//animecap.com/watch/'+res.notification.data.episode.id+'/'+res.notification.data.show.title.toLowerCase().split(' ').join('_')+'/episode_'+res.notification.data.episode.episode, '_blank');
           }
         },
         err => console.log(err)
@@ -80,10 +80,10 @@ export class AppComponent {
     self.setIfNotSet("percentToComplete", "97");
     self.setIfNotSet("videoSource","sd");
     self.setIfNotSet("goToShowPageOnComplete", "false");
-    self.rws.initialize('http://animecap.com/site/websocket/remote',function(client, data){
+    self.rws.initialize('//animecap.com/site/websocket/remote',function(client, data){
 
     });
-    self.ws.initialize('http://animecap.com/site/websocket',function(client, data){
+    self.ws.initialize('//animecap.com/site/websocket',function(client, data){
 
     });
     if (self.session != null) {
