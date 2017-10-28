@@ -20,7 +20,9 @@ pipeline {
       }
     }
     stage('Docker Build') {
-        agent 'jenkinsci/ssh-slave'
+        agent {
+            docker { 'jenkinsci/ssh-slave' }
+        }
         steps {
             sh "mkdir dockerbuild/"
             sh "mkdir dockerbuild/static/"
