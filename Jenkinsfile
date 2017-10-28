@@ -1,8 +1,8 @@
 node {
     checkout scm
     def app
-    def nodeImage = docker.build("buildprocess/node", "./JenkinsCI-Docker/node/Dockerfile/")
-    def dockerImage = docker.build("buildprocess/docker", "./JenkinsCI-Docker/docker/Dockerfile/")
+    def nodeImage = docker.build("buildprocess/node", "./JenkinsCI-Docker/node/")
+    def dockerImage = docker.build("buildprocess/docker", "./JenkinsCI-Docker/docker/")
     withEnv(['DOCKER_ACCOUNT=firestarthehack','IMAGE_VERSION=1.02','IMAGE_NAME=animecapfrontend','RANCHER_STACK_NAME=AnimeCap','RANCHER_SERVICE_NAME=Frontend','RANCHER_SERVICE_URL=http://34.215.0.188:8080/v2-beta']){
         stage('Build') {
           nodeImage.inside{
