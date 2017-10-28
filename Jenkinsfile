@@ -16,6 +16,7 @@ pipeline {
         }
       }
       steps{
+        sh 'rm -rf dockerbuild/ && rm -rf node_modules/'
         sh 'npm install && npm run ng build'
       }
     }
