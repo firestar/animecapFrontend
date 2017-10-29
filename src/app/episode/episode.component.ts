@@ -74,10 +74,10 @@ export class EpisodeElement {
     });
   }
   groupload(episode){
-    this.group.load(this.account.sessionKey, episode);
+    this.group.load(this.account.sessionKey(), episode);
     this.router.navigate(['/group']);
   }
   load(episode){
-    this.control.load(episode, this.account.sessionKey);
+    this.control.load(episode, this.account.sessionKey());
   }
 }
