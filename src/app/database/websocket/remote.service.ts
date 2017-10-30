@@ -38,16 +38,20 @@ export class Remote_WSService{
       });
     }
     executeWhenConnected(func){
-        var selfWrap = this;
-        selfWrap.watcher().watch(self, selfWrap.client(), "connected", "set", function(object, key, oldValue, newValue) {
-            object[key] = newValue;
-            return object.connected;
-        }, function(parent, object, key, oldValue, newValue, id, keys) {
-            if (selfWrap.watcher().remove(object, keys, 'set', id)) {
-                console.log("=========== removed observe on " + keys + " for object with id: " + object._uniqueIdentifier);
-            }
-            func();
-        });
+      var selfWrap = this;
+      if(selfWrap.client().connected){
+        func();
+        return;
+      }
+      selfWrap.watcher().watch(self, selfWrap.client(), "connected", "set", function(object, key, oldValue, newValue) {
+        object[key] = newValue;
+        return object.connected;
+      }, function(parent, object, key, oldValue, newValue, id, keys) {
+        if (selfWrap.watcher().remove(object, keys, 'set', id)) {
+          console.log("=========== removed observe on " + keys + " for object with id: " + object._uniqueIdentifier);
+        }
+        func();
+      });
     }
     subscribe(target, session, func){
         this.subscriptions[target]=this.client().subscribe(target+"/"+session, func);

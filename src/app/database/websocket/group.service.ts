@@ -31,6 +31,10 @@ export class Group_WSService{
   }
   executeWhenConnected(func){
     var selfWrap = this;
+    if(selfWrap.client().connected){
+      func();
+      return;
+    }
     selfWrap.watcher().watch(self, selfWrap.client(), "connected", "set", function(object, key, oldValue, newValue) {
       object[key] = newValue;
       return object.connected;

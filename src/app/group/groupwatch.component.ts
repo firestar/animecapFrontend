@@ -66,6 +66,7 @@ export class GroupWatch {
         }
     };
     videoSource=null;
+    videoHDSource=null;
     videoSD=null;
     videoSubtitle=null;
     sendMessage(){
@@ -82,7 +83,7 @@ export class GroupWatch {
         let self = this;
         self.videoSubtitle = "//animecap.com/subtitle/"+data.source.original+"/sub.vtt";
         if(self.videoSource=="any" || self.videoSource=="source") {
-            self.videoSource = "//vid.animecap.com/" + data.source.original + ".mp4";
+            self.videoHDSource = "//vid.animecap.com/" + data.source.original + ".mp4";
         }
         if(self.videoSource=="any" || self.videoSource=="sd") {
             self.videoSD = "//vid.animecap.com/" + data.sd[0].original + ".webm";
@@ -115,7 +116,6 @@ export class GroupWatch {
     ngOnDestroy(){
         let self = this;
         //window.removeEventListener("onresize");
-        self.video.src="";
         self.group.playing = false;
     }
     remainderNotifications(){

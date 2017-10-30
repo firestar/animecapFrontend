@@ -41,6 +41,7 @@ export class GroupService{
         this.ws.client().send('/call/renew', {}, JSON.stringify({ session: session, group: this.groupid }));
     }
     listing(session){
+        console.log(JSON.stringify({ session: session, group: "" }));
         this.ws.client().send('/call/listing', {}, JSON.stringify({ session: session, group: "" }));
     }
     update(session, position){
@@ -56,7 +57,7 @@ export class GroupService{
         let self = this;
         if(!self.listenersSet && session!=null){
             self.listenersSet=true;
-            self.ws.subscribe('/listen/listing', "", function(data){
+            self.ws.subscribe('/listen/listing/', "", function(data){
                 self.groups = JSON.parse(data.body);
                 self.groupListFunction(self.groups);
             });

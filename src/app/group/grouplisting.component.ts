@@ -13,9 +13,11 @@ import { GroupService } from '../database/group.service';
 })
 export class GroupListing {
   constructor(private account: AccountService, private router: Router, private group: GroupService){}
-  groups = [];
+  groups = null;
+  groupsData = {};
   name = "test";
   users = {};
+  accountService = null;
   groupService = null;
   new(){
     let self = this;
@@ -27,18 +29,18 @@ export class GroupListing {
   }
   ngOnInit(){
     let self = this;
+
     self.group.groupListFunction = function(data){
       self.groups = Object.keys(data);
-    };
+      self.groupsData = data;
+    }
     self.group.joinFunction = function (data) {
       self.router.navigate(['/group']);
     };
     self.group.client().executeWhenConnected(function () {
-      self.account.executeWhenLoggedIn(function () {
-        self.groupService = self.group;
-        self.group.listen(self.account.sessionKey());
-        self.group.listing(self.account.sessionKey());
-      });
+      self.groupService = self.group;
+      self.group.listen(self.account.sessionKey());
+      self.group.listing(self.account.sessionKey());
     });
   }
 }
