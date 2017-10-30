@@ -7,7 +7,7 @@ import { AccountService } from '../database/account.service';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
 import 'rxjs/Rx';
-import { Group_WSService } from '../database/websocket/group.service';
+import { Remote_WSService } from '../database/websocket/remote.service';
 import { ControlService} from '../database/control.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { ControlService} from '../database/control.service';
     styleUrls:['host.component.css']
 })
 export class HostPage {
-    constructor(private account: AccountService, private router: Router, private route: ActivatedRoute, private element: ElementRef, private episodeService: EpisodeService,  private gws: Group_WSService, private control: ControlService) {
+    constructor(private account: AccountService, private router: Router, private route: ActivatedRoute, private element: ElementRef, private episodeService: EpisodeService,  private rws: Remote_WSService, private control: ControlService) {
     }
     session;
     episodeId=0;
@@ -30,11 +30,11 @@ export class HostPage {
     };
     ngOnInit(){
       let self = this;
-      self.gws.executeWhenConnected(function () {
+      self.rws.executeWhenConnected(function () {
         self.account.executeWhenLoggedIn(function () {
           self.session = self.account.sessionKey();
           self.remote = self.control;
-          self.gws.subscribe('/listen/info', self.session, function (data) {
+          self.rws.subscribe('/listen/info', self.session, function (data) {
             self.videoPosition = document.getElementById("videoPosition");
             let info = JSON.parse(data.body);
             self.info = info;
@@ -59,9 +59,9 @@ export class HostPage {
     }
     ngOnDestroy(){
         let self = this;
-        self.gws.executeWhenConnected(function () {
+        self.rws.executeWhenConnected(function () {
           self.account.executeWhenLoggedIn(function () {
-            self.gws.unsubscribe('/listen/load');
+            self.rws.unsubscribe('/listen/load');
           });
         });
     }

@@ -7,7 +7,7 @@ import { AccountService } from '../database/account.service';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import { EpisodeService } from '../database/episode.service';
 import 'rxjs/Rx';
-import { Group_WSService } from '../database/websocket/group.service';
+import { Remote_WSService } from '../database/websocket/remote.service';
 import { ControlService} from '../database/control.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { ControlService} from '../database/control.service';
   styleUrls: ['watch.component.css']
 })
 export class WatchPage {
-  constructor(private account: AccountService, private router: Router, private route: ActivatedRoute, private episodeService: EpisodeService, private element: ElementRef, private gws: Group_WSService, private control: ControlService){}
+  constructor(private account: AccountService, private router: Router, private route: ActivatedRoute, private episodeService: EpisodeService, private element: ElementRef, private rws: Remote_WSService, private control: ControlService){}
   episodeData = null;
   duration = 0;
   video = null;
@@ -160,14 +160,14 @@ export class WatchPage {
   }
   destroyControlSubscriptions(){
     let self = this;
-    self.gws.unsubscribe('/listen/load');
-    self.gws.unsubscribe('/listen/control');
-    self.gws.unsubscribe('/listen/seek');
+    self.rws.unsubscribe('/listen/load');
+    self.rws.unsubscribe('/listen/control');
+    self.rws.unsubscribe('/listen/seek');
 
   }
   initControlSubscriptions(){
     let self = this;
-    self.gws.subscribe('/listen/load', self.account.sessionKey(), function(data){
+    self.rws.subscribe('/listen/load', self.account.sessionKey(), function(data){
       let episode = JSON.parse(data.body);
       console.log(episode);
       self.router.navigate(['/watch',episode.id, episode.title, 'episode_'+episode.episodeNumber], {relativeTo: self.route, skipLocationChange: false});
@@ -175,11 +175,11 @@ export class WatchPage {
       self.episodeId = episode.id;
       self.waitForAccount();
     });
-    self.gws.subscribe('/listen/seek', self.account.sessionKey(), function(data){
+    self.rws.subscribe('/listen/seek', self.account.sessionKey(), function(data){
       let act = JSON.parse(data.body);
       self.video.currentTime = act.position;
     });
-    self.gws.subscribe('/listen/control', self.account.sessionKey(), function(data){
+    self.rws.subscribe('/listen/control', self.account.sessionKey(), function(data){
       let act = JSON.parse(data.body);
       switch(act.action){
         case "play":

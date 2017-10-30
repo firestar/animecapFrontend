@@ -56,7 +56,7 @@ export class AppComponent {
     let self = this;
     var platform = require('platform');
     // send to remote control ws
-    self.rws.client().send('/call/session', {}, JSON.stringify({session: self.session, platform: platform.name+"-"+platform.os.family}));
+    self.rws.client().send('/call/session', {}, JSON.stringify({session: self.account.sessionKey(), platform: platform.name+"-"+platform.os.family}));
   }
 
   setIfNotSet(key, defaultValue){
@@ -80,7 +80,7 @@ export class AppComponent {
     self.setIfNotSet("percentToComplete", "97");
     self.setIfNotSet("videoSource","sd");
     self.setIfNotSet("goToShowPageOnComplete", "false");
-    self.rws.initialize('//animecap.com/soc/remote',function(client, data){
+    self.rws.initialize('//animecap.com/socket/remote',function(client, data){
 
     });
     self.gws.initialize('//animecap.com/socket/groupwatch',function(client, data){

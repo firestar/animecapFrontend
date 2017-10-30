@@ -11,7 +11,7 @@ export class Remote_WSService{
     private stompClient=null;
     private watchObject;
     public controller = null;
-    private instances = {};
+    private instances = [];
     private stompClientProxied=null;
     private subscriptions = {};
     initialize( url:string, func){

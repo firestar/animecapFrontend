@@ -34,13 +34,19 @@
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Remote Control <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li *ngFor="let instance of instances">
+            <li *ngFor="let instance of controllerWS.instances">
               <a *ngIf="instance[0]!=sessionKey" (click)="controlInstance(instance[0])">
                 <span *ngIf="controlling.has()[instance[0]]" style="color:#004200;padding-right:5px;"><span class="glyphicon glyphicon-ok"></span></span>
                  {{instance[1]}}
               </a>
             </li>
           </ul>
+        </li>
+        <li *ngIf="!controlling.slave && controlling.controlling>0">
+          <a [routerLink]="['/host']">
+            Controller
+            <span *ngIf="groupService.leader==accountService.user().user" class="glyphicon glyphicon-star" style="color:#1ce1ff;"></span>
+          </a>
         </li>
         <li *ngIf="accountService.user().level==2">
           <a [routerLink]="['/show/create']">
@@ -54,8 +60,8 @@
         </li>
         <li *ngIf="rws.client().connected" class="active">
           <a *ngIf="!controlling.slave && controlling.controlling==0" style="color:#60ffa2;"><span class="glyphicon glyphicon-sort"></span></a>
-          <a *ngIf="!controlling.slave && controlling.controlling>0" [routerLink]="['/host']" style="color:#ff9632;cursor:pointer;"><span class="glyphicon glyphicon-cloud"></span> Remote Control</a>
-          <a *ngIf="controlling.slave" style="color:#ff16f6;"><span class="glyphicon glyphicon-cloud"></span>Remotely Controlled</a>
+          <a *ngIf="!controlling.slave && controlling.controlling>0" style="color:#ff9632;cursor:pointer;"><span class="glyphicon glyphicon-cloud"></span></a>
+          <a *ngIf="controlling.slave" style="color:#ff16f6;"><span class="glyphicon glyphicon-cloud"></span></a>
         </li>
         <li *ngIf="accountService.user()==null"><a [routerLink]="['/login']">Member's Area</a></li>
         <li *ngIf="accountService.user()==null"><a [routerLink]="['/register']">Create New Account</a></li>

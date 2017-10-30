@@ -16,12 +16,13 @@ import { GroupService } from './database/group.service';
 export class TopNavigationBar {
   constructor(private accountService: AccountService, private rws: Remote_WSService, private gws: Group_WSService, private control: ControlService, private group: GroupService){}
   @Input() title: string;
-  instances=null;
   controlling;
+  controllerWS;
   sessionKey;
   groupService = null;
   ngOnInit(){
     var self = this;
+    self.controllerWS = self.rws;
     self.groupService = self.group;
     self.controlling = self.control;
     self.accountService.executeWhenLoggedIn(function(){
