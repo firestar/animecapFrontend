@@ -72,6 +72,7 @@ export class ShowPage {
         return a.episode - b.episode;
       });
       self.showData = data[0];
+      self.showData.cover = self.showData.cover.replace(/http:/ig, "");
       self.originalEpisodes = self.showData.episodes;
       self.pages = Math.ceil(self.originalEpisodes.length/self.limit);
       var savedPage = localStorage.getItem("pageShow["+self.showData.id+"]");
