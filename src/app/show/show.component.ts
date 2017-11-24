@@ -19,6 +19,7 @@ export class ShowElement {
   @Input() show;
   ngOnInit(){
     let self = this;
+    self.show.cover = self.show.cover.replace(/http:/ig, "");
     /*let waitForAccount = function() {
       console.log("waiting, watch");
       if(self.account.checked()) {
