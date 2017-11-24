@@ -80,6 +80,7 @@ export class ShowCreate {
     self.subFolders = null;
     self.subFolder=null;
     self.show.title = self.show.path;
+    self.show.cover = self.show.cover.replace(/http:/ig, "");
     self.ftpService.files(self.account.sessionKey(), self.workingpath.path+"/"+self.show.path, function(data){
       console.log(data);
       for(var i=0;i<data.length;i++){
