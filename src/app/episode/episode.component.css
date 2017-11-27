@@ -4,8 +4,32 @@
 .episode:hover{
     border: #3c6fc6 1px solid;
 }
-h5{
+.episode img{
+    display:block;
+}
+.episode h5{
     padding-left:6px;
+    font-weight: bold;
+    font-size:15px;
+    position:absolute;
+    margin-top:-50px;
+    background:#0d0d0d;
+    opacity: 0.80;
+    padding-top:6px;
+    padding-bottom:8px;
+    padding-right:10px;
+    border-top-right-radius:5px;
+    border-bottom-right-radius:5px;
+}
+.episode h5 small{
+    color: #bbbbbb;
+    font-weight: normal;
+}
+.episode:hover h5{
+    background: #25230c;
+}
+.episode:hover h5 small{
+    color: #ffffff;
 }
 .episode-compressed{
     display: block;
