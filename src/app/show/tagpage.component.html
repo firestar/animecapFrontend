@@ -1,0 +1,11 @@
+<ol class="breadcrumb" *ngIf="accountData!=null">
+  <li><a [routerLink]="['/']">Home</a></li>
+  <li class="active">Tag</li>
+  <li class="active">{{tagName}}</li>
+</ol>
+<div class="row" *ngIf="accountData!=null">
+  <div class="col-lg-12">
+      <show [show]="show" *ngFor="let show of shows"></show>
+  </div>
+</div>
+<div class="loadingIcon" *ngIf="accountData==null"></div>

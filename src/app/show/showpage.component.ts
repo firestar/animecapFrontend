@@ -72,6 +72,11 @@ export class ShowPage {
         return a.episode - b.episode;
       });
       self.showData = data[0];
+      if(self.showData.tags) {
+        self.showData.tags.sort(function (a, b) {
+          return a.name>b.name;
+        });
+      }
       self.showData.cover = self.showData.cover.replace(/http:/ig, "");
       self.originalEpisodes = self.showData.episodes;
       self.pages = Math.ceil(self.originalEpisodes.length/self.limit);

@@ -99,7 +99,9 @@ export class WatchPage {
   }
   ngOnDestroy(){
     let self = this;
-    self.video.src="";
+    if(self.video){
+      self.video.src="";
+    }
     if(self.control.slave) {
       self.destroyControlSubscriptions();
     }

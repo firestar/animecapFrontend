@@ -37,11 +37,7 @@ export class EpisodeElement {
       if(self.episodeData==null) {
         if (!self._cacheService.exists('ep' + self.episode)) {
           self.episodeService.info(self.account.sessionKey(), self.episode, function (data) {
-            for (var i = 0; i < data.source.streams.length; i++) {
-              if (data.source.streams[i].duration > 0) {
-                self.duration = data.source.streams[i].duration;
-              }
-            }
+            self.duration = data.episode.runtime;
             self.episodeData = data;
             self._cacheService.set('ep'+self.episode, JSON.stringify([data, self.duration]), {expires: Date.now() + 1000*60});
           });
@@ -63,13 +59,7 @@ export class EpisodeElement {
 
         }
       }else{
-        if(self.episodeData.source) {
-          for (var i = 0; i < self.episodeData.source.streams.length; i++) {
-            if (self.episodeData.source.streams[i].duration > 0) {
-              self.duration = self.episodeData.source.streams[i].duration;
-            }
-          }
-        }
+        self.duration = self.episodeData.episode.runtime;
       }
     });
   }

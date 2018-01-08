@@ -29,6 +29,7 @@ import { GroupRoute } from './group/group.component';
 import { GroupListing } from './group/grouplisting.component';
 import { GroupWatch } from './group/groupwatch.component';
 import { SettingsPage } from './settings/settings.component';
+import { TagPagePage } from './show/tagpage.component';
 
 
 import { LoginCheck } from './users/logincheck';
@@ -44,6 +45,7 @@ import { Remote_WSService } from './database/websocket/remote.service';
 import { ControlService } from './database/control.service';
 import { GroupService } from './database/group.service';
 import { EventService} from "./database/event.service";
+import { TagService } from "./database/tag.service";
 
 import { RoundPipe } from './touri.pipe';
 import { NL2BR } from './nl2br.pipe';
@@ -60,6 +62,7 @@ const routes :Routes = [
   { path: 'watch/:episode/:show/:epstring', component: WatchPage },
   { path: 'show/:show/:showstring', component: ShowPage },
   { path: 'show/favorites', component: FavoriteShows },
+  { path: 'tag/:tag', component: TagPagePage },
   { path: 'slave', component: SlavePage },
   { path: 'host', component: HostPage },
   { path: 'settings', component: SettingsPage },
@@ -101,7 +104,8 @@ const routes :Routes = [
     GroupRoute,
     GroupListing,
     GroupWatch,
-    SettingsPage
+    SettingsPage,
+    TagPagePage
   ],
   imports: [
     BrowserModule,
@@ -122,6 +126,7 @@ const routes :Routes = [
     ControlService,
     GroupService,
     Remote_WSService,
+    TagService,
     EventService
   ],
   bootstrap: [
