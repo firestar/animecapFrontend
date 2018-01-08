@@ -8,11 +8,10 @@ import { FavoriteService } from '../database/favorite.service';
 
 
 @Component({
-  selector: 'showpage',
-  templateUrl: 'tagpage.component.html',
-  styleUrls: ['showpage.component.scss']
+  selector: 'tagpage',
+  templateUrl: 'tagpage.component.html'
 })
-export class TagPagePage {
+export class TagPage {
   constructor(private account: AccountService, private tag:TagService, private route: ActivatedRoute, private episodeService: EpisodeService, private showService: ShowService, private favoriteService: FavoriteService) {
   }
   tagName="";

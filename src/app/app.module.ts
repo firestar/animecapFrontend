@@ -29,7 +29,8 @@ import { GroupRoute } from './group/group.component';
 import { GroupListing } from './group/grouplisting.component';
 import { GroupWatch } from './group/groupwatch.component';
 import { SettingsPage } from './settings/settings.component';
-import { TagPagePage } from './show/tagpage.component';
+import { TagPage } from './tags/tagpage.component';
+import { TagEditPage } from './tags/tagedit.component';
 
 
 import { LoginCheck } from './users/logincheck';
@@ -62,7 +63,8 @@ const routes :Routes = [
   { path: 'watch/:episode/:show/:epstring', component: WatchPage },
   { path: 'show/:show/:showstring', component: ShowPage },
   { path: 'show/favorites', component: FavoriteShows },
-  { path: 'tag/:tag', component: TagPagePage },
+  { path: 'tag/edit/:show', component: TagEditPage },
+  { path: 'tag/list/:tag', component: TagPage },
   { path: 'slave', component: SlavePage },
   { path: 'host', component: HostPage },
   { path: 'settings', component: SettingsPage },
@@ -105,7 +107,8 @@ const routes :Routes = [
     GroupListing,
     GroupWatch,
     SettingsPage,
-    TagPagePage
+    TagPage,
+    TagEditPage
   ],
   imports: [
     BrowserModule,

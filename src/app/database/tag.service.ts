@@ -39,6 +39,12 @@ export class TagService {
     });
   }
   fetchURLPost(url, data, func){
-    return this.http.post(url, data, {}).subscribe((res:Response) =>  func(res.json()))
+    return this.http.post(url, data, {}).subscribe((res:Response) =>
+      ((res.text()!="" && res.text()!=null)?
+        func(res.json())
+      :
+        func(null)
+      )
+    );
   }
 }

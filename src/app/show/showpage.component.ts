@@ -67,7 +67,6 @@ export class ShowPage {
     self.accountData = self.account.user();
     let id = self.route.snapshot.params['show'];
     self.showService.info(self.account.sessionKey(), id.toString(), function(data){
-      console.log(data);
       data[0].episodes.sort(function (a, b) {
         return a.episode - b.episode;
       });

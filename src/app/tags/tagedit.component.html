@@ -1,0 +1,36 @@
+<ol class="breadcrumb" *ngIf="accountData!=null">
+  <li><a [routerLink]="['/']">Home</a></li>
+  <li class="active"><a [routerLink]="['/show/'+show.id+'/'+show.title.toLowerCase().split(' ').join('_')]">{{show.title}}</a></li>
+</ol>
+<div class="row" *ngIf="accountData!=null">
+  <div class="col-lg-3">
+    <div class="col-md-12" [style.textAlign]="'center'">
+        <img [style.width]="'300px'" src="{{show.cover}}" />
+    </div>
+    <div class="col-md-12" [style.textAlign]="'center'">
+      <h4>{{show.title}} <br/><small>{{show.episodes.length}} Episodes</small></h4>
+    </div>
+  </div>
+  <div class="col-lg-9">
+    <h2>Editing tags</h2>
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <tr *ngFor="let tag of show.tags">
+          <td style="text-align:center;"><h4><a [routerLink]="['/tag/list/'+tag.name]">{{tag.name}}</a></h4></td>
+          <td><button (click)="remove(tag.name)" type="button" class="btn btn-danger">Remove Tag</button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-md-12">
+      <form>
+        <div class="col-md-4 col-md-offset-6">
+            <input type="text" [(ngModel)]="tagName" id="tagName" name="tagName" (keyup)="checkIfExists()" class="form-control" placeholder="Tag Name">
+        </div>
+        <div class="col-md-2">
+          <button *ngIf="creating" (click)="create()" class="btn btn-success" style="float:right;">Create Tag</button>
+          <button *ngIf="!creating" (click)="add()" class="btn btn-primary" style="float:right;">Add Tag</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
