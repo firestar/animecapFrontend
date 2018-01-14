@@ -137,14 +137,11 @@ export class WatchPage {
       self.completePercent = parseInt(localStorage.getItem("percentToComplete"));
       self.episodeService.info(self.account.sessionKey(), self.episodeId.toString(), function(data){
         self.episodeData = data;
+
+        self.duration = self.episodeData.episode.runtime;
         self.episodeData.show.episodes.sort(function (a, b) {
           return a.episode - b.episode;
         });
-        for (i = 0; i < data.source.streams.length; i++) {
-          if (data.source.streams[i].duration > 0) {
-            self.duration = data.source.streams[i].duration;
-          }
-        }
         self.next = null;
         self.prev=null;
         for(var i=0;i<self.episodeData.show.episodes.length;i++){

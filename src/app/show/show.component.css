@@ -6,8 +6,9 @@
   border: #3c6fc6 1px solid;
 }
 .show img{
-  height:200px;
+  max-height:200px;
   padding-top:6px;
+  max-width:100%;
   padding-left:6px;
   padding-right:6px;
 }

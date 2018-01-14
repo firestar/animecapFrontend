@@ -4,9 +4,7 @@
 </ol>
 <div class="row" *ngIf="shows!=null">
   <div class="col-lg-12">
-    <span *ngFor="let show of shows">
-      <show [show]="show"></show>
-    </span>
+    <show *ngFor="let show of shows" [show]="show"></show>
   </div>
 </div>
 <div class="loadingIcon" *ngIf="shows==null"></div>
