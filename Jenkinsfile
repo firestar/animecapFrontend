@@ -3,7 +3,7 @@ node {
 	stage('Build') {
 		docker.image('node:9').inside{
 			sh 'npm install'
-			sh 'npm run build'
+			sh 'npm run ng build'
 		}
 	}
 	stage('Prep Image') {
