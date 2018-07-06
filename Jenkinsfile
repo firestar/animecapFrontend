@@ -10,7 +10,6 @@ node {
 		sh "mkdir dockerbuild/"
 		sh "mkdir dockerbuild/static/"
 		sh "cd dist/;ls"
-		sh "cd dist/static/;ls"
 		sh "cp -r dist/* dockerbuild/static/"
 		sh "cp Dockerfile dockerbuild/Dockerfile"
 		sh "cp nginx.vh.default.conf dockerbuild/nginx.vh.default.conf"
