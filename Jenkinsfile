@@ -2,6 +2,7 @@ node {
     checkout scm
 	stage('Build') {
 		docker.image('node:9').inside{
+      sh 'npm config set registry http://nexus.synload.com/repository/node/'
 			sh 'npm install'
 			sh 'npm run ng build'
 		}
