@@ -42,7 +42,7 @@
     "watchobject": "^1.0.9"
   },
   "devDependencies": {
-    "@angular/cli": "^1.4.1",
+    "@angular/cli": "^15.0.4",
     "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.42",
     "codelyzer": "~2.0.0-beta.1",
