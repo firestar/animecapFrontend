@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-4" *ngIf="groupService!=null">
+    <div class="form-group">
+      <label for="groupname">Group Name</label>
+      <input class="form-control" type="text" [(ngModel)]="name" id="groupname" name="groupname"/>
+    </div>
+    <input type="button" class="btn btn-primary" (click)="new()" value="Create Group">
+  </div>
+  <div class="col-md-8" *ngIf="groupService!=null">
+    <div class="group panel panel-default" *ngIf="groups!=null && groups.length>0">
+      <div class="col-md-12 panel" *ngFor="let groupId of groups">
+        <div class="panel-body">
+          <div class="col-md-1 row-md-1 text-center" style="padding-top:30px;">
+            <span *ngIf="groupsData[groupId].status=='play'"><span style="font-size:30px;color:#06ba03;"
+                                                                   class="glyphicon glyphicon-play"></span></span>
+            <span *ngIf="groupsData[groupId].status=='pause'"><span style="font-size:30px;color:#9a362a;"
+                                                                    class="glyphicon glyphicon-pause"></span></span>
+          </div>
+          <div class="col-md-8 row-md-1">
+            <div class="panel-body" style="border-bottom:#909090 2px solid;padding-bottom:2px;margin-bottom:4px;">
+            <div class="col-md-8 text-left">
+              <span style="font-size:25px;">{{groupsData[groupId].name}}</span>
+            </div>
+            </div>
+            <div class="col-md-6 text-left">
+              <small *ngIf="groupsData[groupId].episode==null">No episode selected at this time</small>
+              <h5 *ngIf="groupsData[groupId].episode!=null"><b style="text-transform: uppercase"><b
+                style="padding-right: 5px;">{{groupsData[groupId].show.data.title}}</b>
+                <small>Episode {{groupsData[groupId].episode.data.episode}}</small></b></h5>
+            </div>
+            <div class="col-md-6 text-left">
+              Leader: {{groupsData[groupId].leader[1]}}<br/>
+              Members: {{groupsData[groupId].users.length}}
+            </div>
+          </div>
+          <div class="col-md-3 text-right row-md-1">
+            <a *ngIf="groupsData[groupId].episode==null" class="btn btn-info" (click)="join(groupsData[groupId].name)">Join</a>
+            <a *ngIf="groupsData[groupId].episode!=null" class="img-thumbnail" (click)="join(groupsData[groupId].name)">
+              <img width="100%" src="//{{envService.api}}/api/file/video/thumbnail/{{groupsData[groupId]?.info?.source?.key}}">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="groupService==null" style="color:#fff;font-size:40px;text-align:center;">Connecting or the service is
+    down
+  </div>
+</div>

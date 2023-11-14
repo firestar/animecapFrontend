@@ -1,0 +1,29 @@
+<div>
+  <ol class="breadcrumb" *ngIf="episodeData!=null">
+    <li><a [routerLink]="['/']">Home</a></li>
+    <li><a [routerLink]="['/show/list']">Show Listing</a></li>
+    <li><a [routerLink]="['/show/'+showData.key+'/'+showData.data.title.toLowerCase().split(' ').join('_')]">{{showData.data.title}}</a></li>
+    <li class="active">Episode {{episodeData.data.episode}}</li>
+  </ol>
+
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <div class="row">
+        <div class="col-md-11"><h4 *ngIf="episodeData!=null">{{showData.data.title}} Episode {{episodeData.data.episode}}</h4></div>
+        <div class="col-md-1 text-right"><a (click)="fullscreen()"><span class="glyphicon glyphicon-resize-full"></span></a></div>
+      </div>
+      <div id="videoWrapper" #videoWrapper style="width:100%">
+        <video class="video-js" controls crossorigin="use-credentials"></video>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="episodeData!=null">
+    <div class="col-md-12">
+      <ul class="pager">
+        <li class="previous" *ngIf="prev!=null"><a (click)="showEpisode(prev)" style="cursor: pointer;"><span aria-hidden="true">&larr;</span> Episode {{prev.data.episode}}</a></li>
+        <li class="next" *ngIf="next!=null"><a (click)="showEpisode(next)" style="cursor: pointer;">Episode {{next.data.episode}} <span aria-hidden="true">&rarr;</span></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div *ngIf="episodeData==null" class="loadingIcon"></div>

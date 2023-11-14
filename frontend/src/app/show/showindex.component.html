@@ -1,0 +1,66 @@
+<ol class="breadcrumb" *ngIf="accountData!=null">
+  <li><a [routerLink]="['/']">Home</a></li>
+  <li class="active">Show Listing</li>
+</ol>
+<div class="row" *ngIf="accountData!=null">
+  <div class="col-lg-2">
+    <h5 class="text-center"><a [routerLink]="['/episode/list']">Latest Episodes</a></h5>
+    <latest [noBread]="true" [compressed]="true" [limit]="10"></latest>
+    <h5 class="text-center"><a [routerLink]="['/favorite/unfinished']">Finish Watching</a></h5>
+    <unfinished [noBread]="true" [compressed]="true" [limit]="10"></unfinished>
+  </div>
+  <div class="col-lg-10">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <span class="row">
+          <span class="col-md-8">
+            <h5 class="text-left">
+              Show Listings
+              <a class="label label-default" style="margin-right:5px;" (click)="sortByLastEpisode()" *ngIf="sorted[0]!='episode'">
+                Last Episode
+              </a>
+              <a class="label label-default" style="margin-right:5px;" (click)="sortByLastEpisode()" *ngIf="sorted[0]=='episode' && sorted[1]=='desc'">
+                Last Episode (desc)
+              </a>
+              <a class="label label-default" style="margin-right:5px;" (click)="sortByLastEpisode(true)" *ngIf="sorted[0]=='episode' && sorted[1]=='asc'">
+                Last Episode (asc)
+              </a>
+
+              <a class="label label-default" style="margin-right:5px;" (click)="sortByTitle()" *ngIf=" sorted[0]!='title'">
+                Title
+              </a>
+              <a class="label label-default" style="margin-right:5px;" (click)="sorted[0]!='title'?sortByTitle(true):sortByTitle()" *ngIf="sorted[0]=='title' && sorted[1]=='desc'">
+                Title (desc)
+              </a>
+              <a class="label label-default" style="margin-right:5px;" (click)="sortByTitle(true)" *ngIf="sorted[0]=='title' && sorted[1]=='asc'">
+                Title (asc)
+              </a>
+
+
+              <a class="label label-default" style="margin-right:5px;" (click)="sortByTotalEpisodes()" *ngIf="sorted[0]!='total'">
+                Total Episodes
+              </a>
+              <a class="label label-default" style="margin-right:5px;" (click)="sortByTotalEpisodes()" *ngIf="sorted[0]=='total' && sorted[1]=='desc'">
+                Total Episodes (desc)
+              </a>
+              <a class="label label-default" style="margin-right:5px;" (click)="sortByTotalEpisodes(true)" *ngIf="sorted[0]=='total' && sorted[1]=='asc'">
+                Total Episodes (asc)
+              </a>
+            </h5>
+          </span>
+          <span class="col-md-4">
+            <input type="text" class="form-control input-sm" (change)="filter()" (keyup)="filter()" placeholder="Search by show title" [(ngModel)]="filterTitle"/> <a *ngIf="filterTitle!=''" style="color:#f00;positon:absolute;margin-top:-25px;margin-right:5px;float:right;" class="glyphicon glyphicon-remove-circle" (click)="clearFilter()"></a>
+          </span>
+        </span>
+      </div>
+      <div class="panel-body">
+        <show [show]="show" *ngFor="let show of shows"></show>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="loadingIcon" *ngIf="accountData==null"></div>
+<!--
+background: linear-gradient(to right, rgba(241,237,255,1) {{episode.watching.progress}}%, rgba(255,255,255,0) {{episode.watching.progress}}%);
+background: linear-gradient(to right, rgba(243,255,237,1) {{episode.watching.progress}}%,rgba(255,255,255,0) {{episode.watching.progress}}%);
+-->

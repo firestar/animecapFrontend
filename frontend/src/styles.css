@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+.loadingIcon{
+  width:200px;
+  height:200px;
+  position: absolute;
+  left:50%;
+  margin-left:-100px;
+  top:80px;
+  background: url("ring.svg") center center no-repeat;
+}
+a:hover{
+  text-decoration: none;
+}
+input[type='text']{
+  border:1px solid;
+}
+* {
+  -webkit-transition: width 1s, height 1s, background-color 1s, -webkit-transform 1s;
+  transition: width 1s, height 1s, background-color 1s, transform 1s;
+}
+a{
+  cursor:pointer;
+}
+
+
+@import 'video.js/dist/video-js.css';

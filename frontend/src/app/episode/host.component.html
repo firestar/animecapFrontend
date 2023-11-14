@@ -1,0 +1,29 @@
+<div class="row" *ngIf="episodeData!=null">
+    <div class="col-md-12">
+        <h3>{{episodeData.show.title}} <small>Episode {{episodeData.episode.episode}}</small></h3>
+    </div>
+</div>
+<hr/>
+<div class="row" *ngIf="info.episode!=null" style="margin-top:40px;">
+    <div class="text-center" style="width:33%;float:left;" *ngIf="!info.hasPrev">&nbsp;</div>
+
+    <div class="text-center" style="width:33%;float:left;"  *ngIf="info.hasPrev">
+        <a (click)="remote.action(session, 'prev');" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-step-backward"></span></a>
+    </div>
+    <div class="text-center" style="width:33%;float:left;" *ngIf="!info.playing">
+        <a (click)="remote.action(session, 'play');" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-play"></span></a>
+    </div>
+    <div class="text-center" style="width:33%;float:left;" *ngIf="info.playing">
+        <a (click)="remote.action(session, 'pause');" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-pause"></span></a>
+    </div>
+    <div class="text-center" style="width:33%;float:left;" *ngIf="info.hasNext">
+        <a (click)="remote.action(session, 'next');" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-step-forward"></span></a>
+    </div>
+    <div class="text-center" style="width:33%;" *ngIf="!info.hasNext">&nbsp;</div>
+</div>
+<div class="row" style="margin-top:40px;">
+    <div class="col-md-12">
+        <input type="range" min="0" [max]="info['duration']" id="videoPosition" step="0.1" (change)="seek()">
+    </div>
+</div>
+<div class="loadingIcon" *ngIf="info.episode==null"></div>

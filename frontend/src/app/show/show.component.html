@@ -1,0 +1,7 @@
+<div class="col-sm-2 show text-center">
+  <a class="img-thumbnail text-center" [routerLink]="['/show/'+show.key+'/'+show.data.title.toLowerCase().split(' ').join('_')]">
+    <img src="//{{envService.api}}/api/file/cover/{{ show.data.cover }}"/><br/>
+    <span>{{show.data.title}}</span><br/>
+    <small>{{show.data?.episodes?.length}} Episodes</small>
+  </a>
+</div>

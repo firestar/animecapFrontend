@@ -1,3 +1,0 @@
-[submodule "JenkinsCI-Docker"]
-	path = JenkinsCI-Docker
-	url = https://github.com/firestar/JenkinsCI-Docker.git
