@@ -96,16 +96,16 @@ export class GroupWatch {
 
     let self = this;
 
-    self.videoSubtitle = '//{{envService.api}}/api/file/video/subtitle/'+self.sourceData.key+'_' + self.subtitle?.index;
+    self.videoSubtitle = `//${self.envService.api}/api/file/video/subtitle/`+self.sourceData.key+'_' + self.subtitle?.index;
     console.log(self.videoSubtitle)
     if (self.sources.webm && (self.videoSource == 'any' || self.videoSource == 'webm')) {
-      self.videoWebm = '//{{envService.api}}/api/file/video/' + self.sources.webm?.key;
+      self.videoWebm = `//${self.envService.api}/api/file/video/` + self.sources.webm?.key;
     }
     if (self.sources.sd && (self.videoSource == 'any' || self.videoSource == 'sd')) {
-      self.videoSD = '//{{envService.api}}/api/file/video/' + self.sources.sd?.key;
+      self.videoSD = `//${self.envService.api}/api/file/video/` + self.sources.sd?.key;
     }
     if (self.sources.md && (self.videoSource == 'any' || self.videoSource == 'md')) {
-      self.videoMD = '//{{envService.api}}/api/file/video/' + self.sources.md?.key;
+      self.videoMD = `//${self.envService.api}/api/file/video/` + self.sources.md?.key;
     }
     self.video.load();
   }
