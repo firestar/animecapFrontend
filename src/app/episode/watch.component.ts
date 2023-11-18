@@ -91,6 +91,9 @@ export class WatchPage {
     if(!self.video())
       return;
     let time = self.video().currentTime;
+    if(time == 0){
+      return;
+    }
     if (self.sendNext == 0 || self.sendNext < new Date().getTime()) {
       self.episodeService.watching(self.account.sessionKey(), self.episodeData.key, '' + time + '', function () {
       });
@@ -101,7 +104,7 @@ export class WatchPage {
     }
     if ((time / self.video().duration) > (self.completePercent / 100) && !self.control.slave && self.next && self.rollToNextVideo) {
       self.showEpisode(self.next);
-    } else if (self.goBackToShowOnComplete && !self.control.slave) {
+    } else if ((time / self.video().duration) > (self.completePercent / 100) && self.goBackToShowOnComplete && !self.control.slave) {
       self.router.navigate(['show', self.showData.key, self.showData.data.title.toLowerCase().split(' ').join('_')])
     }
 
