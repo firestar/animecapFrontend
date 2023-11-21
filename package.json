@@ -27,6 +27,7 @@
     "sockjs-client": "^1.6.1",
     "tslib": "^2.6.2",
     "video.js": "^8.6.1",
+    "videojs-sprite-thumbnails": "^2.1.1",
     "watchobject": "^1.0.13",
     "zone.js": "^0.14.2"
   },

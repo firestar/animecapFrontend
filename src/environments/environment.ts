@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  animecap_api : window.location.hostname=="animecap.com"?"api.animecap.com":"localhost:8080",
+  animecap_api : window.location.hostname=="animecap.com"?"api.animecap.com":"api.animecap.com",
   animecap_remote : window.location.hostname=="animecap.com"?"rc.animecap.com":"localhost:8081",
   animecap_group : window.location.hostname=="animecap.com"?"gw.animecap.com":"localhost:8082"
 }

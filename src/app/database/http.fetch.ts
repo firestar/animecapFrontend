@@ -2,7 +2,7 @@ import {environment} from '../../environments/environment';
 
 
 export class HttpFetch {
-  baseDomain = "//"+environment.animecap_api;
+  baseDomain = "https://"+environment.animecap_api;
   fetchURL(url, func){
     fetch(`${this.baseDomain}${url}`, {
       method: 'GET',

@@ -91,8 +91,8 @@ export class ShowIndex {
   sortByLastEpisode(order=false){
     let self = this;
     self.shows.sort(function (a, b) {
-      if (a.data.episodes[a.data.episodes.length - 1] && b.data.episodes[b.data.episodes.length - 1]) {
-        return new Date(a.data.episodes[a.data.episodes.length - 1].created).getTime() - new Date(b.data.episodes[b.data.episodes.length - 1].created).getTime();
+      if (a.data.episodes[0] && b.data.episodes[0]) {
+        return new Date(b.data.episodes[0].created).getTime() - new Date(a.data.episodes[0].created).getTime();
       }
       return 0;
     })

@@ -10,6 +10,7 @@ import {Remote_WSService} from '../database/websocket/remote.service';
 import {ControlService} from '../database/control.service';
 import {firstValueFrom} from 'rxjs/internal/firstValueFrom';
 import videojs from 'video.js';
+require('videojs-sprite-thumbnails');
 import {EnvironmentService} from '../database/env.service';
 
 @Component({
@@ -164,15 +165,15 @@ export class WatchPage {
         if(!self.player) {
           let sources = [];
           if(self.sources?.webm && (self.videoSource=='webm' || self.videoSource=='any'))
-            sources.push({src: `//${self.envService.api}/api/file/video/${self.sources.webm?.key}`,type:"video/mp4"});
+            sources.push({src: `https://${self.envService.api}/api/file/video/${self.sources.webm?.key}`,type:"video/mp4"});
           if(self.sources?.md && (self.videoSource=='md' || self.videoSource=='any'))
-            sources.push({src: `//${self.envService.api}/api/file/video/${self.sources.md?.key}`,type:"video/mp4"});
+            sources.push({src: `https://${self.envService.api}/api/file/video/${self.sources.md?.key}`,type:"video/mp4"});
           if(self.sources?.sd && (self.videoSource=='sd' || self.videoSource=='any'))
-            sources.push({src: `//${self.envService.api}/api/file/video/${self.sources.sd?.key}`,type:"video/mp4"});
+            sources.push({src: `https://${self.envService.api}/api/file/video/${self.sources.sd?.key}`,type:"video/mp4"});
           const tracks = [];
           if(self.chapters)
             tracks.push({
-              src:`//${self.envService.api}/api/file/video/chapters/${self.sourceData.key}`,
+              src:`https://${self.envService.api}/api/file/video/chapters/${self.sourceData.key}`,
               kind:"chapters"
             })
           if(self.subtitle)
@@ -180,7 +181,7 @@ export class WatchPage {
               label:"English",
               kind:"subtitles",
               srclang:"en",
-              src:`//${self.envService.api}/api/file/video/subtitle/${self.sourceData.key}_${self.subtitle?.index}`,
+              src:`https://${self.envService.api}/api/file/video/subtitle/${self.sourceData.key}_${self.subtitle?.index}`,
               default: true,
             });
           self.firstRun = true;
@@ -206,21 +207,35 @@ export class WatchPage {
             tracks,
             restoreEl: true
           }, () => {
-
+            const fps = eval(self.sourceData.data.streams?.[0]?.r_frame_rate);
+            const duration = self.sourceData.data.format.duration;
+            console.log(duration/100);
+            self.player.spriteThumbnails({
+              url: `https://${self.envService.api}/api/file/video/previews/${self.sourceData.key}`,
+              width: 284.44,
+              height: 160,
+              interval: 3,
+            });
           });
         }else{
           let sourceList = [];
           if(self.sources?.webm && (self.videoSource=='webm' || self.videoSource=='any'))
-            sourceList.push({src: `//${self.envService.api}/api/file/video/${self.sources.webm?.key}`,type:"video/mp4"});
+            sourceList.push({src: `https://${self.envService.api}/api/file/video/${self.sources.webm?.key}`,type:"video/mp4"});
           if(self.sources?.md && (self.videoSource=='md' || self.videoSource=='any'))
-            sourceList.push({src: `//${self.envService.api}/api/file/video/${self.sources.md?.key}`,type:"video/mp4"});
+            sourceList.push({src: `https://${self.envService.api}/api/file/video/${self.sources.md?.key}`,type:"video/mp4"});
           if(self.sources?.sd && (self.videoSource=='sd' || self.videoSource=='any'))
-            sourceList.push({src: `//${self.envService.api}/api/file/video/${self.sources.sd?.key}`,type:"video/mp4"});
+            sourceList.push({src: `https://${self.envService.api}/api/file/video/${self.sources.sd?.key}`,type:"video/mp4"});
           self.player.src = sourceList;
-          console.log(sourceList)
+          const fps = eval(self.sourceData.data.streams?.[0]?.r_frame_rate);
+          self.player.spriteThumbnails({
+            url: `https://${self.envService.api}/api/file/video/previews/${self.sourceData.key}`,
+            width: 284.44,
+            height: 160,
+            interval: 3,
+          });
           if(self.chapters)
             self.player.addRemoteTextTrack({
-              src:`//${self.envService.api}/api/file/video/chapters/${self.sourceData.key}`,
+              src:`https://${self.envService.api}/api/file/video/chapters/${self.sourceData.key}`,
               kind:"chapters"
             })
           if(self.subtitle)
@@ -228,7 +243,7 @@ export class WatchPage {
               label:"English",
               kind:"subtitles",
               srclang:"en",
-              src:`//${self.envService.api}/api/file/video/subtitle/${self.sourceData.key}_${self.subtitle?.index}`,
+              src:`https://${self.envService.api}/api/file/video/subtitle/${self.sourceData.key}_${self.subtitle?.index}`,
               default: true,
             });
         }

@@ -7571,7 +7571,7 @@ vary@^1, vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-"video.js@^7 || ^8", video.js@^8.6.1:
+"video.js@^7 || ^8", video.js@^8, video.js@^8.6.1:
   version "8.6.1"
   resolved "https://registry.yarnpkg.com/video.js/-/video.js-8.6.1.tgz#d25f59fbf30fb21c0bcf04a1de6a98dfd137997c"
   integrity sha512-CNYVJ5WWIZ7bOhbkkfcKqLGoc6WsE3Ft2RfS1lXdQTWk8UiSsPW2Ssk2JzPCA8qnIlUG9os/faCFsYWjyu4JcA==
@@ -7602,6 +7602,14 @@ videojs-font@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/videojs-font/-/videojs-font-4.1.0.tgz#3ae1dbaac60b4f0f1c4e6f7ff9662a89df176015"
   integrity sha512-X1LuPfLZPisPLrANIAKCknZbZu5obVM/ylfd1CN+SsCmPZQ3UMDPcvLTpPBJxcBuTpHQq2MO1QCFt7p8spnZ/w==
+
+videojs-sprite-thumbnails@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/videojs-sprite-thumbnails/-/videojs-sprite-thumbnails-2.1.1.tgz#281a117bea46ca43189a5e03aa316dbcf5f7e746"
+  integrity sha512-FxfVlkZgz/Ux6IFDwAj8eKiytzKstlIs1dOSDzAxHdSLYbDXbAoHfUgciH0lxwfaWjq2tg4q996efSC69dvG7A==
+  dependencies:
+    global "^4.4.0"
+    video.js "^8"
 
 videojs-vtt.js@0.15.5:
   version "0.15.5"
