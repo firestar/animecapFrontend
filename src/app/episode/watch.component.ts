@@ -212,7 +212,7 @@ export class WatchPage {
             console.log(duration/100);
             self.player.spriteThumbnails({
               url: `https://${self.envService.api}/api/file/video/previews/${self.sourceData.key}`,
-              width: 284.44,
+              width: 284,
               height: 160,
               interval: 3,
             });
@@ -229,7 +229,7 @@ export class WatchPage {
           const fps = eval(self.sourceData.data.streams?.[0]?.r_frame_rate);
           self.player.spriteThumbnails({
             url: `https://${self.envService.api}/api/file/video/previews/${self.sourceData.key}`,
-            width: 284.44,
+            width: 284,
             height: 160,
             interval: 3,
           });
